@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Chasing Dragons: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "XOR: Logical Exclusive OR (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>XOR</h1>
+<h2>Logical Exclusive OR</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>34 ib</code></td>
+<td class="grid"><code>XOR AL,imm8</code></td>
+<td class="grid">AL XOR imm8.</td>
+</tr>
+<tr>
+<td class="grid"><code>35 iw</code></td>
+<td class="grid"><code>XOR AX,imm16</code></td>
+<td class="grid">AX XOR imm16.</td>
+</tr>
+<tr>
+<td class="grid"><code>35 id</code></td>
+<td class="grid"><code>XOR EAX,imm32</code></td>
+<td class="grid">EAX XOR imm32.</td>
+</tr>
+<tr>
+<td class="grid"><code>80 /6 ib</code></td>
+<td class="grid"><code>XOR r/m8,imm8 r/m8</code></td>
+<td class="grid">XOR imm8.</td>
+</tr>
+<tr>
+<td class="grid"><code>81 /6 iw</code></td>
+<td class="grid"><code>XOR r/m16,imm16</code></td>
+<td class="grid">r/m16 XOR imm16.</td>
+</tr>
+<tr>
+<td class="grid"><code>81 /6 id</code></td>
+<td class="grid"><code>XOR r/m32,imm32</code></td>
+<td class="grid">r/m32 XOR imm32.</td>
+</tr>
+<tr>
+<td class="grid"><code>83 /6 ib</code></td>
+<td class="grid"><code>XOR r/m16,imm8</code></td>
+<td class="grid">r/m16 XOR imm8 (sign-extended).</td>
+</tr>
+<tr>
+<td class="grid"><code>83 /6 ib</code></td>
+<td class="grid"><code>XOR r/m32,imm8</code></td>
+<td class="grid">r/m32 XOR imm8 (sign-extended).</td>
+</tr>
+<tr>
+<td class="grid"><code>30 /r</code></td>
+<td class="grid"><code>XOR r/m8,r8</code></td>
+<td class="grid">r/m8 XOR r8.</td>
+</tr>
+<tr>
+<td class="grid"><code>31 /r</code></td>
+<td class="grid"><code>XOR r/m16,r16</code></td>
+<td class="grid">r/m16 XOR r16.</td>
+</tr>
+<tr>
+<td class="grid"><code>31 /r</code></td>
+<td class="grid"><code>XOR r/m32,r32</code></td>
+<td class="grid">r/m32 XOR r32.</td>
+</tr>
+<tr>
+<td class="grid"><code>32 /r</code></td>
+<td class="grid"><code>XOR r8,r/m8</code></td>
+<td class="grid">r8 XOR r/m8.</td>
+</tr>
+<tr>
+<td class="grid"><code>33 /r</code></td>
+<td class="grid"><code>XOR r16,r/m16</code></td>
+<td class="grid">r16 XOR r/m16.</td>
+</tr>
+<tr>
+<td class="grid"><code>33 /r</code></td>
+<td class="grid"><code>XOR r32,r/m32</code></td>
+<td class="grid">r32 XOR r/m32.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Performs a bitwise exclusive OR (XOR) operation on the destination (first) and source (second) operands and stores the result in the destination operand location. The source operand can be an immediate, a register, or a memory location; the destination operand can be a register or a memory location. (However, two memory operands cannot be used in one instruction.) Each bit of the result is 1 if the corresponding bits of the operands are different; each bit is 0 if the corresponding bits are the same.</p>
+<p>This instruction can be used with a LOCK prefix to allow the instruction to be executed atomically.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre>Destination <span class="operator">=</span> Destination <span class="operator">^</span> Source<span class="operator">;</span>
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>The OF and CF flags are cleared; the SF, ZF, and PF flags are set according to the result. The state of the AF flag is undefined.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Instruction</th>
+<th>Latency</th>
+<th>Throughput</th>
+<th>Execution Unit</th>
+</tr>
+<tr><td class="grid"><code>CPUID</code></td><td class="grid">0F3n/0F2n</td><td class="grid">0F3n/0F2n</td><td class="grid">0F2n</td></tr>
+<tr><td class="grid"><code>XOR</code></td><td class="grid">1/0.5</td><td class="grid">0.5/0.5</td><td class="grid">ALU</td></tr>
+</table>
+</object>
+</div>
+</body>
+</html>

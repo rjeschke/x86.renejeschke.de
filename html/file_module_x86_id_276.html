@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Shroud: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "RDMSR: Read from Model Specific Register (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>RDMSR</h1>
+<h2>Read from Model Specific Register</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>0F 32</code></td>
+<td class="grid"><code>RDMSR</code></td>
+<td class="grid">Load MSR specified by ECX into EDX:EAX.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Loads the contents of a 64-bit model specific register (MSR) specified in the ECX register into registers EDX:EAX. The input value loaded into the ECX register is the address of the MSR to be read. The EDX register is loaded with the high-order 32 bits of the MSR and the EAX register is loaded with the low-order 32 bits. If fewer than 64 bits are implemented in the MSR being read, the values returned to EDX:EAX in unimplemented bit locations are undefined.</p>
+<p>This instruction must be executed at privilege level 0 or in real-address mode; otherwise, a general protection exception #GP(0) will be generated. Specifying a reserved or unimplemented MSR address in ECX will also cause a general protection exception.</p>
+<p>The MSRs control functions for testability, execution tracing, performance-monitoring, and machine check errors. Appendix B, Model-Specific Registers (MSRs), in the IA-32 Intel Architecture Software Developer's Manual, Volume 3, lists all the MSRs that can be read with this instruction and their addresses. Note that each processor family has its own set of MSRs.</p>
+<p>The CPUID instruction should be used to determine whether MSRs are supported (EDX[5]=1) before using this instruction.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre>EDX<span class="operator">:</span>EAX <span class="operator">=</span> MSR<span class="operator">[</span>ECX<span class="operator">]</span><span class="operator">;</span>
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>None.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>IA-32 Architecture Compatibility</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>The MSRs and the ability to read them with the RDMSR instruction were introduced into the IA-32 Architecture with the Pentium processor. Execution of this instruction by an IA-32 processor earlier than the Pentium processor results in an invalid opcode exception #UD.
+</p>
+</td>
+</tr>
+</table>
+</object>
+</div>
+</body>
+</html>

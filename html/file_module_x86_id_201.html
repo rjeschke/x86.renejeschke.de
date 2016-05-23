@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Control: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "MOVQ: Move Quadword (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>MOVQ</h1>
+<h2>Move Quadword</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>0F 6F /r</code></td>
+<td class="grid"><code>MOVQ mm, mm/m64</code></td>
+<td class="grid">Move quadword from mm/m64 to mm.</td>
+</tr>
+<tr>
+<td class="grid"><code>0F 7F /r</code></td>
+<td class="grid"><code>MOVQ mm/m64, mm</code></td>
+<td class="grid">Move quadword from mm to mm/m64.</td>
+</tr>
+<tr>
+<td class="grid"><code>F3 0F 7E</code></td>
+<td class="grid"><code>MOVQ xmm1, xmm2/m64</code></td>
+<td class="grid">Move quadword from xmm2/mem64 to xmm1.</td>
+</tr>
+<tr>
+<td class="grid"><code>66 0F D6</code></td>
+<td class="grid"><code>MOVQ xmm2/m64, xmm1</code></td>
+<td class="grid">Move quadword from xmm1 to xmm2/mem64.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Copies a quadword from the source operand (second operand) to the destination operand (first operand). The source and destination operands can be MMX technology registers, XMM registers, or 64-bit memory locations. This instruction can be used to move a quadword between two MMX technology registers or between an MMX technology register and a 64-bit memory location, or to move data between two XMM registers or between an XMM register and a 64-bit memory location. The instruction cannot be used to transfer data between memory locations.</p>
+<p>When the source operand is an XMM register, the low quadword is moved; when the destination operand is an XMM register, the quadword is stored to the low quadword of the register, and the high quadword is cleared to all 0s.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre><span class="comment">//MOVQ instruction when operating on MMX technology registers and memory locations:</span>
+<span class="keyword">if</span><span class="operator">(</span>IsMMX<span class="operator">(</span>Source<span class="operator">)</span> <span class="operator">||</span> IsMMX<span class="operator">(</span>Destination<span class="operator">)</span><span class="operator">)</span> Destination <span class="operator">=</span> Source<span class="operator">;</span>
+<span class="comment">//MOVQ instruction when source and destination operands are XMM registers:</span>
+<span class="keyword">else</span> <span class="keyword">if</span><span class="operator">(</span>IsXMM<span class="operator">(</span>Source<span class="operator">)</span> <span class="operator">&amp;&amp;</span> IsXMM<span class="operator">(</span>Destination<span class="operator">)</span><span class="operator">)</span> Destination<span class="operator">[</span><span class="number">0..63</span><span class="operator">]</span> <span class="operator">=</span> Source<span class="operator">[</span><span class="number">0..63</span><span class="operator">]</span><span class="operator">;</span>
+<span class="comment">//MOVQ instruction when source operand is XMM register and destination operand is memory location:</span>
+<span class="keyword">else</span> <span class="keyword">if</span><span class="operator">(</span>IsXMM<span class="operator">(</span>Source<span class="operator">)</span> <span class="operator">&amp;&amp;</span> IsMemory<span class="operator">(</span>Destination<span class="operator">)</span><span class="operator">)</span> Destination <span class="operator">=</span> Source<span class="operator">[</span><span class="number">0..63</span><span class="operator">]</span><span class="operator">;</span>
+<span class="comment">//MOVQ instruction when source operand is memory location and destination operand is XMM register:</span>
+<span class="keyword">else</span> {
+	Destination<span class="operator">[</span><span class="number">0..63</span><span class="operator">]</span> <span class="operator">=</span> Source<span class="operator">;</span>
+	Destination<span class="operator">[</span><span class="number">64..127</span><span class="operator">]</span> <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+}
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>None.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>SIMD Floating-Point Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+None.
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Protected Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If the destination operand is in a non-writable segment. If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If the destination operand is in a non-writable segment. If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#SS(0)</code></td><td>If a memory operand effective address is outside the SS segment limit.</td></tr>
+<tr><td><code>#UD</code></td><td>If EM in CR0 is set. 128-bit operations will generate #UD only if OSFXSR in CR4 is 0. Execution of 128-bit instructions on a non-SSE2 capable processor (one that is MMX technology capable) will result in the instruction operating on the mm registers, not #UD.</td></tr>
+<tr><td><code>#NM</code></td><td>If TS in CR0 is set.</td></tr>
+<tr><td><code>#MF</code></td><td>(MMX technology register operations only.) If there is a pending FPU exception.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>If a page fault occurs.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Real-Address Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP</code></td><td>If any part of the operand lies outside of the effective address space from 0 to FFFFH.</td></tr>
+<tr><td><code>#GP</code></td><td>If any part of the operand lies outside of the effective address space from 0 to FFFFH.</td></tr>
+<tr><td><code>#UD</code></td><td>If EM in CR0 is set. 128-bit operations will generate #UD only if OSFXSR in CR4 is 0. Execution of 128-bit instructions on a non-SSE2 capable processor (one that is MMX technology capable) will result in the instruction operating on the mm registers, not #UD.</td></tr>
+<tr><td><code>#NM</code></td><td>If TS in CR0 is set.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Virtual-8086 Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+Same exceptions as in Real Address Mode
+<div>
+<table class="operations_table">
+<tr><td><code>#PF(fault-code)</code></td><td>If a page fault occurs.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>If a page fault occurs.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Instruction</th>
+<th>Latency</th>
+<th>Throughput</th>
+<th>Execution Unit</th>
+</tr>
+<tr><td class="grid"><code>CPUID</code></td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F2n</td></tr>
+<tr><td class="grid"><code>MOVQ mm, mm</code></td><td class="grid">6/6/-</td><td class="grid">1/1/-</td><td class="grid">FP_MOV</td></tr>
+<tr><td class="grid"><code>MOVQ xmm, xmm</code></td><td class="grid">2/2/1</td><td class="grid">2/2/1</td><td class="grid">MMX_SHFT</td></tr>
+</table>
+</object>
+</div>
+</body>
+</html>

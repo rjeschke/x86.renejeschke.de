@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Sun: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "FSAVE/FNSAVE: Store x87 FPU State (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>FSAVE/FNSAVE</h1>
+<h2>Store x87 FPU State</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>9B DD /6</code></td>
+<td class="grid"><code>FSAVE m94/108byte</code></td>
+<td class="grid">Store FPU state to m94byte or m108byte after checking for pending unmasked floating-point exceptions. Then reinitialize the FPU.</td>
+</tr>
+<tr>
+<td class="grid"><code>DD /6</code></td>
+<td class="grid"><code>FNSAVE m94/108byte</code></td>
+<td class="grid">Store FPU environment to m94byte or m108byte without checking for pending unmasked floating-point exceptions. Then re-initialize the FPU. See the IA-32 Architecture Compatibility section below.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Stores the current FPU state (operating environment and register stack) at the specified destination in memory, and then re-initializes the FPU. The FSAVE instruction checks for and handles pending unmasked floating-point exceptions before storing the FPU state; the FNSAVE instruction does not.</p>
+<p>The FPU operating environment consists of the FPU control word, status word, tag word, instruction pointer, data pointer, and last opcode. Figures 8-9 through 8-12 in the IA-32 Intel Architecture Software Developer's Manual, Volume 1, show the layout in memory of the stored environment, depending on the operating mode of the processor (protected or real) and the current operand-size attribute (16-bit or 32-bit). In virtual-8086 mode, the real mode layouts are used. The contents of the FPU register stack are stored in the 80 bytes immediately follow the operating environment image.</p>
+<p>The saved image reflects the state of the FPU after all floating-point instructions preceding the FSAVE/FNSAVE instruction in the instruction stream have been executed.</p>
+<p>After the FPU state has been saved, the FPU is reset to the same default values it is set to with the FINIT/FNINIT instructions (see &quot;FINIT/FNINIT-Initialize Floating-Point Unit&quot; in this chapter).</p>
+<p>The FSAVE/FNSAVE instructions are typically used when the operating system needs to perform a context switch, an exception handler needs to use the FPU, or an application program needs to pass a &quot;clean&quot; FPU to a procedure.</p>
+<p>The assembler issues two instructions for the FSAVE instruction (an FWAIT instruction followed by an FNSAVE instruction), and the processor executes each of these instructions separately. If an exception is generated for either of these instructions, the save EIP points to the instruction that caused the exception.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre><span class="comment">//Save FPU State and Registers</span>
+Destination<span class="operator">.</span>FPUControlWord <span class="operator">=</span> FPUControlWord<span class="operator">;</span>
+Destination<span class="operator">.</span>FPUStatusWord <span class="operator">=</span> FPUStatusWord<span class="operator">;</span>
+Destination<span class="operator">.</span>FPUTagWord <span class="operator">=</span> FPUTagWord<span class="operator">;</span>
+Destination<span class="operator">.</span>FPUDataPointer <span class="operator">=</span> FPUDataPointer<span class="operator">;</span>
+Destination<span class="operator">.</span>FPUInstructionPointer <span class="operator">=</span> FPUInstructionPointer<span class="operator">;</span>
+Destination<span class="operator">.</span>FPULastInstructionOpcode <span class="operator">=</span> FPULastInstructionOpcode<span class="operator">;</span>
+Destination<span class="operator">.</span>ST<span class="operator">(</span><span class="number">0</span><span class="operator">)</span> <span class="operator">=</span> ST<span class="operator">(</span><span class="number">0</span><span class="operator">)</span><span class="operator">;</span>
+Destination<span class="operator">.</span>ST<span class="operator">(</span><span class="number">1</span><span class="operator">)</span> <span class="operator">=</span> ST<span class="operator">(</span><span class="number">1</span><span class="operator">)</span><span class="operator">;</span>
+Destination<span class="operator">.</span>ST<span class="operator">(</span><span class="number">2</span><span class="operator">)</span> <span class="operator">=</span> ST<span class="operator">(</span><span class="number">2</span><span class="operator">)</span><span class="operator">;</span>
+Destination<span class="operator">.</span>ST<span class="operator">(</span><span class="number">3</span><span class="operator">)</span> <span class="operator">=</span> ST<span class="operator">(</span><span class="number">3</span><span class="operator">)</span><span class="operator">;</span>
+Destination<span class="operator">.</span>ST<span class="operator">(</span><span class="number">4</span><span class="operator">)</span> <span class="operator">=</span> ST<span class="operator">(</span><span class="number">4</span><span class="operator">)</span><span class="operator">;</span>
+Destination<span class="operator">.</span>ST<span class="operator">(</span><span class="number">5</span><span class="operator">)</span> <span class="operator">=</span> ST<span class="operator">(</span><span class="number">5</span><span class="operator">)</span><span class="operator">;</span>
+Destination<span class="operator">.</span>ST<span class="operator">(</span><span class="number">6</span><span class="operator">)</span> <span class="operator">=</span> ST<span class="operator">(</span><span class="number">6</span><span class="operator">)</span><span class="operator">;</span>
+Destination<span class="operator">.</span>ST<span class="operator">(</span><span class="number">7</span><span class="operator">)</span> <span class="operator">=</span> ST<span class="operator">(</span><span class="number">7</span><span class="operator">)</span><span class="operator">;</span>
+<span class="comment">//Initialize FPU</span>
+FPUControlWord <span class="operator">=</span> <span class="number">0x37F</span><span class="operator">;</span>
+FPUStatusWord <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+FPUTagWord <span class="operator">=</span> <span class="number">0xFFFF</span><span class="operator">;</span>
+FPUDataPointer <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+FPUInstructionPointer <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+FPULastInstructionOpcode <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>FPU flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>The C0, C1, C2, and C3 flags are saved and then cleared.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>IA-32 Architecture Compatibility</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>For Intel math coprocessors and FPUs prior to the Intel Pentium processor, an FWAIT instruction should be executed before attempting to read from the memory image stored with a prior FSAVE/FNSAVE instruction. This FWAIT instruction helps insure that the storage operation has been completed.
+When operating a Pentium or Intel486 processor in MS-DOS compatibility mode, it is possible (under unusual circumstances) for an FNSAVE instruction to be interrupted prior to being executed to handle a pending FPU exception. See the section titled &quot;No-Wait FPU Instructions Can Get FPU Interrupt in Window&quot; in Appendix D of the IA-32 Intel Architecture Software Developer's Manual, Volume 1, for a description of these circumstances. An FNSAVE instruction cannot be interrupted in this way on a Pentium 4, Intel Xeon, or P6 family processor.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Floating-Point Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+None.
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Protected Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If destination is located in a non-writable segment. If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit. If the DS, ES, FS, or GS register is used to access memory and it contains a null segment selector.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If destination is located in a non-writable segment. If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit. If the DS, ES, FS, or GS register is used to access memory and it contains a null segment selector.</td></tr>
+<tr><td><code>#SS(0)</code></td><td>If a memory operand effective address is outside the SS segment limit.</td></tr>
+<tr><td><code>#NM</code></td><td>EM or TS in CR0 is set.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>If a page fault occurs.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Real-Address Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#GP</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#SS</code></td><td>If a memory operand effective address is outside the SS segment limit.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Virtual-8086 Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#SS(0)</code></td><td>If a memory operand effective address is outside the SS segment limit.</td></tr>
+<tr><td><code>#NM</code></td><td>EM or TS in CR0 is set.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>If a page fault occurs.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+</div>
+</body>
+</html>

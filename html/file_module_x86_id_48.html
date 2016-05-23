@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Liberation: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "CVTPD2DQ: Convert Packed Double-Precision Floating-Point Values to Packed Doubleword Integers (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>CVTPD2DQ</h1>
+<h2>Convert Packed Double-Precision Floating-Point Values to Packed Doubleword Integers</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>F2 0F E6</code></td>
+<td class="grid"><code>CVTPD2DQ xmm1, xmm2/m128</code></td>
+<td class="grid">Convert two packed double-precision floating-point values from xmm2/m128 to two packed signed doubleword integers in xmm1.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Converts two packed double-precision floating-point values in the source operand (second operand) to two packed signed doubleword integers in the destination operand (first operand). The source operand can be an XMM register or a 128-bit memory location. The destination operand is an XMM register. The result is stored in the low quadword of the destination operand and the high quadword is cleared to all 0s.</p>
+<p>When a conversion is inexact, the value returned is rounded according to the rounding control bits in the MXCSR register. If a converted result is larger than the maximum signed doubleword integer, the floating-point invalid exception is raised, and if this exception is masked, the indefinite integer value (80000000H) is returned.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre>Destination<span class="operator">[</span><span class="number">0..31</span><span class="operator">]</span> <span class="operator">=</span> ConvertDoubleToInteger<span class="operator">(</span>Source<span class="operator">[</span><span class="number">0..31</span><span class="operator">]</span><span class="operator">)</span><span class="operator">;</span>
+Destination<span class="operator">[</span><span class="number">32..63</span><span class="operator">]</span> <span class="operator">=</span> ConvertDoubleToInteger<span class="operator">(</span>Source<span class="operator">[</span><span class="number">32..63</span><span class="operator">]</span><span class="operator">)</span><span class="operator">;</span>
+Destination<span class="operator">[</span><span class="number">64..127</span><span class="operator">]</span> <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>SIMD Floating-Point Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+Invalid, Precision.
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Protected Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>For an illegal memory operand effective address in the CS, DS, ES, FS or GS segments.segments. If a memory operand is not aligned on a 16-byte boundary, regardless of segment.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>For an illegal memory operand effective address in the CS, DS, ES, FS or GS segments.segments. If a memory operand is not aligned on a 16-byte boundary, regardless of segment.</td></tr>
+<tr><td><code>#SS(0)</code></td><td>For an illegal address in the SS segment.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>For a page fault.</td></tr>
+<tr><td><code>#NM</code></td><td>If TS in CR0 is set.</td></tr>
+<tr><td><code>#XM</code></td><td>If an unmasked SIMD floating-point exception and OSXMMEXCPT in CR4 is 1.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Real-Address Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If a memory operand is not aligned on a 16-byte boundary, regardless of segment. If any part of the operand lies outside the effective address space from 0 to FFFFH.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If a memory operand is not aligned on a 16-byte boundary, regardless of segment. If any part of the operand lies outside the effective address space from 0 to FFFFH.</td></tr>
+<tr><td><code>#NM</code></td><td>If TS in CR0 is set.</td></tr>
+<tr><td><code>#XM</code></td><td>If an unmasked SIMD floating-point exception and OSXMMEXCPT in CR4 is 1.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Virtual-8086 Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+Same exceptions as in Real Address Mode
+<div>
+<table class="operations_table">
+<tr><td><code>#PF(fault-code)</code></td><td>For a page fault.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Instruction</th>
+<th>Latency</th>
+<th>Throughput</th>
+<th>Execution Unit</th>
+</tr>
+<tr><td class="grid"><code>CPUID</code></td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F2n</td></tr>
+<tr><td class="grid"><code>CVTPD2DQ xmm, xmm</code></td><td class="grid">1/9/5</td><td class="grid">2/2/3</td><td class="grid">FP_ADD MMX_SHFT</td></tr>
+</table>
+</object>
+</div>
+</body>
+</html>

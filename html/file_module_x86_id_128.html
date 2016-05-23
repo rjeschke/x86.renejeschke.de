@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Shroud: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "FXSAVE: Save x87 FPU, MMX Technology, SSE, and SSE2 State (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>FXSAVE</h1>
+<h2>Save x87 FPU, MMX Technology, SSE, and SSE2 State</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>0F AE /0</code></td>
+<td class="grid"><code>FXSAVE m512byte</code></td>
+<td class="grid">Save the x87 FPU, MMX technology, XMM, and MXCSR register state to m512byte.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Saves the current state of the x87 FPU, MMX technology, XMM, and MXCSR registers to a 512-byte memory location specified in the destination operand. The following table shows the layout of the state information in memory.</p>
+<div>
+<table class="grid">
+<caption>Layout of FXSAVE and FXRSTOR Memory Region</caption>
+<tr><th>Bit #</th><th>Description</th></tr>
+<tr><td>0-1</td><td>FCW</td></tr>
+<tr><td>2-3</td><td>FSW</td></tr>
+<tr><td>4</td><td>FTW</td></tr>
+<tr><td>5</td><td>Reserved</td></tr>
+<tr><td>6-7</td><td>FOP</td></tr>
+<tr><td>8-11</td><td>FPU IP</td></tr>
+<tr><td>12-13</td><td>CS</td></tr>
+<tr><td>14-15</td><td>Reserved</td></tr>
+<tr><td>16-19</td><td>FPU DP</td></tr>
+<tr><td>20-21</td><td>DS</td></tr>
+<tr><td>22-23</td><td>Reserved</td></tr>
+<tr><td>24-27</td><td>MXCSR</td></tr>
+<tr><td>28-31</td><td>MXCSR_MASK</td></tr>
+<tr><td>32-41</td><td>ST0/MM0</td></tr>
+<tr><td>42-47</td><td>Reserved</td></tr>
+<tr><td>48-57</td><td>ST1/MM1</td></tr>
+<tr><td>58-63</td><td>Reserved</td></tr>
+<tr><td>64-73</td><td>ST2/MM2</td></tr>
+<tr><td>74-79</td><td>Reserved</td></tr>
+<tr><td>80-89</td><td>ST3/MM3</td></tr>
+<tr><td>90-95</td><td>Reserved</td></tr>
+<tr><td>96-105</td><td>ST4/MM4</td></tr>
+<tr><td>106-111</td><td>Reserved</td></tr>
+<tr><td>112-121</td><td>ST5/MM5</td></tr>
+<tr><td>122-127</td><td>Reserved</td></tr>
+<tr><td>128-137</td><td>ST6/MM6</td></tr>
+<tr><td>138-143</td><td>Reserved</td></tr>
+<tr><td>144-153</td><td>ST7/MM7</td></tr>
+<tr><td>154-159</td><td>Reserved</td></tr>
+<tr><td>160-175</td><td>XMM0</td></tr>
+<tr><td>176-191</td><td>XMM1</td></tr>
+<tr><td>192-207</td><td>XMM2</td></tr>
+<tr><td>208-223</td><td>XMM3</td></tr>
+<tr><td>224-239</td><td>XMM4</td></tr>
+<tr><td>240-255</td><td>XMM5</td></tr>
+<tr><td>256-271</td><td>XMM6</td></tr>
+<tr><td>272-287</td><td>XMM7</td></tr>
+<tr><td>288-512</td><td>Reserved</td></tr>
+</table>
+</div>
+<p>The destination operand contains the first byte of the memory image, and it must be aligned on a 16-byte boundary. A misaligned destination operand will result in a general-protection (#GP) exception being generated (or in some cases, an alignment check exception [#AC]).</p>
+<p>The FXSAVE instruction is used when an operating system needs to perform a context switch or when an exception handler needs to save and examine the current state of the x87 FPU, MMX technology, and/or XMM and MXCSR registers.</p>
+<p>The fields in the table above are as follows:</p>
+<dl>
+<dt>FCW</dt>
+<dd>x87 FPU Control Word (16 bits). See Figure 8-6 in the IA-32 Intel Architecture Software Developer's Manual, Volume 1, for the layout of the x87 FPU control word.</dd>
+<dt>FSW</dt>
+<dd>x87 FPU Status Word (16 bits). See Figure 8-4 in the IA-32 Intel Architecture Software Developer's Manual, Volume 1, for the layout of the x87 FPU status word.</dd>
+<dt>FTW</dt>
+<dd>x87 FPU Tag Word (8 bits). The tag information saved here is abridged, as described in the following paragraphs. See Figure 8-7 in the IA-32 Intel Architecture Software Developer's Manual, Volume 1, for the layout of the x87 FPU tag word.</dd>
+<dt>FOP</dt>
+<dd>x87 FPU Opcode (16 bits). The lower 11 bits of this field contain the opcode, upper 5 bits are reserved. See Figure 8-8 in the IA-32 Intel Architecture Software Developer's Manual, Volume 1, for the layout of the x87 FPU opcode field.</dd>
+<dt>FPU</dt>
+<dd>IP x87 FPU Instruction Pointer Offset (32 bits). The contents of this field differ depending on the current addressing mode (32-bit or 16-bit) of the processor when the FXSAVE instruction was executed: 32-bit mode -&gt; 32-bit IP offset, 16-bit mode -&gt; low 16 bits are IP offset with the high 16 bits being reserved. See &quot;x87 FPU Instruction and Operand (Data) Pointers&quot; in Chapter 8 of the IA-32 Intel Architecture Software Developer's Manual, Volume 1, for a description of the x87 FPU instruction pointer.</dd>
+<dt>CS</dt>
+<dd>x87 FPU Instruction Pointer Selector (16 bits).</dd>
+<dt>FPU</dt>
+<dd>DP x87 FPU Instruction Operand (Data) Pointer Offset (32 bits). The contents of this field differ depending on the current addressing mode (32-bit or 16- bit) of the processor when the FXSAVE instruction was executed: 32-bit mode -&gt; 32-bit IP offset, 16-bit mode -&gt; low 16 bits are IP offset with the high 16 bits being reserved. See &quot;x87 FPU Instruction and Operand (Data) Pointers&quot; in Chapter 8 of the IA-32 Intel Architecture Software Developer's Manual, Volume 1, for a description of the x87 FPU operand pointer.</dd>
+<dt>DS</dt>
+<dd>x87 FPU Instruction Operand (Data) Pointer Selector (16 bits).</dd>
+<dt>MXCSR</dt>
+<dd>MXCSR Register State (32 bits). See Figure 10-3 in the IA-32 Intel Architecture Software Developer's Manual, Volume 1, for the layout of the MXCSR register. If the OSFXSR bit in control register CR4 is not set, the FXSAVE instruction may not save this register. This behavior is implementation dependent.</dd>
+<dt>MXCSR_MASK</dt>
+<dd>MXCSR_MASK (32 bits). This mask can be used to adjust values written to the MXCSR register, ensuring that reserved bits are set to 0. Set the mask bits and flags in MXCSR to the mode of operation desired for SSE and SSE2 SIMD floating-point instructions. See &quot;Guidelines for Writing to the MXCSR Register&quot; in Chapter 11 of the IA-32 Intel Architecture Software Developer's Manual, Volume 1, for instructions for how to determine and use the MXCSR_MASK value.</dd>
+<dt>ST0/MM0 through ST7/MM7</dt>
+<dd>x87 FPU or MMX technology registers. These 80-bit fields contain the x87 FPU data registers or the MMX technology registers, depending on the state of the processor prior to the execution of the FXSAVE instruction. If the processor had been executing x87 FPU instruction prior to the FXSAVE instruction, the x87 FPU data registers are saved; if it had been executing MMX instructions (or SSE or SSE2 instructions that operated on the MMX technology registers), the MMX technology registers are saved. When the MMX technology registers are saved, the high 16 bits of the field are reserved.</dd>
+<dt>XMM0 through XMM7</dt>
+<dd>XMM registers (128 bits per field). If the OSFXSR bit in control register CR4 is not set, the FXSAVE instruction may not save these registers. This behavior is implementation dependent.</dd>
+</dl>
+<p>The FXSAVE instruction saves an abridged version of the x87 FPU tag word in the FTW field (unlike the FSAVE instruction, which saves the complete tag word). The tag information is saved in physical register order (R0 through R7), rather than in top-of-stack (TOS) order. With the FXSAVE instruction, however, only a single bit (1 for valid or 0 for empty) is saved for each tag. For example, assume that the tag word is currently set as follows:</p>
+<div>
+<table class="grid">
+<tr><th>R7</th><th>R6</th><th>R5</th><th>R4</th><th>R3</th><th>R2</th><th>R1</th><th>R0</th></tr>
+<tr><td>[body]11</td><td>xx</td><td>xx</td><td>xx</td><td>11</td><td>11</td><td>11</td><td>11[/body]</td></tr>
+<tfoot>
+<tr><td colspan="8">Here, 11B indicates empty stack elements and &quot;xx&quot; indicates valid (00B), zero (01B), or special (10B).</td></tr>
+</tfoot>
+</table>
+</div>
+<p>For this example, the FXSAVE instruction saves only the following 8 bits of information:</p>
+<div>
+<table class="grid">
+<tr><th>R7</th><th>R6</th><th>R5</th><th>R4</th><th>R3</th><th>R2</th><th>R1</th><th>R0</th></tr>
+<tr><td>[body]0</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0[/body]</td></tr>
+<tfoot>
+<tr><td colspan="8">Here, a 1 is saved for any valid, zero, or special tag, and a 0 is saved for any empty tag.</td></tr>
+</tfoot>
+</table>
+</div>
+<p>The operation of the FXSAVE instruction differs from that of the FSAVE instruction, the as follows:</p>
+<ul>
+<li>FXSAVE instruction does not check for pending unmasked floating-point exceptions. (The FXSAVE operation in this regard is similar to the operation of the FNSAVE instruction).</li>
+<li>After the FXSAVE instruction has saved the state of the x87 FPU, MMX technology, XMM, and MXCSR registers, the processor retains the contents of the registers. Because of this behavior, the FXSAVE instruction cannot be used by an application program to pass a &quot;clean&quot; x87 FPU state to a procedure, since it retains the current state. To clean the x87 FPU state, an application must explicitly execute an FINIT instruction after an FXSAVE instruction to reinitialize the x87 FPU state.</li>
+<li>The format of the memory image saved with the FXSAVE instruction is the same regardless of the current addressing mode (32-bit or 16-bit) and operating mode (protected, real address, or system management). This behavior differs from the FSAVE instructions, where the memory image format is different depending on the addressing mode and operating mode. Because of the different image formats, the memory image saved with the FXSAVE instruction cannot be restored correctly with the FRSTOR instruction, and likewise the state saved with the FSAVE instruction cannot be restored correctly with the FXRSTOR instruction.</li>
+</ul>
+<p>Note that The FSAVE format for FTW can be recreated from the FTW valid bits and the stored 80-bit FP data (assuming the stored data was not the contents of MMX technology registers) using the following table:</p>
+<div>
+<table class="grid">
+<caption>Recreating FSAVE Format</caption>
+<tr><th>Exponent all 1's</th><th>Exponent all 0's</th><th>Fraction all 0's</th><th>J and M bits</th><th>FTW valid bit</th><th>x87 FTW</th></tr>
+<tr><td>0</td><td>0</td><td>0</td><td>0x</td><td>1</td><td>Special 10</td></tr>
+<tr><td>0</td><td>0</td><td>0</td><td>1x</td><td>1</td><td>Valid 00</td></tr>
+<tr><td>0</td><td>0</td><td>1</td><td>00</td><td>1</td><td>Special 10</td></tr>
+<tr><td>0</td><td>0</td><td>1</td><td>10</td><td>1</td><td>Valid 00</td></tr>
+<tr><td>0</td><td>1</td><td>0</td><td>0x</td><td>1</td><td>Special 10</td></tr>
+<tr><td>0</td><td>1</td><td>0</td><td>1x</td><td>1</td><td>Special 10</td></tr>
+<tr><td>0</td><td>1</td><td>1</td><td>00</td><td>1</td><td>Zero 01</td></tr>
+<tr><td>0</td><td>1</td><td>1</td><td>10</td><td>1</td><td>Special 10</td></tr>
+<tr><td>1</td><td>0</td><td>0</td><td>1x</td><td>1</td><td>Special 10</td></tr>
+<tr><td>1</td><td>0</td><td>0</td><td>1x</td><td>1</td><td>Special 10</td></tr>
+<tr><td>1</td><td>0</td><td>1</td><td>00</td><td>1</td><td>Special 10</td></tr>
+<tr><td>1</td><td>0</td><td>1</td><td>10</td><td>1</td><td>Special 10</td></tr>
+<tr><td>Any legal</td><td>Any legal</td><td>Any legal</td><td>Any legal</td><td>0</td><td>Empty 11</td></tr>
+</table>
+</div>
+<p>The J-bit is defined to be the 1-bit binary integer to the left of the decimal place in the mantissa.</p>
+<p>The M-bit is defined to be the most significant bit of the fractional portion of the mantissa (i.e., the bit immediately to the right of the decimal place).</p>
+<p>When the M-bit is the most significant bit of the fractional portion of the mantissa, it must be 0 if the fraction is all 0's.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre>Destination <span class="operator">=</span> Save<span class="operator">(</span>x87 FPU<span class="operator">,</span> MMX<span class="operator">,</span> XMM7<span class="operator">-</span>XMM0<span class="operator">,</span> MXCSR<span class="operator">)</span><span class="operator">;</span>
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Real-Address Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If a memory operand is not aligned on a 16-byte boundary, regardless of segment. If any part of the operand lies outside the effective address space from 0 to FFFFH.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If a memory operand is not aligned on a 16-byte boundary, regardless of segment. If any part of the operand lies outside the effective address space from 0 to FFFFH.</td></tr>
+<tr><td><code>#NM</code></td><td>If TS in CR0 is set.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Instruction</th>
+<th>Latency</th>
+<th>Throughput</th>
+<th>Execution Unit</th>
+</tr>
+<tr><td class="grid"><code>CPUID</code></td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F2n</td></tr>
+<tr><td class="grid"><code>FXSAVE</code></td><td class="grid">100</td><td class="grid">-</td><td class="grid">-</td></tr>
+</table>
+</object>
+</div>
+</body>
+</html>

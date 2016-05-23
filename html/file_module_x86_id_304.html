@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Into the Void: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "STI: Set Interrupt Flag (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>STI</h1>
+<h2>Set Interrupt Flag</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>FB</code></td>
+<td class="grid"><code>STI</code></td>
+<td class="grid">Set interrupt flag; external, maskable interrupts enabled at the end of the next instruction.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>If protected-mode virtual interrupts are not enabled, STI sets the interrupt flag (IF) in the EFLAGS register. After the IF flag is set, the processor begins responding to external, maskable interrupts after the next instruction is executed. The delayed effect of this instruction is provided to allow interrupts to be enabled just before returning from a procedure (or subroutine). For instance, if an STI instruction is followed by an RET instruction, the RET instruction is allowed to execute before external interrupts are recognized.</p>
+<p>Note that in a sequence of instructions that individually delay interrupts past the following instruction, only the first instruction in the sequence is guaranteed to delay the interrupt, but subsequent interrupt-delaying instructions may not delay the interrupt. Thus, in the following instruction sequence:</p>
+<pre>STI
+MOV SS, AX
+MOV ESP, EBP
+</pre>
+<p>Interrupts may be recognized before MOV ESP, EBP executes, even though MOV SS, AX normally delays interrupts for one instruction.</p>
+<p>If the STI instruction is followed by a CLI instruction (which clears the IF flag), the effect of the STI instruction is negated.</p>
+<p>The IF flag and the STI and CLI instructions do not prohibit the generation of exceptions and NMI interrupts. NMI interrupts may be blocked for one macroinstruction following an STI.</p>
+<p>When protected-mode virtual interrupts are enabled, CPL is 3, and IOPL is less than 3; STI sets the VIF flag in the EFLAGS register, leaving IF unaffected.</p>
+<p>The following table indicates the action of the STI instruction depending on the processor's mode of operation and the CPL/IOPL settings of the running program or procedure.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre><span class="keyword">if</span><span class="operator">(</span>PE <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> IF <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span> <span class="comment">//Executing in real-address mode; Set Interrupt Flag</span>
+<span class="keyword">else</span> <span class="keyword">if</span><span class="operator">(</span>VM <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> { <span class="comment">//Executing in protected mode</span>
+	<span class="keyword">if</span><span class="operator">(</span>IOPL <span class="operator">&gt;=</span> CPL<span class="operator">)</span> IF <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span> <span class="comment">//Set Interrupt Flag</span>
+	<span class="keyword">else</span> <span class="keyword">if</span><span class="operator">(</span>IOPL <span class="operator">&lt;</span> CPL <span class="operator">&amp;&amp;</span> CPL <span class="operator">==</span> <span class="number">3</span> <span class="operator">&amp;&amp;</span> VIP <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> VIF <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span> <span class="comment">//Set Virtual Interrupt Flag</span>
+	<span class="keyword">else</span> Exception<span class="operator">(</span>GP<span class="operator">(</span><span class="number">0</span><span class="operator">)</span><span class="operator">)</span><span class="operator">;</span>
+}
+<span class="keyword">else</span> { <span class="comment">//Executing in Virtual-8086 mode</span>
+	<span class="keyword">if</span><span class="operator">(</span>IOPL <span class="operator">==</span> <span class="number">3</span><span class="operator">)</span> IF <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span> <span class="comment">//Set Interrupt Flag</span>
+	<span class="keyword">else</span> <span class="keyword">if</span><span class="operator">(</span>IOPL <span class="operator">&lt;</span> <span class="number">3</span> <span class="operator">&amp;&amp;</span> VIP <span class="operator">==</span> <span class="number">0</span> <span class="operator">&amp;&amp;</span> VME <span class="operator">==</span> <span class="number">1</span><span class="operator">)</span> VIF <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span> <span class="comment">//Set Virtual Interrupt Flag</span>
+	<span class="keyword">else</span> Exception<span class="operator">(</span>GP<span class="operator">(</span><span class="number">0</span><span class="operator">)</span><span class="operator">)</span><span class="operator">;</span> <span class="comment">//Trap to virtual-8086 monitor</span>
+}
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>The IF flag is set to 1; or the VIF flag is set to 1.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Instruction</th>
+<th>Latency</th>
+<th>Throughput</th>
+<th>Execution Unit</th>
+</tr>
+<tr><td class="grid"><code>CPUID</code></td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F2n</td></tr>
+<tr><td class="grid"><code>STI</code></td><td class="grid">-</td><td class="grid">36</td><td class="grid">-</td></tr>
+</table>
+</object>
+</div>
+</body>
+</html>

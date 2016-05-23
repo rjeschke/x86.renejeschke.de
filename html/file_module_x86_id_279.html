@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Sun: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "REP/REPE/REPZ/REPNE/REPNZ: Repeat String Operation Prefix (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>REP/REPE/REPZ/REPNE/REPNZ</h1>
+<h2>Repeat String Operation Prefix</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>F3 6C</code></td>
+<td class="grid"><code>REP INS m8, DX</code></td>
+<td class="grid">Input (E)CX bytes from port DX into ES:[(E)DI].</td>
+</tr>
+<tr>
+<td class="grid"><code>F3 6D</code></td>
+<td class="grid"><code>REP INS m16, DX</code></td>
+<td class="grid">Input (E)CX words from port DX into ES:[(E)DI].</td>
+</tr>
+<tr>
+<td class="grid"><code>F3 6D</code></td>
+<td class="grid"><code>REP INS m32, DX</code></td>
+<td class="grid">Input (E)CX doublewords from port DX into ES:[(E)DI].</td>
+</tr>
+<tr>
+<td class="grid"><code>F3 A4</code></td>
+<td class="grid"><code>REP MOVS m8, m8</code></td>
+<td class="grid">Move (E)CX bytes from DS:[(E)SI] to ES:[(E)DI].</td>
+</tr>
+<tr>
+<td class="grid"><code>F3 A5</code></td>
+<td class="grid"><code>REP MOVS m16, m16</code></td>
+<td class="grid">Move (E)CX words from DS:[(E)SI] to ES:[(E)DI].</td>
+</tr>
+<tr>
+<td class="grid"><code>F3 A5</code></td>
+<td class="grid"><code>REP MOVS m32, m32</code></td>
+<td class="grid">Move (E)CX doublewords from DS:[(E)SI] to ES:[(E)DI].</td>
+</tr>
+<tr>
+<td class="grid"><code>F3 6E</code></td>
+<td class="grid"><code>REP OUTS DX, r/m8</code></td>
+<td class="grid">Output (E)CX bytes from DS:[(E)SI] to port DX.</td>
+</tr>
+<tr>
+<td class="grid"><code>F3 6F</code></td>
+<td class="grid"><code>REP OUTS DX, r/m16</code></td>
+<td class="grid">Output (E)CX words from DS:[(E)SI] to port DX.</td>
+</tr>
+<tr>
+<td class="grid"><code>F3 6F</code></td>
+<td class="grid"><code>REP OUTS DX, r/m32</code></td>
+<td class="grid">Output (E)CX doublewords from DS:[(E)SI] to port DX.</td>
+</tr>
+<tr>
+<td class="grid"><code>F3 AC</code></td>
+<td class="grid"><code>REP LODS AL</code></td>
+<td class="grid">Load (E)CX bytes from DS:[(E)SI] to AL.</td>
+</tr>
+<tr>
+<td class="grid"><code>F3 AD</code></td>
+<td class="grid"><code>REP LODS AX</code></td>
+<td class="grid">Load (E)CX words from DS:[(E)SI] to AX.</td>
+</tr>
+<tr>
+<td class="grid"><code>F3 AD</code></td>
+<td class="grid"><code>REP LODS EAX</code></td>
+<td class="grid">Load (E)CX doublewords from DS:[(E)SI] to EAX.</td>
+</tr>
+<tr>
+<td class="grid"><code>F3 AA</code></td>
+<td class="grid"><code>REP STOS m8</code></td>
+<td class="grid">Fill (E)CX bytes at ES:[(E)DI] with AL.</td>
+</tr>
+<tr>
+<td class="grid"><code>F3 AB</code></td>
+<td class="grid"><code>REP STOS m16</code></td>
+<td class="grid">Fill (E)CX words at ES:[(E)DI] with AX.</td>
+</tr>
+<tr>
+<td class="grid"><code>F3 AB</code></td>
+<td class="grid"><code>REP STOS m32</code></td>
+<td class="grid">Fill (E)CX doublewords at ES:[(E)DI] with EAX.</td>
+</tr>
+<tr>
+<td class="grid"><code>F3 A6</code></td>
+<td class="grid"><code>REPE CMPS m8, m8</code></td>
+<td class="grid">Find nonmatching bytes in ES:[(E)DI] and DS:[(E)SI].</td>
+</tr>
+<tr>
+<td class="grid"><code>F3 A7</code></td>
+<td class="grid"><code>REPE CMPS m16, m16</code></td>
+<td class="grid">Find nonmatching words in ES:[(E)DI] and DS:[(E)SI].</td>
+</tr>
+<tr>
+<td class="grid"><code>F3 A7</code></td>
+<td class="grid"><code>REPE CMPS m32, m32</code></td>
+<td class="grid">Find nonmatching doublewords in ES:[(E)DI] and DS:[(E)SI].</td>
+</tr>
+<tr>
+<td class="grid"><code>F3 AE</code></td>
+<td class="grid"><code>REPE SCAS m8</code></td>
+<td class="grid">Find non-AL byte starting at ES:[(E)DI].</td>
+</tr>
+<tr>
+<td class="grid"><code>F3 AF</code></td>
+<td class="grid"><code>REPE SCAS m16</code></td>
+<td class="grid">Find non-AX word starting at ES:[(E)DI].</td>
+</tr>
+<tr>
+<td class="grid"><code>F3 AF</code></td>
+<td class="grid"><code>REPE SCAS m32</code></td>
+<td class="grid">Find non-EAX doubleword starting at ES:[(E)DI].</td>
+</tr>
+<tr>
+<td class="grid"><code>F2 A6</code></td>
+<td class="grid"><code>REPNE CMPS m8, m8</code></td>
+<td class="grid">Find matching bytes in ES:[(E)DI] and DS:[(E)SI].</td>
+</tr>
+<tr>
+<td class="grid"><code>F2 A7</code></td>
+<td class="grid"><code>REPNE CMPS m16, m16</code></td>
+<td class="grid">Find matching words in ES:[(E)DI] and DS:[(E)SI].</td>
+</tr>
+<tr>
+<td class="grid"><code>F2 A7</code></td>
+<td class="grid"><code>REPNE CMPS m32, m32</code></td>
+<td class="grid">Find matching doublewords in ES:[(E)DI] and DS:[(E)SI].</td>
+</tr>
+<tr>
+<td class="grid"><code>F2 AE</code></td>
+<td class="grid"><code>REPNE SCAS m8</code></td>
+<td class="grid">Find AL, starting at ES:[(E)DI].</td>
+</tr>
+<tr>
+<td class="grid"><code>F2 AF</code></td>
+<td class="grid"><code>REPNE SCAS m16</code></td>
+<td class="grid">Find AX, starting at ES:[(E)DI].</td>
+</tr>
+<tr>
+<td class="grid"><code>F2 AF</code></td>
+<td class="grid"><code>REPNE SCAS m32</code></td>
+<td class="grid">Find EAX, starting at ES:[(E)DI].</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Repeats a string instruction the number of times specified in the count register ((E)CX) or until the indicated condition of the ZF flag is no longer met. The REP (repeat), REPE (repeat while equal), REPNE (repeat while not equal), REPZ (repeat while zero), and REPNZ (repeat while not zero) mnemonics are prefixes that can be added to one of the string instructions. The REP prefix can be added to the INS, OUTS, MOVS, LODS, and STOS instructions, and the REPE, REPNE, REPZ, and REPNZ prefixes can be added to the CMPS and SCAS instructions. (The REPZ and REPNZ prefixes are synonymous forms of the REPE and REPNE prefixes, respectively.) The behavior of the REP prefix is undefined when used with non-string instructions.</p>
+<p>The REP prefixes apply only to one string instruction at a time. To repeat a block of instructions, use the LOOP instruction or another looping construct.</p>
+<p>All of these repeat prefixes cause the associated instruction to be repeated until the count in register (E)CX is decremented to 0 (see table below). (If the current address-size attribute is 32, register ECX is used as a counter, and if the address-size attribute is 16, the CX register is used.) The REPE, REPNE, REPZ, and REPNZ prefixes also check the state of the ZF flag after each iteration and terminate the repeat loop if the ZF flag is not in the specified state. When both termination conditions are tested, the cause of a repeat termination can be determined either by testing the (E)CX register with a JECXZ instruction or by testing the ZF flag with a JZ, JNZ, and JNE instruction.</p>
+<div>
+<table class="grid">
+<caption>Repeat Prefixes</caption>
+<tr><th>Repeat Prefix</th><th>Termination Condition 1</th><th>Termination Condition 2</th></tr>
+<tr><td>REP</td><td>ECX=0</td><td>None</td></tr>
+<tr><td>REPE/REPZ</td><td>ECX=0</td><td>ZF=0</td></tr>
+<tr><td>REPNE/REPNZ</td><td>ECX=0</td><td>ZF=1</td></tr>
+</table>
+</div>
+<p>When the REPE/REPZ and REPNE/REPNZ prefixes are used, the ZF flag does not require initialization because both the CMPS and SCAS instructions affect the ZF flag according to the results of the comparisons they make.</p>
+<p>A repeating string operation can be suspended by an exception or interrupt. When this happens, the state of the registers is preserved to allow the string operation to be resumed upon a return from the exception or interrupt handler. The source and destination registers point to the next string elements to be operated on, the EIP register points to the string instruction, and the ECX register has the value it held following the last successful iteration of the instruction. This mechanism allows long string operations to proceed without affecting the interrupt response time of the system.</p>
+<p>When a fault occurs during the execution of a CMPS or SCAS instruction that is prefixed with REPE or REPNE, the EFLAGS value is restored to the state prior to the execution of the instruction.</p>
+<p>Since the SCAS and CMPS instructions do not use EFLAGS as an input, the processor can resume the instruction after the page fault handler.</p>
+<p>Use the REP INS and REP OUTS instructions with caution. Not all I/O ports can handle the rate at which these instructions execute.</p>
+<p>A REP STOS instruction is the fastest way to initialize a large block of memory.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre><span class="keyword">if</span><span class="operator">(</span>AddressSize <span class="operator">==</span> <span class="number">16</span><span class="operator">)</span> Counter <span class="operator">=</span> <span class="operator">&amp;</span>CX<span class="operator">;</span> <span class="comment">//use CX</span>
+<span class="keyword">else</span> Counter <span class="operator">=</span> <span class="operator">&amp;</span>ECX<span class="operator">;</span> <span class="comment">//AddressSize == 32, use ECX</span>
+
+<span class="keyword">while</span><span class="operator">(</span>Counter <span class="operator">!=</span> <span class="number">0</span><span class="operator">)</span> {
+	ServiceInterrupts<span class="operator">(</span><span class="operator">)</span><span class="operator">;</span> <span class="comment">//service pending interrupts (if any)</span>
+	ExecuteStringInstruction<span class="operator">(</span><span class="operator">)</span><span class="operator">;</span> <span class="comment">//execute associated string instruction</span>
+	Counter <span class="operator">=</span> Counter <span class="operator">-</span> <span class="number">1</span><span class="operator">;</span>
+	<span class="keyword">if</span><span class="operator">(</span><span class="operator">(</span><span class="operator">(</span>Instruction <span class="operator">==</span> REPZ <span class="operator">||</span> Instruction <span class="operator">==</span> REPE<span class="operator">)</span> <span class="operator">&amp;&amp;</span> ZF <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> <span class="operator">||</span> <span class="operator">(</span><span class="operator">(</span>Instruction <span class="operator">==</span> REPNZ <span class="operator">||</span> Instruction <span class="operator">==</span> REPNE<span class="operator">)</span> <span class="operator">&amp;&amp;</span> ZF <span class="operator">==</span> <span class="number">1</span><span class="operator">)</span> <span class="keyword">break</span><span class="operator">;</span>
+}
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>None; however, the CMPS and SCAS instructions do set the status flags in the EFLAGS register.
+</p>
+</td>
+</tr>
+</table>
+</object>
+</div>
+</body>
+</html>

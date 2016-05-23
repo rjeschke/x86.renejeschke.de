@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>War on Theism: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "MWAIT: Monitor Wait (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>MWAIT</h1>
+<h2>Monitor Wait</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>0F 01 C9</code></td>
+<td class="grid"><code>MWAIT</code></td>
+<td class="grid">A hint that allows the processor to stop instruction execution and enter an implementation-dependent optimized state until occurrence of a class of events; it is architecturally identical to a NOP instruction.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>The MWAIT instruction is designed to operate with the MONITOR instruction. The two instructions allow the definition of an address at which to 'wait' (MONITOR) and an instruction that causes a predefined 'implementation-dependent-optimized operation' to commence at the 'wait' address (MWAIT). The execution of MWAIT is a hint to the processor that it can enter an implementation-dependent-optimized state while waiting for an event or a store operation to the address range armed by the preceding MONITOR instruction in program flow.</p>
+<p>EAX and ECX is used to communicate other information to the MWAIT instruction, such as the kind of optimized state the processor should enter. ECX specifies optional extensions for the MWAIT instruction. EAX may contain hints such as the preferred optimized state the processor should enter. For Pentium 4 processors with CPUID signature family = 15 and model = 3, all non-zero values for EAX and ECX are reserved. The processor will raise a general protection fault on the execution of MWAIT with reserved values in ECX, whereas it ignores the setting of reserved bits in EAX.</p>
+<p>A store to the address range armed by the MONITOR instruction, an interrupt, an NMI or SMI, a debug exception, a machine check exception, the BINIT# signal, the INIT# signal, or the RESET# signal will exit the implementation-dependent-optimized state. Note that an interrupt will cause the processor to exit only if the state was entered with interrupts enabled.</p>
+<p>If a store to the address range causes the processor to exit, execution will resume at the instruction following the MWAIT instruction. If an interrupt (including NMI) caused the processor to exit the implementation-dependent-optimized state, the processor will exit the state and handle the interrupt. If an SMI caused the processor to exit the implementation-dependent-optimized state, execution will resume at the instruction following MWAIT after handling of the SMI.</p>
+<p>Unlike the HLT instruction, the MWAIT instruction does not support a restart at the MWAIT instruction. There may also be other implementation-dependent events or time-outs that may take the processor out of the implementation-dependent-optimized state and resume execution at the instruction following the MWAIT.</p>
+<p>If the preceding MONITOR instruction did not successfully arm an address range or if the MONITOR instruction has not been executed prior to executing MWAIT, then the processor will not enter the implementation-dependent-optimized state. Execution will resume at the instruction following the MWAIT.</p>
+<p>The MWAIT instruction can be executed at any privilege level. The MONITOR CPUID feature flag (ECX[bit 3] when CPUID is executed with EAX = 1) indicates the availability of the MONITOR and MWAIT instruction in a processor. When set, the unconditional execution of MWAIT is supported at privilege level 0 and conditional execution is supported at privilege levels 1 through 3 (software should test for the appropriate support of these instructions before unconditional use).</p>
+<p>The operating system or system BIOS may disable this instruction using the IA32_MISC_ENABLES MSR; disabling the instruction clears the CPUID feature flag and causes execution of the MWAIT instruction to generate an illegal opcode exception.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre><span class="comment">/*</span>
+<span class="comment">MWAIT takes the argument in EAX as a hint extension and is</span>
+<span class="comment">architected to take the argument in ECX as an instruction extension</span>
+<span class="comment">MWAIT EAX, ECX</span>
+<span class="comment">*/</span>
+
+<span class="keyword">while</span><span class="operator">(</span>GetMonitorState<span class="operator">(</span><span class="operator">)</span> <span class="operator">!=</span> StateArmed<span class="operator">)</span> OptimizedState<span class="operator">(</span>EAX<span class="operator">,</span> ECX<span class="operator">)</span><span class="operator">;</span> <span class="comment">//Monitor Hardware is not in armed state yet => implementation dependent optimized state</span>
+SetMonitorState<span class="operator">(</span>MonitorTriggered<span class="operator">)</span><span class="operator">;</span> <span class="comment">//Set the state of Monitor Hardware as Triggered</span>
+MONITOR<span class="operator">(</span>EAX<span class="operator">,</span> ECX<span class="operator">,</span> EDX<span class="operator">)</span><span class="operator">;</span>
+<span class="keyword">if</span><span class="operator">(</span><span class="operator">!</span>TriggerStoreHappened<span class="operator">)</span> MWAIT<span class="operator">(</span>EAX<span class="operator">,</span> ECX<span class="operator">)</span><span class="operator">;</span>
+
+<span class="comment">/*</span>
+<span class="comment">The above code sequence makes sure that a triggering store does not happen between the first</span>
+<span class="comment">check of the trigger and the execution of the monitor instruction. Without the second check that</span>
+<span class="comment">triggering store would go un-noticed. Typical usage of MONITOR and MWAIT would have the</span>
+<span class="comment">above code sequence within a loop.</span>
+<span class="comment">*/</span>
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+None.
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Numeric Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+None.
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Protected Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>For ECX has a value other than 0.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>For ECX has a value other than 0.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Real-Address Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>For ECX has a value other than 0.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>For ECX has a value other than 0.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Virtual-8086 Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>For ECX has a value other than 0.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>For ECX has a value other than 0.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+</div>
+</body>
+</html>

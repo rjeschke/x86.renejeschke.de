@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Into the Void: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "MOV: Move (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>MOV</h1>
+<h2>Move</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>88 /r</code></td>
+<td class="grid"><code>MOV r/m8,r8</code></td>
+<td class="grid">Move r8 to r/m8.</td>
+</tr>
+<tr>
+<td class="grid"><code>89 /r</code></td>
+<td class="grid"><code>MOV r/m16,r16</code></td>
+<td class="grid">Move r16 to r/m16.</td>
+</tr>
+<tr>
+<td class="grid"><code>89 /r</code></td>
+<td class="grid"><code>MOV r/m32,r32</code></td>
+<td class="grid">Move r32 to r/m32.</td>
+</tr>
+<tr>
+<td class="grid"><code>8A /r</code></td>
+<td class="grid"><code>MOV r8,r/m8</code></td>
+<td class="grid">Move r/m8 to r8.</td>
+</tr>
+<tr>
+<td class="grid"><code>8B /r</code></td>
+<td class="grid"><code>MOV r16,r/m16</code></td>
+<td class="grid">Move r/m16 to r16.</td>
+</tr>
+<tr>
+<td class="grid"><code>8B /r</code></td>
+<td class="grid"><code>MOV r32,r/m32</code></td>
+<td class="grid">Move r/m32 to r32.</td>
+</tr>
+<tr>
+<td class="grid"><code>8C /r</code></td>
+<td class="grid"><code>MOV r/m16,Sreg**</code></td>
+<td class="grid">Move segment register to r/m16.</td>
+</tr>
+<tr>
+<td class="grid"><code>8E /r</code></td>
+<td class="grid"><code>MOV Sreg,r/m16**</code></td>
+<td class="grid">Move r/m16 to segment register.</td>
+</tr>
+<tr>
+<td class="grid"><code>A0</code></td>
+<td class="grid"><code>MOV AL,moffs8*</code></td>
+<td class="grid">Move byte at (seg:offset) to AL.</td>
+</tr>
+<tr>
+<td class="grid"><code>A1</code></td>
+<td class="grid"><code>MOV AX,moffs16*</code></td>
+<td class="grid">Move word at (seg:offset) to AX.</td>
+</tr>
+<tr>
+<td class="grid"><code>A1</code></td>
+<td class="grid"><code>MOV EAX,moffs32*</code></td>
+<td class="grid">Move doubleword at (seg:offset) to EAX.</td>
+</tr>
+<tr>
+<td class="grid"><code>A2</code></td>
+<td class="grid"><code>MOV moffs8*,AL</code></td>
+<td class="grid">Move AL to (seg:offset).</td>
+</tr>
+<tr>
+<td class="grid"><code>A3</code></td>
+<td class="grid"><code>MOV moffs16*,AX</code></td>
+<td class="grid">Move AX to (seg:offset).</td>
+</tr>
+<tr>
+<td class="grid"><code>A3</code></td>
+<td class="grid"><code>MOV moffs32*,EAX</code></td>
+<td class="grid">Move EAX to (seg:offset).</td>
+</tr>
+<tr>
+<td class="grid"><code>B0+ rb</code></td>
+<td class="grid"><code>MOV r8,imm8</code></td>
+<td class="grid">Move imm8 to r8.</td>
+</tr>
+<tr>
+<td class="grid"><code>B8+ rw</code></td>
+<td class="grid"><code>MOV r16,imm16</code></td>
+<td class="grid">Move imm16 to r16.</td>
+</tr>
+<tr>
+<td class="grid"><code>B8+ rd</code></td>
+<td class="grid"><code>MOV r32,imm32</code></td>
+<td class="grid">Move imm32 to r32.</td>
+</tr>
+<tr>
+<td class="grid"><code>C6 /0</code></td>
+<td class="grid"><code>MOV r/m8,imm8</code></td>
+<td class="grid">Move imm8 to r/m8.</td>
+</tr>
+<tr>
+<td class="grid"><code>C7 /0</code></td>
+<td class="grid"><code>MOV r/m16,imm16</code></td>
+<td class="grid">Move imm16 to r/m16.</td>
+</tr>
+<tr>
+<td class="grid"><code>C7 /0</code></td>
+<td class="grid"><code>MOV r/m32,imm32</code></td>
+<td class="grid">Move imm32 to r/m32.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>* The moffs8, moffs16, and moffs32 operands specify a simple offset relative to the segment base, where 8, 16, and 32 refer to the size of the data. The address-size attribute of the instruction determines the size of the offset, either 16 or 32 bits.</p>
+<p>** In 32-bit mode, the assembler may insert the 16-bit operand-size prefix with this instruction.</p>
+<p>Copies the second operand (source operand) to the first operand (destination operand). The source operand can be an immediate value, general-purpose register, segment register, or memory location; the destination register can be a general-purpose register, segment register, or memory location. Both operands must be the same size, which can be a byte, a word, or a doubleword.</p>
+<p>The MOV instruction cannot be used to load the CS register. Attempting to do so results in an invalid opcode exception (#UD). To load the CS register, use the far JMP, CALL, or RET instruction.</p>
+<p>If the destination operand is a segment register (DS, ES, FS, GS, or SS), the source operand must be a valid segment selector. In protected mode, moving a segment selector into a segment register automatically causes the segment descriptor information associated with that segment selector to be loaded into the hidden (shadow) part of the segment register. While loading this information, the segment selector and segment descriptor information is validated (see the &quot;Operation&quot; algorithm below). The segment descriptor data is obtained from the GDT or LDT entry for the specified segment selector.</p>
+<p>A null segment selector (values 0000-0003) can be loaded into the DS, ES, FS, and GS registers without causing a protection exception. However, any subsequent attempt to reference a segment whose corresponding segment register is loaded with a null value causes a general protection exception (#GP) and no memory reference occurs.</p>
+<p>Loading the SS register with a MOV instruction inhibits all interrupts until after the execution of the next instruction. This operation allows a stack pointer to be loaded into the ESP register with the next instruction (MOV ESP, stack-pointer value) before an interrupt occurs1. Be aware that the LSS instruction offers a more efficient method of loading the SS and ESP registers.</p>
+<p>When operating in 32-bit mode and moving data between a segment register and a generalpurpose register, the 32-bit IA-32 processors do not require the use of the 16-bit operand-size prefix (a byte with the value 66H) with this instruction, but most assemblers will insert it if the standard form of the instruction is used (for example, MOV DS, AX). The processor will execute this instruction correctly, but it will usually require an extra clock. With most assemblers, using the instruction form MOV DS, EAX will avoid this unneeded 66H prefix. When the processor executes the instruction with a 32-bit general-purpose register, it assumes that the 16 least-significant bits of the general-purpose register are the destination or source operand. If the register is a destination operand, the resulting value in the two high-order bytes of the register is implementation dependent. For the Pentium 4, Intel Xeon, and P6 family processors, the two high-order bytes are filled with zeros; for earlier 32-bit IA-32 processors, the two high order bytes are undefined.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre>Destination <span class="operator">=</span> Source<span class="operator">;</span>
+
+<span class="comment">/*</span>
+<span class="comment">Loading a segment register while in protected mode results in special checks and actions,</span>
+<span class="comment">as described in the following listing. These checks are performed on the segment selector</span>
+<span class="comment">and the segment descriptor it points to. If a code instruction breakpoint (for debug)</span>
+<span class="comment">is placed on an instruction located immediately after a MOV SS instruction,</span>
+<span class="comment">the breakpoint may not be triggered. Note that in a sequence of instructions that</span>
+<span class="comment">individually delay interrupts past the following instruction, only the first instruction</span>
+<span class="comment">in the sequence is guaranteed to delay the interrupt, but subsequent interrupt-delaying</span>
+<span class="comment">instructions may not delay the interrupt. Thus, in the following instruction sequence:</span>
+<span class="comment">	STI</span>
+<span class="comment">	MOV SS, EAX</span>
+<span class="comment">	MOV ESP, EBP</span>
+<span class="comment">Interrupts may be recognized before MOV ESP, EBP executes, because STI also delays interrupts for one instruction.</span>
+<span class="comment">*/</span>
+
+<span class="keyword">if</span><span class="operator">(</span>IsLoaded<span class="operator">(</span>SS<span class="operator">)</span><span class="operator">)</span> {
+	<span class="keyword">if</span><span class="operator">(</span>SegmentSelector <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> Exception<span class="operator">(</span>GP<span class="operator">(</span><span class="number">0</span><span class="operator">)</span><span class="operator">)</span><span class="operator">;</span>
+	<span class="keyword">if</span><span class="operator">(</span><span class="operator">!</span>IsWithinDescriptorTableLimits<span class="operator">(</span>SegmentSelector<span class="operator">)</span> <span class="operator">||</span> SegmentSelector<span class="operator">.</span>RPL <span class="operator">!=</span> CPL <span class="operator">||</span> <span class="operator">!</span>IsWritableDataSegment<span class="operator">(</span>SegmentSelector<span class="operator">)</span> <span class="operator">||</span> DPL <span class="operator">!=</span> CPL<span class="operator">)</span> Exception<span class="operator">(</span>GP<span class="operator">(</span>Selector<span class="operator">)</span><span class="operator">)</span><span class="operator">;</span>
+	<span class="keyword">if</span><span class="operator">(</span><span class="operator">!</span>IsPresent<span class="operator">(</span>Segment<span class="operator">)</span><span class="operator">)</span> Exception<span class="operator">(</span>GP<span class="operator">(</span>Selector<span class="operator">)</span><span class="operator">)</span><span class="operator">;</span>
+	SS <span class="operator">=</span> SegmentSelector<span class="operator">;</span>
+	SS <span class="operator">=</span> SegmentDescriptor<span class="operator">;</span>
+}
+
+<span class="keyword">if</span><span class="operator">(</span><span class="operator">(</span>IsLoaded<span class="operator">(</span>DS<span class="operator">)</span> <span class="operator">||</span> IsLoaded<span class="operator">(</span>ES<span class="operator">)</span> <span class="operator">||</span> IsLoaded<span class="operator">(</span>FS<span class="operator">)</span> <span class="operator">||</span> IsLoaded<span class="operator">(</span>GS<span class="operator">)</span><span class="operator">)</span> <span class="operator">&amp;&amp;</span> Selector <span class="operator">!=</span> <span class="number">0</span><span class="operator">)</span> {
+	SS <span class="operator">=</span> SegmentSelector<span class="operator">;</span>
+	SS <span class="operator">=</span> SegmentDescriptor<span class="operator">;</span>
+}
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>None.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Real-Address Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#GP</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#SS</code></td><td>If a memory operand effective address is outside the SS segment limit.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Virtual-8086 Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#SS(0)</code></td><td>If a memory operand effective address is outside the SS segment limit.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>If a page fault occurs.</td></tr>
+<tr><td><code>#AC(0)</code></td><td>If alignment checking is enabled and an unaligned memory reference is made.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Instruction</th>
+<th>Latency</th>
+<th>Throughput</th>
+<th>Execution Unit</th>
+</tr>
+<tr><td class="grid"><code>CPUID</code></td><td class="grid">0F3n/0F2n</td><td class="grid">0F3n/0F2n</td><td class="grid">0F2n</td></tr>
+<tr><td class="grid"><code>MOV</code></td><td class="grid">1/0.5</td><td class="grid">0.5/0.5</td><td class="grid">ALU</td></tr>
+</table>
+</object>
+</div>
+</body>
+</html>

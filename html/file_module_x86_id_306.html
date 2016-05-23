@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Ultraviolence: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "STOS/STOSB/STOSW/STOSD: Store String (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>STOS/STOSB/STOSW/STOSD</h1>
+<h2>Store String</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>AA</code></td>
+<td class="grid"><code>STOS m8</code></td>
+<td class="grid">Store AL at address ES:(E)DI.</td>
+</tr>
+<tr>
+<td class="grid"><code>AB</code></td>
+<td class="grid"><code>STOS m16</code></td>
+<td class="grid">Store AX at address ES:(E)DI.</td>
+</tr>
+<tr>
+<td class="grid"><code>AB</code></td>
+<td class="grid"><code>STOS m32</code></td>
+<td class="grid">Store EAX at address ES:(E)DI.</td>
+</tr>
+<tr>
+<td class="grid"><code>AA</code></td>
+<td class="grid"><code>STOSB</code></td>
+<td class="grid">Store AL at address ES:(E)DI.</td>
+</tr>
+<tr>
+<td class="grid"><code>AB</code></td>
+<td class="grid"><code>STOSW</code></td>
+<td class="grid">Store AX at address ES:(E)DI.</td>
+</tr>
+<tr>
+<td class="grid"><code>AB</code></td>
+<td class="grid"><code>STOSD</code></td>
+<td class="grid">Store EAX at address ES:(E)DI.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Stores a byte, word, or doubleword from the AL, AX, or EAX register, respectively, into the destination operand. The destination operand is a memory location, the address of which is read from either the ES:EDI or the ES:DI registers (depending on the address-size attribute of the instruction, 32 or 16, respectively). The ES segment cannot be overridden with a segment override prefix.</p>
+<p>At the assembly-code level, two forms of this instruction are allowed: the &quot;explicit-operands&quot; form and the &quot;no-operands&quot; form. The explicit-operands form (specified with the STOS mnemonic) allows the destination operand to be specified explicitly. Here, the destination operand should be a symbol that indicates the size and location of the destination value. The source operand is then automatically selected to match the size of the destination operand (the AL register for byte operands, AX for word operands, and EAX for doubleword operands). This explicit-operands form is provided to allow documentation; however, note that the documentation provided by this form can be misleading. That is, the destination operand symbol must specify the correct type (size) of the operand (byte, word, or doubleword), but it does not have to specify the correct location. The location is always specified by the ES:(E)DI registers, which must be loaded correctly before the store string instruction is executed.</p>
+<p>The no-operands form provides &quot;short forms&quot; of the byte, word, and doubleword versions of the STOS instructions. Here also ES:(E)DI is assumed to be the destination operand and the AL, AX, or EAX register is assumed to be the source operand. The size of the destination and source operands is selected with the mnemonic: STOSB (byte read from register AL), STOSW (word from AX), or STOSD (doubleword from EAX).</p>
+<p>After the byte, word, or doubleword is transferred from the AL, AX, or EAX register to the memory location, the (E)DI register is incremented or decremented automatically according to the setting of the DF flag in the EFLAGS register. (If the DF flag is 0, the (E)DI register is incremented; if the DF flag is 1, the (E)DI register is decremented.) The (E)DI register is incremented or decremented by 1 for byte operations, by 2 for word operations, or by 4 for doubleword operations.</p>
+<p>The STOS, STOSB, STOSW, and STOSD instructions can be preceded by the REP prefix for block loads of ECX bytes, words, or doublewords. More often, however, these instructions are used within a LOOP construct because data needs to be moved into the AL, AX, or EAX register before it can be stored. See &quot;REP/REPE/REPZ/REPNE /REPNZ-Repeat String {operation} Prefix&quot; in this chapter for a description of the REP prefix.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre><span class="keyword">if</span><span class="operator">(</span>IsByteOperation<span class="operator">(</span><span class="operator">)</span><span class="operator">)</span> {
+	Destination <span class="operator">=</span> AL<span class="operator">;</span>
+	<span class="keyword">if</span><span class="operator">(</span>DF <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> {
+		<span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">+</span> <span class="number">1</span><span class="operator">;</span>
+		<span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">+</span> <span class="number">1</span><span class="operator">;</span>
+	}
+	<span class="keyword">else</span> {
+		<span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">-</span> <span class="number">1</span><span class="operator">;</span>
+		<span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">-</span> <span class="number">1</span><span class="operator">;</span>
+	}
+}
+<span class="keyword">else</span> <span class="keyword">if</span><span class="operator">(</span>IsWordOperation<span class="operator">(</span><span class="operator">)</span><span class="operator">)</span> {
+	Destination <span class="operator">=</span> AX<span class="operator">;</span>
+	<span class="keyword">if</span><span class="operator">(</span>DF <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> {
+		<span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">+</span> <span class="number">2</span><span class="operator">;</span>
+		<span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">+</span> <span class="number">2</span><span class="operator">;</span>
+	}
+	<span class="keyword">else</span> {
+		<span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">-</span> <span class="number">2</span><span class="operator">;</span>
+		<span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">-</span> <span class="number">2</span><span class="operator">;</span>
+	}
+}
+<span class="keyword">else</span> { <span class="comment">//doubleword comparison</span>
+	Destination <span class="operator">=</span> EAX<span class="operator">;</span>
+	<span class="keyword">if</span><span class="operator">(</span>DF <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> {
+		<span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">+</span> <span class="number">4</span><span class="operator">;</span>
+		<span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">+</span> <span class="number">4</span><span class="operator">;</span>
+	}
+	<span class="keyword">else</span> {
+		<span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">-</span> <span class="number">4</span><span class="operator">;</span>
+		<span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">-</span> <span class="number">4</span><span class="operator">;</span>
+	}
+}
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>None.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Instruction</th>
+<th>Latency</th>
+<th>Throughput</th>
+<th>Execution Unit</th>
+</tr>
+<tr><td class="grid"><code>CPUID</code></td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F2n</td></tr>
+<tr><td class="grid"><code>STOSB</code></td><td class="grid">5</td><td class="grid">2</td><td class="grid">ALU MEM_STORE</td></tr>
+</table>
+</object>
+</div>
+</body>
+</html>

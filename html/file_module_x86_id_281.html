@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>War on Theism: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "RSM: Resume from System Management Mode (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>RSM</h1>
+<h2>Resume from System Management Mode</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>0F AA</code></td>
+<td class="grid"><code>RSM</code></td>
+<td class="grid">Resume operation of interrupted program.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Returns program control from system management mode (SMM) to the application program or operating-system procedure that was interrupted when the processor received an SMM interrupt.</p>
+<p>The processor's state is restored from the dump created upon entering SMM. If the processor detects invalid state information during state restoration, it enters the shutdown state.</p>
+<p>The following invalid information can cause a shutdown:</p>
+<ul>
+<li>Any reserved bit of CR4 is set to 1.</li>
+<li>Any illegal combination of bits in CR0, such as (PG=1 and PE=0) or (NW=1 and CD=0).</li>
+<li>(Intel Pentium and Intel486 processors only.) The value stored in the state dump base field is not a 32-KByte aligned address.</li>
+</ul>
+<p>The contents of the model-specific registers are not affected by a return from SMM.</p>
+<p>See Chapter 13, System Management Mode (SMM), in the IA-32 Intel Architecture Software Developer's Manual, Volume 3, for more information about SMM and the behavior of the RSM instruction.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre>ReturnFromSMM<span class="operator">(</span><span class="operator">)</span><span class="operator">;</span>
+ProcessorState <span class="operator">=</span> Restore<span class="operator">(</span>SMMDump<span class="operator">)</span><span class="operator">;</span>
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>All.
+</p>
+</td>
+</tr>
+</table>
+</object>
+</div>
+</body>
+</html>

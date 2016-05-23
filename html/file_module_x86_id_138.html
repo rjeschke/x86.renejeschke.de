@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Shroud: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "IMUL: Signed Multiply (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>IMUL</h1>
+<h2>Signed Multiply</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>F6 /5</code></td>
+<td class="grid"><code>IMUL r/m8</code></td>
+<td class="grid">AX = AL * r/m byte.</td>
+</tr>
+<tr>
+<td class="grid"><code>F7 /5</code></td>
+<td class="grid"><code>IMUL r/m16</code></td>
+<td class="grid">DX:AX = AX * r/m word.</td>
+</tr>
+<tr>
+<td class="grid"><code>F7 /5</code></td>
+<td class="grid"><code>IMUL r/m32</code></td>
+<td class="grid">EDX:EAX = EAX * r/m doubleword.</td>
+</tr>
+<tr>
+<td class="grid"><code>0F AF /r</code></td>
+<td class="grid"><code>IMUL r16,r/m16</code></td>
+<td class="grid">word register = word register * r/m word.</td>
+</tr>
+<tr>
+<td class="grid"><code>0F AF /r</code></td>
+<td class="grid"><code>IMUL r32,r/m32</code></td>
+<td class="grid">doubleword register = doubleword register * r/m doubleword.</td>
+</tr>
+<tr>
+<td class="grid"><code>6B /r ib</code></td>
+<td class="grid"><code>IMUL r16,r/m16,imm8</code></td>
+<td class="grid">word register = r/m16 * sign-extended immediate byte.</td>
+</tr>
+<tr>
+<td class="grid"><code>6B /r ib</code></td>
+<td class="grid"><code>IMUL r32,r/m32,imm8</code></td>
+<td class="grid">doubleword register = r/m32 * sign-extended immediate byte.</td>
+</tr>
+<tr>
+<td class="grid"><code>6B /r ib</code></td>
+<td class="grid"><code>IMUL r16,imm8</code></td>
+<td class="grid">word register = word register * sign-extended immediate byte.</td>
+</tr>
+<tr>
+<td class="grid"><code>6B /r ib</code></td>
+<td class="grid"><code>IMUL r32,imm8</code></td>
+<td class="grid">doubleword register = doubleword register * signextended immediate byte.</td>
+</tr>
+<tr>
+<td class="grid"><code>69 /r iw</code></td>
+<td class="grid"><code>IMUL r16,r/m16,imm16</code></td>
+<td class="grid">word register = r/m16 * immediate word.</td>
+</tr>
+<tr>
+<td class="grid"><code>69 /r id</code></td>
+<td class="grid"><code>IMUL r32,r/m32,imm32</code></td>
+<td class="grid">doubleword register = r/m32 * immediate doubleword.</td>
+</tr>
+<tr>
+<td class="grid"><code>69 /r iw</code></td>
+<td class="grid"><code>IMUL r16,imm16</code></td>
+<td class="grid">word register = r/m16 * immediate word.</td>
+</tr>
+<tr>
+<td class="grid"><code>69 /r id</code></td>
+<td class="grid"><code>IMUL r32,imm32</code></td>
+<td class="grid">doubleword register = r/m32 * immediate doubleword.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Performs a signed multiplication of two operands. This instruction has three forms, depending on the number of operands.</p>
+<p>- One-operand form. This form is identical to that used by the MUL instruction. Here, the source operand (in a general-purpose register or memory location) is multiplied by the value in the AL, AX, or EAX register (depending on the operand size) and the product is stored in the AX, DX:AX, or EDX:EAX registers, respectively.</p>
+<p>- Two-operand form. With this form the destination operand (the first operand) is multiplied by the source operand (second operand). The destination operand is a generalpurpose register and the source operand is an immediate value, a general-purpose register, or a memory location. The product is then stored in the destination operand location.</p>
+<p>- Three-operand form. This form requires a destination operand (the first operand) and two source operands (the second and the third operands). Here, the first source operand (which can be a general-purpose register or a memory location) is multiplied by the second source operand (an immediate value). The product is then stored in the destination operand (a general-purpose register).</p>
+<p>When an immediate value is used as an operand, it is sign-extended to the length of the destination operand format.</p>
+<p>The CF and OF flags are set when significant bit (including the sign bit) are carried into the upper half of the result. The CF and OF flags are cleared when the result (including the sign bit) fits exactly in the lower half of the result.</p>
+<p>The three forms of the IMUL instruction are similar in that the length of the product is calculated to twice the length of the operands. With the one-operand form, the product is stored exactly in the destination. With the two- and three- operand forms, however, the result is truncated to the length of the destination before it is stored in the destination register. Because of this truncation, the CF or OF flag should be tested to ensure that no significant bits are lost.</p>
+<p>The two- and three-operand forms may also be used with unsigned operands because the lower half of the product is the same regardless if the operands are signed or unsigned. The CF and OF flags, however, cannot be used to determine if the upper half of the result is non-zero.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre><span class="keyword">switch</span><span class="operator">(</span>NumberOfOperands<span class="operator">)</span> {
+	<span class="keyword">case</span> <span class="number">1</span><span class="operator">:</span>
+		<span class="keyword">if</span><span class="operator">(</span>OperandSize <span class="operator">==</span> <span class="number">8</span><span class="operator">)</span> {
+			AX <span class="operator">=</span> AL <span class="operator">*</span> Source<span class="operator">;</span> <span class="comment">//signed multiplication</span>
+			<span class="keyword">if</span><span class="operator">(</span>AL <span class="operator">==</span> AX<span class="operator">)</span> {
+				CF <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+				OF <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+			}
+			<span class="keyword">else</span> {
+				CF <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+				OF <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+			}
+		}
+		<span class="keyword">else</span> <span class="keyword">if</span><span class="operator">(</span>OperandSize <span class="operator">==</span> <span class="number">16</span><span class="operator">)</span> {
+			DX<span class="operator">:</span>AX <span class="operator">=</span> AX <span class="operator">*</span> Source<span class="operator">;</span> <span class="comment">//signed multiplication</span>
+			<span class="keyword">if</span><span class="operator">(</span>SignExtendTo32<span class="operator">(</span>AX<span class="operator">)</span> <span class="operator">==</span> DX<span class="operator">:</span>AX<span class="operator">)</span> {
+				CF <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+				OF <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+			}
+			<span class="keyword">else</span> {
+				CF <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+				OF <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+			}
+		}
+		<span class="keyword">else</span> { <span class="comment">//OperandSize == 32</span>
+			EDX<span class="operator">:</span>EAX <span class="operator">=</span> EAX <span class="operator">*</span> Source<span class="operator">;</span> <span class="comment">//signed multiplication</span>
+			<span class="keyword">if</span><span class="operator">(</span>EAX <span class="operator">==</span> EDX<span class="operator">:</span>EAX<span class="operator">)</span> {
+				CF <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+				OF <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+			}
+			<span class="keyword">else</span> {
+				CF <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+				OF <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+			}
+		}
+		<span class="keyword">break</span><span class="operator">;</span>
+	<span class="keyword">case</span> <span class="number">2</span><span class="operator">:</span>
+		Temporary <span class="operator">=</span> Destination <span class="operator">*</span> Source<span class="operator">;</span> <span class="comment">//signed multiplication; Temporary is twice twice the Destination size</span>
+		Destination <span class="operator">=</span> Destination <span class="operator">*</span> Source<span class="operator">;</span> <span class="comment">//signed multiplication</span>
+		<span class="keyword">if</span><span class="operator">(</span>Temporary <span class="operator">==</span> Destination<span class="operator">)</span> {
+			CF <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+			OF <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+		}
+		<span class="keyword">else</span> {
+			CF <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+			OF <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+		}
+		<span class="keyword">break</span><span class="operator">;</span>
+	<span class="keyword">case</span> <span class="number">3</span><span class="operator">:</span>
+		Destination <span class="operator">=</span> Source1 <span class="operator">*</span> Source2<span class="operator">;</span> <span class="comment">//signed multiplication</span>
+		Temporary <span class="operator">=</span> Source1 <span class="operator">*</span> Source2<span class="operator">;</span> <span class="comment">///signed multiplication; Temporary is twice twice the Source1 size</span>
+		<span class="keyword">if</span><span class="operator">(</span>Temporary <span class="operator">==</span> Destination<span class="operator">)</span> {
+			CF <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+			OF <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+		}
+		<span class="keyword">else</span> {
+			CF <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+			OF <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+		}
+		<span class="keyword">break</span><span class="operator">;</span>
+}
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>For the one operand form of the instruction, the CF and OF flags are set when significant bits are carried into the upper half of the result and cleared when the result fits exactly in the lower half of the result. For the two- and three-operand forms of the instruction, the CF and OF flags are set when the result must be truncated to fit in the destination operand size and cleared when the result fits exactly in the destination operand size. The SF, ZF, AF, and PF flags are undefined.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Protected Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit. If the DS, ES, FS, or GS register is used to access memory and it contains a null segment selector.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit. If the DS, ES, FS, or GS register is used to access memory and it contains a null segment selector.</td></tr>
+<tr><td><code>#SS(0)</code></td><td>If a memory operand effective address is outside the SS segment limit.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>If a page fault occurs.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Real-Address Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#GP</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Virtual-8086 Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#SS(0)</code></td><td>If a memory operand effective address is outside the SS segment limit.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>If a page fault occurs.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Instruction</th>
+<th>Latency</th>
+<th>Throughput</th>
+<th>Execution Unit</th>
+</tr>
+<tr><td class="grid"><code>CPUID</code></td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F3n/0F2n</td><td class="grid">0F2n</td></tr>
+<tr><td class="grid"><code>IMUL r32</code></td><td class="grid">10/14/4</td><td class="grid">1/3</td><td class="grid">FP_MUL</td></tr>
+<tr><td class="grid"><code>IMUL imm32</code></td><td class="grid">-/14/4</td><td class="grid">1/3</td><td class="grid">FP_MUL</td></tr>
+<tr><td class="grid"><code>IMUL</code></td><td class="grid">-/15-18/4</td><td class="grid">-/5</td><td class="grid">-</td></tr>
+</table>
+</object>
+</div>
+</body>
+</html>

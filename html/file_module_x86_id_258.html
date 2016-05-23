@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>War on Theism: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "PSLLDQ: Shift Double Quadword Left Logical (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>PSLLDQ</h1>
+<h2>Shift Double Quadword Left Logical</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>66 0F 73 /7 ib</code></td>
+<td class="grid"><code>PSLLDQ xmm1, imm8</code></td>
+<td class="grid">Shift xmm1 left by imm8 bytes while shifting in 0s.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Shifts the destination operand (first operand) to the left by the number of bytes specified in the count operand (second operand). The empty low-order bytes are cleared (set to all 0s). If the value specified by the count operand is greater than 15, the destination operand is set to all 0s.</p>
+<p>The destination operand is an XMM register. The count operand is an 8-bit immediate.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre>Temporary <span class="operator">=</span> Count<span class="operator">;</span>
+<span class="keyword">if</span><span class="operator">(</span>Temporary <span class="operator">&gt;</span> <span class="number">15</span><span class="operator">)</span> Temporary <span class="operator">=</span> <span class="number">16</span><span class="operator">;</span>
+Destination <span class="operator">=</span> Destination <span class="operator">&lt;&lt;</span> <span class="operator">(</span>Temporary <span class="operator">*</span> <span class="number">8</span><span class="operator">)</span><span class="operator">;</span>
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>None.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Instruction</th>
+<th>Latency</th>
+<th>Throughput</th>
+<th>Execution Unit</th>
+</tr>
+<tr><td class="grid"><code>CPUID</code></td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F2n</td></tr>
+<tr><td class="grid"><code>PSLLDQ xmm, imm8</code></td><td class="grid">4/4/4</td><td class="grid">2/2/4</td><td class="grid">MMX_SHFT</td></tr>
+</table>
+</object>
+</div>
+</body>
+</html>

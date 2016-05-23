@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Winter: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "PAND: Logical AND (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>PAND</h1>
+<h2>Logical AND</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>0F DB /r</code></td>
+<td class="grid"><code>PAND mm, mm/m64</code></td>
+<td class="grid">Bitwise AND mm/m64 and mm.</td>
+</tr>
+<tr>
+<td class="grid"><code>66 0F DB /r</code></td>
+<td class="grid"><code>PAND xmm1, xmm2/m128</code></td>
+<td class="grid">Bitwise AND of xmm2/m128 and xmm1.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Performs a bitwise logical AND operation on the source operand (second operand) and the destination operand (first operand) and stores the result in the destination operand. The source operand can be an MMX technology register or a 64-bit memory location or it can be an XMM register or a 128-bit memory location. The destination operand can be an MMX technology register or an XMM register. Each bit of the result is set to 1 if the corresponding bits of the first and second operands are 1; otherwise, it is set to 0.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre>Destination <span class="operator">=</span> Destination <span class="operator">&amp;</span> Source<span class="operator">;</span>
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>None.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Protected Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit. (128-bit operations only) If a memory operand is not aligned on a 16-byte boundary, regardless of segment.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit. (128-bit operations only) If a memory operand is not aligned on a 16-byte boundary, regardless of segment.</td></tr>
+<tr><td><code>#SS(0)</code></td><td>If a memory operand effective address is outside the SS segment limit.</td></tr>
+<tr><td><code>#UD</code></td><td>If EM in CR0 is set. 128-bit operations will generate #UD only if OSFXSR in CR4 is 0. Execution of 128-bit instructions on a non-SSE2 capable processor (one that is MMX technology capable) will result in the instruction operating on the mm registers, not #UD.</td></tr>
+<tr><td><code>#NM</code></td><td>If TS in CR0 is set.</td></tr>
+<tr><td><code>#MF</code></td><td>(64-bit operations only) If there is a pending x87 FPU exception.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>If a page fault occurs.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Real-Address Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>(128-bit operations only) If a memory operand is not aligned on a 16-byte boundary, regardless of segment. If any part of the operand lies outside of the effective address space from 0 to FFFFH.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>(128-bit operations only) If a memory operand is not aligned on a 16-byte boundary, regardless of segment. If any part of the operand lies outside of the effective address space from 0 to FFFFH.</td></tr>
+<tr><td><code>#UD</code></td><td>If EM in CR0 is set. 128-bit operations will generate #UD only if OSFXSR in CR4 is 0. Execution of 128-bit instructions on a non-SSE2 capable processor (one that is MMX technology capable) will result in the instruction operating on the mm registers, not #UD.</td></tr>
+<tr><td><code>#NM</code></td><td>If TS in CR0 is set.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Virtual-8086 Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+Same exceptions as in Real Address Mode
+<div>
+<table class="operations_table">
+<tr><td><code>#PF(fault-code)</code></td><td>For a page fault.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>For a page fault.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Numeric Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+None.
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Instruction</th>
+<th>Latency</th>
+<th>Throughput</th>
+<th>Execution Unit</th>
+</tr>
+<tr><td class="grid"><code>CPUID</code></td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F2n</td></tr>
+<tr><td class="grid"><code>PAND mm, mm</code></td><td class="grid">2/2/-</td><td class="grid">1/1/-</td><td class="grid">MMX_ALU</td></tr>
+<tr><td class="grid"><code>PAND xmm, xmm</code></td><td class="grid">2/2/1</td><td class="grid">2/2/1</td><td class="grid">MMX_ALU</td></tr>
+</table>
+</object>
+</div>
+</body>
+</html>

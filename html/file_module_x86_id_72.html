@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>War on Theism: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "DIV: Unsigned Divide (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>DIV</h1>
+<h2>Unsigned Divide</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>F6 /6</code></td>
+<td class="grid"><code>DIV r/m8</code></td>
+<td class="grid">Unsigned divide AX by r/m8, with result stored in AL = Quotient, AH = Remainder.</td>
+</tr>
+<tr>
+<td class="grid"><code>F7 /6</code></td>
+<td class="grid"><code>DIV r/m16</code></td>
+<td class="grid">Unsigned divide DX:AX by r/m16, with result stored in AX = Quotient, DX = Remainder.</td>
+</tr>
+<tr>
+<td class="grid"><code>F7 /6</code></td>
+<td class="grid"><code>DIV r/m32</code></td>
+<td class="grid">Unsigned divide EDX:EAX by r/m32, with result stored in EAX = Quotient, EDX = Remainder.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Divides (unsigned) the value in the AX, DX:AX, or EDX:EAX registers (dividend) by the source operand (divisor) and stores the result in the AX (AH:AL), DX:AX, or EDX:EAX registers.</p>
+<div>
+<table class="grid">
+<caption>DIV Action</caption>
+<tr><th>Operand Size</th><th>Dividend</th><th>Divisor</th><th>Quotient</th><th>Remainder</th><th>Maximum Quotient</th></tr>
+<tr><td>Word/byte</td><td>AX</td><td>r/m8</td><td>AL</td><td>AH</td><td>2^8 - 1</td></tr>
+<tr><td>Doubleword/word</td><td>DX:AX</td><td>r/m16</td><td>AX</td><td>DX</td><td>2^16 - 1</td></tr>
+<tr><td>Quadword/doubleword</td><td>EDX:EAX</td><td>r/m32</td><td>EAX</td><td>EDX</td><td>2^32 - 1</td></tr>
+</table>
+</div>
+<p>The source operand can be a general-purpose register or a memory location. The action of this instruction depends on the operand size (dividend/divisor). See the table above.</p>
+<p>Non-integral results are truncated (chopped) towards 0. The remainder is always less than the divisor in magnitude. Overflow is indicated with the #DE (divide error) exception rather than with the CF flag.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre><span class="keyword">if</span><span class="operator">(</span>Source <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> Exception<span class="operator">(</span>DE<span class="operator">)</span><span class="operator">;</span> <span class="comment">//divide error</span>
+
+<span class="keyword">if</span><span class="operator">(</span>OperandSize <span class="operator">==</span> <span class="number">8</span><span class="operator">)</span> { <span class="comment">//word/byte operation</span>
+	Temporary <span class="operator">=</span> AX / Source<span class="operator">;</span>
+	<span class="keyword">if</span><span class="operator">(</span>Temporary <span class="operator">&gt;</span> <span class="number">0xFF</span><span class="operator">)</span> Exception<span class="operator">(</span>DE<span class="operator">)</span><span class="operator">;</span> <span class="comment">//divide error</span>
+	<span class="keyword">else</span> {
+		AL <span class="operator">=</span> Temporary<span class="operator">;</span>
+		AH <span class="operator">=</span> AX <span class="operator">%</span> Source<span class="operator">;</span>
+	}
+}
+<span class="keyword">else</span> <span class="keyword">if</span><span class="operator">(</span>OperandSize <span class="operator">==</span> <span class="number">16</span><span class="operator">)</span> { <span class="comment">//doubleword/word operation</span>
+	Temporary <span class="operator">=</span> DX<span class="operator">:</span>AX / Source<span class="operator">;</span>
+	<span class="keyword">if</span><span class="operator">(</span>Temporary <span class="operator">&gt;</span> <span class="number">0xFFFF</span><span class="operator">)</span> Exception<span class="operator">(</span>DE<span class="operator">)</span><span class="operator">;</span> <span class="comment">//divide error</span>
+	<span class="keyword">else</span> {
+		AX <span class="operator">=</span> Temporary<span class="operator">;</span>
+		DX <span class="operator">=</span> DX<span class="operator">:</span>AX <span class="operator">%</span> Source<span class="operator">;</span>
+	}
+}
+<span class="keyword">else</span> { <span class="comment">//quadword/doubleword operation</span>
+	Temporary <span class="operator">=</span> EDX<span class="operator">:</span>EAX / Source<span class="operator">;</span>
+	<span class="keyword">if</span><span class="operator">(</span>Temporary <span class="operator">&gt;</span> <span class="number">0xFFFFFFFF</span><span class="operator">)</span> Exception<span class="operator">(</span>DE<span class="operator">)</span><span class="operator">;</span> <span class="comment">//divide error</span>
+	<span class="keyword">else</span> {
+		EAX <span class="operator">=</span> Temporary<span class="operator">;</span>
+		EDX <span class="operator">=</span> EDX<span class="operator">:</span>EAX <span class="operator">%</span> Source<span class="operator">;</span>
+	}
+}
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>The CF, OF, SF, ZF, AF, and PF flags are undefined.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Protected Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#DE</code></td><td>If the source operand (divisor) is 0 If the quotient is too large for the designated register.</td></tr>
+<tr><td><code>#DE</code></td><td>If the source operand (divisor) is 0 If the quotient is too large for the designated register.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit. If the DS, ES, FS, or GS register contains a null segment selector.</td></tr>
+<tr><td><code>#SS(0)</code></td><td>If a memory operand effective address is outside the SS segment limit.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>If a page fault occurs.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Real-Address Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#DE</code></td><td>If the source operand (divisor) is 0. If the quotient is too large for the designated register.</td></tr>
+<tr><td><code>#DE</code></td><td>If the source operand (divisor) is 0. If the quotient is too large for the designated register.</td></tr>
+<tr><td><code>#GP</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit. If the DS, ES, FS, or GS register contains a null segment selector.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Virtual-8086 Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#DE</code></td><td>If the source operand (divisor) is 0. If the quotient is too large for the designated register.</td></tr>
+<tr><td><code>#DE</code></td><td>If the source operand (divisor) is 0. If the quotient is too large for the designated register.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#SS</code></td><td>If a memory operand effective address is outside the SS segment limit.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>If a page fault occurs.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Instruction</th>
+<th>Latency</th>
+<th>Throughput</th>
+<th>Execution Unit</th>
+</tr>
+<tr><td class="grid"><code>CPUID</code></td><td class="grid">0F3n/0F2n</td><td class="grid">0F3n/0F2n</td><td class="grid">0F2n</td></tr>
+<tr><td class="grid"><code>DIV</code></td><td class="grid">66-80/56-70</td><td class="grid">30/23</td><td class="grid">-</td></tr>
+</table>
+</object>
+</div>
+</body>
+</html>

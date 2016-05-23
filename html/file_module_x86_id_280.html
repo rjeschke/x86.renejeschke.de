@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>War on Theism: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "RET: Return from Procedure (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>RET</h1>
+<h2>Return from Procedure</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>C3</code></td>
+<td class="grid"><code>RET</code></td>
+<td class="grid">Near return to calling procedure.</td>
+</tr>
+<tr>
+<td class="grid"><code>CB</code></td>
+<td class="grid"><code>RET</code></td>
+<td class="grid">Far return to calling procedure.</td>
+</tr>
+<tr>
+<td class="grid"><code>C2 iw</code></td>
+<td class="grid"><code>RET imm16</code></td>
+<td class="grid">Near return to calling procedure and pop imm16 bytes from stack.</td>
+</tr>
+<tr>
+<td class="grid"><code>CA iw</code></td>
+<td class="grid"><code>RET imm16</code></td>
+<td class="grid">Far return to calling procedure and pop imm16 bytes from stack.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Transfers program control to a return address located on the top of the stack. The address is usually placed on the stack by a CALL instruction, and the return is made to the instruction that follows the CALL instruction.</p>
+<p>The optional source operand specifies the number of stack bytes to be released after the return address is popped; the default is none. This operand can be used to release parameters from the stack that were passed to the called procedure and are no longer needed. It must be used when the CALL instruction used to switch to a new procedure uses a call gate with a non-zero word count to access the new procedure. Here, the source operand for the RET instruction must specify the same number of bytes as is specified in the word count field of the call gate.</p>
+<p>The RET instruction can be used to execute three different types of returns:</p>
+<dl>
+<dt>Near return</dt>
+<dd>A return to a calling procedure within the current code segment (the segment currently pointed to by the CS register), sometimes referred to as an intrasegment return.</dd>
+<dt>Far return</dt>
+<dd>A return to a calling procedure located in a different segment than the current code segment, sometimes referred to as an intersegment return.</dd>
+<dt>Inter-privilege-level far return</dt>
+<dd>A far return to a different privilege level than that of the currently executing program or procedure.</dd>
+</dl>
+<p>The inter-privilege-level return type can only be executed in protected mode. See the section titled &quot;Calling Procedures Using Call and RET&quot; in Chapter 6 of the IA-32 Intel Architecture Software Developer's Manual, Volume 1, for detailed information on near, far, and inter-privilege- level returns.</p>
+<p>When executing a near return, the processor pops the return instruction pointer (offset) from the top of the stack into the EIP register and begins program execution at the new instruction pointer. The CS register is unchanged.</p>
+<p>When executing a far return, the processor pops the return instruction pointer from the top of the stack into the EIP register, then pops the segment selector from the top of the stack into the CS register. The processor then begins program execution in the new code segment at the new instruction pointer.</p>
+<p>The mechanics of an inter-privilege-level far return are similar to an intersegment return, except that the processor examines the privilege levels and access rights of the code and stack segments being returned to determine if the control transfer is allowed to be made. The DS, ES, FS, and GS segment registers are cleared by the RET instruction during an inter-privilege-level return if they refer to segments that are not allowed to be accessed at the new privilege level. Since a stack switch also occurs on an inter-privilege level return, the ESP and SS registers are loaded from the stack.</p>
+<p>If parameters are passed to the called procedure during an inter-privilege level call, the optional source operand must be used with the RET instruction to release the parameters on the return.</p>
+<p>Here, the parameters are released both from the called procedure's stack and the calling procedure's stack (that is, the stack being returned to).</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre><span class="keyword">switch</span><span class="operator">(</span>Instruction<span class="operator">)</span> {
+	<span class="keyword">case</span> NearReturn<span class="operator">:</span>
+		<span class="keyword">if</span><span class="operator">(</span>OperandSize <span class="operator">==</span> <span class="number">32</span> <span class="operator">&amp;&amp;</span> <span class="operator">!</span>IsWithinStackLimits<span class="operator">(</span>TopStackBytes<span class="operator">(</span><span class="number">12</span><span class="operator">)</span><span class="operator">)</span><span class="operator">)</span> Exception<span class="operator">(</span>SS<span class="operator">(</span><span class="number">0</span><span class="operator">)</span><span class="operator">)</span><span class="operator">;</span> <span class="comment">//top 12 bytes of stack not within stack limits</span>
+		<span class="comment">//OperandSize == 16</span>
+		<span class="keyword">else</span> <span class="keyword">if</span><span class="operator">(</span><span class="operator">!</span>IsWithinStackLimits<span class="operator">(</span>TopStackBytes<span class="operator">(</span><span class="number">6</span><span class="operator">)</span><span class="operator">)</span> Exception<span class="operator">(</span>SS<span class="operator">(</span><span class="number">0</span><span class="operator">)</span><span class="operator">)</span><span class="operator">;</span> <span class="comment">//IF top 6 bytes of stack not within stack limits</span>
+		TemporaryEIP <span class="operator">=</span> Pop<span class="operator">(</span><span class="operator">)</span><span class="operator">;</span>
+		TemporaryEIP <span class="operator">=</span> TemporaryEIP <span class="operator">&amp;</span> <span class="number">0xFFFF</span><span class="operator">;</span>
+		<span class="keyword">if</span><span class="operator">(</span><span class="operator">!</span>IsWithinCodeSegmentLimits<span class="operator">(</span>TemporaryEIP<span class="operator">)</span><span class="operator">)</span> Exception<span class="operator">(</span>GP<span class="operator">(</span><span class="number">0</span><span class="operator">)</span><span class="operator">)</span><span class="operator">;</span>
+		EIP <span class="operator">=</span> TemporaryEIP<span class="operator">;</span>
+		<span class="keyword">if</span><span class="operator">(</span>HasImmediateOperand<span class="operator">(</span><span class="operator">)</span><span class="operator">)</span> { <span class="comment">//instruction has immediate operand</span>
+			<span class="keyword">if</span><span class="operator">(</span>StackAddressSize <span class="operator">==</span> <span class="number">32</span><span class="operator">)</span> ESP <span class="operator">=</span> ESP <span class="operator">+</span> Source<span class="operator">;</span> <span class="comment">//release parameters from stack</span>
+			<span class="comment">//StackAddressSize == 16</span>
+			<span class="keyword">else</span> SP <span class="operator">=</span> SP <span class="operator">+</span> Source<span class="operator">;</span> <span class="comment">//release parameters from stack</span>
+		}
+		<span class="keyword">break</span><span class="operator">;</span>
+	<span class="keyword">case</span> FarReturn<span class="operator">:</span>
+		<span class="comment">//Real-address mode or virtual-8086 mode</span>
+		<span class="keyword">if</span><span class="operator">(</span>PE <span class="operator">==</span> <span class="number">0</span> <span class="operator">||</span> <span class="operator">(</span>PE <span class="operator">==</span> <span class="number">1</span> <span class="operator">&amp;&amp;</span> VM <span class="operator">==</span> <span class="number">1</span><span class="operator">)</span><span class="operator">)</span> {
+			<span class="keyword">if</span><span class="operator">(</span>OperandSize <span class="operator">==</span> <span class="number">32</span><span class="operator">)</span> {
+				<span class="keyword">if</span><span class="operator">(</span><span class="operator">!</span>IsWithinStackLimits<span class="operator">(</span>TopStackBytes<span class="operator">(</span><span class="number">12</span><span class="operator">)</span><span class="operator">)</span> Exception<span class="operator">(</span>SS<span class="operator">(</span><span class="number">0</span><span class="operator">)</span><span class="operator">)</span><span class="operator">;</span> <span class="comment">//top 12 bytes of stack not within stack limits</span>
+				EIP <span class="operator">=</span> Pop<span class="operator">(</span><span class="operator">)</span><span class="operator">;</span>
+				CS <span class="operator">=</span> Pop<span class="operator">(</span><span class="operator">)</span><span class="operator">;</span> <span class="comment">//32-bit pop, high-order 16 bits discarded</span>
+			}
+			<span class="keyword">else</span> { <span class="comment">//OperandSize == 16</span>
+				<span class="keyword">if</span><span class="operator">(</span><span class="operator">!</span>IsWithinStackLimits<span class="operator">(</span>TopStackBytes<span class="operator">(</span><span class="number">6</span><span class="operator">)</span><span class="operator">)</span> Exception<span class="operator">(</span>SS<span class="operator">(</span><span class="number">0</span><span class="operator">)</span><span class="operator">)</span><span class="operator">;</span> <span class="comment">//top 6 bytes of stack not within stack limits</span>
+				TemporaryEIP <span class="operator">=</span> Pop<span class="operator">(</span><span class="operator">)</span><span class="operator">;</span>
+				TemporaryEIP <span class="operator">=</span> TemporaryEIP <span class="operator">&amp;</span> <span class="number">0xFFFF</span><span class="operator">;</span>
+				<span class="keyword">if</span><span class="operator">(</span><span class="operator">!</span>IsWithinCodeSegmentLimits<span class="operator">(</span>TemporaryEIP<span class="operator">)</span><span class="operator">)</span> Exception<span class="operator">(</span>GP<span class="operator">(</span><span class="number">0</span><span class="operator">)</span><span class="operator">)</span><span class="operator">;</span>
+				EIP <span class="operator">=</span> TemporaryEIP<span class="operator">;</span>
+				CS <span class="operator">=</span> Pop<span class="operator">(</span><span class="operator">)</span><span class="operator">;</span> <span class="comment">//16-bit pop</span>
+			}
+			<span class="keyword">if</span><span class="operator">(</span>HasImmediateOperand<span class="operator">(</span><span class="operator">)</span><span class="operator">)</span> <span class="keyword">else</span> SP <span class="operator">=</span> SP <span class="operator">+</span> Source<span class="operator">;</span> <span class="comment">//instruction has immediate operand; release parameters from stack</span>
+		}
+		<span class="comment">//Protected mode, not virtual-8086 mode</span>
+		<span class="keyword">else</span> <span class="keyword">if</span><span class="operator">(</span>PE <span class="operator">==</span> <span class="number">1</span> <span class="operator">&amp;&amp;</span> VM <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> {
+			<span class="keyword">if</span><span class="operator">(</span>OperandSize <span class="operator">==</span> <span class="number">32</span> <span class="operator">&amp;&amp;</span> <span class="operator">!</span>IsWithinStackLimits<span class="operator">(</span>OffsetStackBytes<span class="operator">(</span><span class="number">4</span><span class="operator">,</span> <span class="number">4</span><span class="operator">)</span><span class="operator">)</span> Exception<span class="operator">(</span>SS<span class="operator">(</span><span class="number">0</span><span class="operator">)</span><span class="operator">)</span><span class="operator">;</span> <span class="comment">//second doubleword on stack is not within stack limits</span>
+			<span class="comment">//OperandSize == 16</span>
+			<span class="keyword">else</span> <span class="keyword">if</span><span class="operator">(</span><span class="operator">!</span>IsWithinStackLimits<span class="operator">(</span>OffsetStackBytes<span class="operator">(</span><span class="number">2</span><span class="operator">,</span> <span class="number">2</span><span class="operator">)</span><span class="operator">)</span><span class="operator">)</span> Exception<span class="operator">(</span>SS<span class="operator">(</span><span class="number">0</span><span class="operator">)</span><span class="operator">)</span><span class="operator">;</span> <span class="comment">//second word on stack is not within stack limits</span>
+			<span class="keyword">if</span><span class="operator">(</span>ReturnCode<span class="operator">.</span>SegmentSelector <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> Exception<span class="operator">(</span>GP<span class="operator">(</span>Selector<span class="operator">)</span><span class="operator">)</span><span class="operator">;</span>
+			<span class="keyword">if</span><span class="operator">(</span><span class="operator">!</span>IsWithinDescriptorTableLimits<span class="operator">(</span>ReturnCode<span class="operator">.</span>SegmentSelector<span class="operator">)</span><span class="operator">)</span> Exception<span class="operator">(</span>GP<span class="operator">(</span>Selector<span class="operator">)</span><span class="operator">)</span><span class="operator">;</span>
+			ReturnCode<span class="operator">.</span>SegmentDescriptor <span class="operator">=</span> ObtainSegmentDescriptor<span class="operator">(</span><span class="operator">)</span><span class="operator">;</span> <span class="comment">//Obtain descriptor to which return code segment selector points from descriptor table</span>
+			<span class="keyword">if</span><span class="operator">(</span><span class="operator">!</span>IsCodeSegment<span class="operator">(</span>ReturnCode<span class="operator">.</span>SegmentDescriptor<span class="operator">)</span><span class="operator">)</span> Exception<span class="operator">(</span>GP<span class="operator">(</span>Selector<span class="operator">)</span><span class="operator">)</span><span class="operator">;</span>
+			<span class="keyword">if</span><span class="operator">(</span>ReturnCode<span class="operator">.</span>SegmentSelector<span class="operator">.</span>RPL <span class="operator">&lt;</span> CPL<span class="operator">)</span> Exception<span class="operator">(</span>GP<span class="operator">(</span>Selector<span class="operator">)</span><span class="operator">)</span><span class="operator">;</span>
+			<span class="keyword">if</span><span class="operator">(</span>IsConforming<span class="operator">(</span>ReturnCode<span class="operator">.</span>SegmentDescriptor <span class="operator">&amp;&amp;</span> ReturnCode<span class="operator">.</span>Segment<span class="operator">.</span>DPL <span class="operator">&gt;</span> ReturnCode<span class="operator">.</span>SegmentSelector<span class="operator">.</span>RPL<span class="operator">)</span> Exception<span class="operator">(</span>GP<span class="operator">(</span>Selector<span class="operator">)</span><span class="operator">)</span><span class="operator">;</span>
+			<span class="keyword">if</span><span class="operator">(</span><span class="operator">!</span>IsPresent<span class="operator">(</span>ReturnCode<span class="operator">.</span>SegmentDescriptor<span class="operator">)</span><span class="operator">)</span> Exception<span class="operator">(</span>NP<span class="operator">(</span>Selector<span class="operator">)</span><span class="operator">)</span><span class="operator">;</span>
+			<span class="keyword">if</span><span class="operator">(</span>ReturnCode<span class="operator">.</span>SegmentSelector<span class="operator">.</span>RPL <span class="operator">&gt;</span> CPL<span class="operator">)</span> {
+				<span class="comment">//Return outer privilege level</span>
+				<span class="keyword">if</span><span class="operator">(</span>OperandSize <span class="operator">==</span> <span class="number">32</span> <span class="operator">&amp;&amp;</span> <span class="operator">!</span>IsWithinStackLimits<span class="operator">(</span>TopStackBytes<span class="operator">(</span><span class="number">16</span> <span class="operator">+</span> Source<span class="operator">)</span><span class="operator">)</span> Exception<span class="operator">(</span>SS<span class="operator">(</span><span class="number">0</span><span class="operator">)</span><span class="operator">)</span><span class="operator">;</span> <span class="comment">//top 16 + Source bytes of stack not within stack limits</span>
+				<span class="comment">//OperandSize == 16</span>
+				<span class="keyword">else</span> <span class="keyword">if</span><span class="operator">(</span><span class="operator">!</span>IsWithinStackLimits<span class="operator">(</span>TopStackBytes<span class="operator">(</span><span class="number">8</span> <span class="operator">+</span> Source<span class="operator">)</span><span class="operator">)</span> Exception<span class="operator">(</span>SS<span class="operator">(</span><span class="number">0</span><span class="operator">)</span><span class="operator">)</span><span class="operator">;</span> <span class="comment">//top 8 + Source bytes of stack not within stack limits</span>
+				ReturnSegmentSelector <span class="operator">=</span> ReadReturnSegmentSelector<span class="operator">(</span><span class="operator">)</span><span class="operator">;</span>
+				<span class="keyword">if</span><span class="operator">(</span>StackSegmentSelector <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> Exception<span class="operator">(</span>GP<span class="operator">(</span><span class="number">0</span><span class="operator">)</span><span class="operator">)</span><span class="operator">;</span>
+				<span class="keyword">if</span><span class="operator">(</span><span class="operator">!</span>IsWithinDescriptorTableLimits<span class="operator">(</span>ReturnStack<span class="operator">.</span>SegmentSelector<span class="operator">.</span>Index<span class="operator">)</span><span class="operator">)</span> Exception<span class="operator">(</span>GP<span class="operator">(</span>Selector<span class="operator">)</span><span class="operator">)</span><span class="operator">;</span>
+				<span class="keyword">if</span><span class="operator">(</span>StackSegmentSelector<span class="operator">.</span>RPL <span class="operator">!=</span> ReturnCode<span class="operator">.</span>SegmentSelector<span class="operator">.</span>RPL <span class="operator">||</span> <span class="operator">!</span>IsWritableDataSegment<span class="operator">(</span>StackSegment<span class="operator">)</span> <span class="operator">||</span> StackSegmentDescriptor<span class="operator">.</span>DPL <span class="operator">!=</span> ReturnCode<span class="operator">.</span>SegmentSelector<span class="operator">.</span>RPL<span class="operator">)</span> Exception<span class="operator">(</span>GP<span class="operator">(</span>Selector<span class="operator">)</span><span class="operator">)</span><span class="operator">;</span>
+				<span class="keyword">if</span><span class="operator">(</span><span class="operator">!</span>IsPresent<span class="operator">(</span>StackSegment<span class="operator">)</span><span class="operator">)</span> Exception<span class="operator">(</span>SS<span class="operator">(</span>StackSegmentSelector<span class="operator">)</span><span class="operator">)</span><span class="operator">;</span>
+				<span class="keyword">if</span><span class="operator">(</span><span class="operator">!</span>IsWithinLimits<span class="operator">(</span>ReturnCode<span class="operator">.</span>SegmentLimit<span class="operator">,</span> ReturnInstructionPointer<span class="operator">)</span><span class="operator">)</span> Exception<span class="operator">(</span>GP<span class="operator">(</span><span class="number">0</span><span class="operator">)</span><span class="operator">)</span><span class="operator">;</span>
+				CPL <span class="operator">=</span> ReturnCode<span class="operator">.</span>SegmentSelector<span class="operator">.</span>RPL<span class="operator">;</span>
+				<span class="keyword">if</span><span class="operator">(</span>OperandSize <span class="operator">==</span> <span class="number">32</span><span class="operator">)</span> {
+					EIP <span class="operator">=</span> Pop<span class="operator">(</span><span class="operator">)</span><span class="operator">;</span>
+					CS <span class="operator">=</span> Pop<span class="operator">(</span><span class="operator">)</span><span class="operator">;</span> <span class="comment">//32-bit pop, high-order 16 bits discarded; segment descriptor information also loaded</span>
+					CS<span class="operator">.</span>RPL <span class="operator">=</span> CPL<span class="operator">;</span>
+					ESP <span class="operator">=</span> ESP <span class="operator">+</span> Source<span class="operator">;</span> <span class="comment">//release parameters from called procedure's stack</span>
+					TemporaryESP <span class="operator">=</span> Pop<span class="operator">(</span><span class="operator">)</span><span class="operator">;</span>
+					TemporarySS <span class="operator">=</span> Pop<span class="operator">(</span><span class="operator">)</span><span class="operator">;</span> <span class="comment">//32-bit pop, high-order 16 bits discarded; segment descriptor information also loaded</span>
+					ESP <span class="operator">=</span> TemporaryESP<span class="operator">;</span>
+					SS <span class="operator">=</span> TemporarySS<span class="operator">;</span>
+				}
+				<span class="comment">//OperandSize == 16</span>
+				<span class="keyword">else</span> {
+					EIP <span class="operator">=</span> Pop<span class="operator">(</span><span class="operator">)</span><span class="operator">;</span>
+					EIP <span class="operator">=</span> EIP <span class="operator">&amp;</span> <span class="number">0xFFFF</span><span class="operator">;</span>
+					CS <span class="operator">=</span> Pop<span class="operator">(</span><span class="operator">)</span><span class="operator">;</span> <span class="comment">//16-bit pop; segment descriptor information also loaded</span>
+					CS<span class="operator">.</span>RPL <span class="operator">=</span> CPL<span class="operator">;</span>
+					ESP <span class="operator">=</span> ESP <span class="operator">+</span> Source<span class="operator">;</span> <span class="comment">//release parameters from called procedure's stack</span>
+					TemporaryESP <span class="operator">=</span> Pop<span class="operator">(</span><span class="operator">)</span><span class="operator">;</span>
+					TemporarySS <span class="operator">=</span> Pop<span class="operator">(</span><span class="operator">)</span><span class="operator">;</span> <span class="comment">//16-bit pop; segment descriptor information also loaded</span>
+					ESP <span class="operator">=</span> TemporaryESP<span class="operator">;</span>
+					SS <span class="operator">=</span> TemporarySS<span class="operator">;</span>
+				}
+				SegmentRegisters<span class="operator">[</span><span class="operator">]</span> <span class="operator">=</span> {ES<span class="operator">,</span> FS<span class="operator">,</span> GS<span class="operator">,</span> DS}<span class="operator">;</span>
+				<span class="keyword">while</span><span class="operator">(</span>SegmentRegister <span class="operator">=</span> NextSegmentRegister<span class="operator">(</span>SegmentRegisters<span class="operator">)</span><span class="operator">)</span> {
+					<span class="keyword">if</span><span class="operator">(</span>IsDataPointer<span class="operator">(</span>SegmentRegister<span class="operator">)</span>  <span class="operator">||</span> <span class="operator">!</span>IsConformingCodeSegment<span class="operator">(</span>SegmentRegister<span class="operator">)</span> <span class="operator">&amp;&amp;</span> CPL <span class="operator">&gt;</span> SegmentDescriptor<span class="operator">.</span>DPL <span class="comment">/*DPL in hidden part of segment register*/</span><span class="operator">)</span> SegmentSelector <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span> <span class="comment">//segment register is invalid, null segment selector</span>
+					<span class="keyword">if</span><span class="operator">(</span><span class="operator">!</span>IsWithinDescriptorTableLimits<span class="operator">(</span>SegmentSelector<span class="operator">.</span>Index<span class="operator">)</span> <span class="operator">||</span> <span class="operator">(</span><span class="operator">!</span>IsData<span class="operator">(</span>SegmentDescriptor<span class="operator">)</span> <span class="operator">&amp;&amp;</span> <span class="operator">!</span>IsReadableCodeSegment<span class="operator">(</span>SegmentDescriptor<span class="operator">)</span><span class="operator">)</span> <span class="operator">||</span> <span class="operator">(</span>IsData<span class="operator">(</span>SegmentDescriptor<span class="operator">)</span> <span class="operator">&amp;&amp;</span> <span class="operator">!</span>IsConformingCodeSegment<span class="operator">(</span>SegmentDescriptor<span class="operator">)</span> <span class="operator">&amp;&amp;</span> SegmentDescriptor<span class="operator">.</span>DPL <span class="operator">&lt;</span> CPL <span class="operator">&amp;&amp;</span> SegmentDescriptor<span class="operator">.</span>DPL <span class="operator">&lt;</span> CodeSegment<span class="operator">.</span>SegmentSelector<span class="operator">.</span>RPL<span class="operator">)</span><span class="operator">)</span> SegmentSelectorRegister <span class="operator">=</span> NullSelector<span class="operator">;</span>
+					ESP <span class="operator">=</span> ESP <span class="operator">+</span> Source<span class="operator">;</span> <span class="comment">//release parameters from called procedure's stack</span>
+				}
+			}
+			<span class="keyword">else</span> {
+				<span class="comment">//Return to same privilege level</span>
+				<span class="keyword">if</span><span class="operator">(</span><span class="operator">!</span>IsWithinLimits<span class="operator">(</span>ReturnCode<span class="operator">.</span>SegmentLimit<span class="operator">,</span> ReturnInstructionPointer<span class="operator">)</span><span class="operator">)</span> Exception<span class="operator">(</span>GP<span class="operator">(</span><span class="number">0</span><span class="operator">)</span><span class="operator">)</span><span class="operator">;</span>
+				<span class="keyword">if</span><span class="operator">(</span>OperandSize <span class="operator">==</span> <span class="number">32</span><span class="operator">)</span> {
+					EIP <span class="operator">=</span> Pop<span class="operator">(</span><span class="operator">)</span><span class="operator">;</span>
+					CS <span class="operator">=</span> Pop<span class="operator">(</span><span class="operator">)</span><span class="operator">;</span> <span class="comment">//32-bit pop, high-order 16 bits are discarded</span>
+					ESP <span class="operator">=</span> ESP <span class="operator">+</span> Source<span class="operator">;</span> <span class="comment">//Release parameters from stack</span>
+				}
+				<span class="keyword">else</span> { <span class="comment">//OperandSize == 16</span>
+					EIP <span class="operator">=</span> Pop<span class="operator">(</span><span class="operator">)</span><span class="operator">;</span>
+					EIP <span class="operator">=</span> EIP <span class="operator">&amp;</span> <span class="number">0xFFFF</span><span class="operator">;</span>
+					ESP <span class="operator">=</span> ESP <span class="operator">+</span> Source<span class="operator">;</span> <span class="comment">//Release parameters from stack</span>
+				}
+			}
+		}
+		<span class="keyword">break</span><span class="operator">;</span>
+}
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>None.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Instruction</th>
+<th>Latency</th>
+<th>Throughput</th>
+<th>Execution Unit</th>
+</tr>
+<tr><td class="grid"><code>CPUID</code></td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F2n</td></tr>
+<tr><td class="grid"><code>RET</code></td><td class="grid">8</td><td class="grid">1</td><td class="grid">MEM_LOAD ALU</td></tr>
+</table>
+</object>
+</div>
+</body>
+</html>

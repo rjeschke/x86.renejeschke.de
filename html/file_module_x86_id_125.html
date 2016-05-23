@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Sun: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "FXAM: Examine Floating Point Value (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>FXAM</h1>
+<h2>Examine Floating Point Value</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>D9 E5</code></td>
+<td class="grid"><code>FXAM</code></td>
+<td class="grid">Classify value or number in ST(0).</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Examines the contents of the ST(0) register and sets the condition code flags C0, C2, and C3 in the FPU status word to indicate the class of value or number in the register (see the table below).</p>
+<div>
+<table class="grid">
+<caption>FXAM Results</caption>
+<tr><th>Class</th><th>C3</th><th>C2</th><th>C0</th></tr>
+<tr><td>Unsupported</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>NaN</td><td>0</td><td>0</td><td>1</td></tr>
+<tr><td>Normal finite number</td><td>0</td><td>1</td><td>0</td></tr>
+<tr><td>Infinity</td><td>0</td><td>1</td><td>1</td></tr>
+<tr><td>Zero</td><td>1</td><td>0</td><td>0</td></tr>
+<tr><td>Empty</td><td>1</td><td>0</td><td>1</td></tr>
+<tr><td>Denormal number</td><td>1</td><td>1</td><td>0</td></tr>
+</table>
+</div>
+<p>The C1 flag is set to the sign of the value in ST(0), regardless of whether the register is empty or full.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre>C1 <span class="operator">=</span> GetSignBit<span class="operator">(</span>ST<span class="operator">(</span><span class="number">0</span><span class="operator">)</span><span class="operator">)</span><span class="operator">;</span>
+<span class="keyword">switch</span><span class="operator">(</span>GetClass<span class="operator">(</span>ST<span class="operator">(</span><span class="number">0</span><span class="operator">)</span><span class="operator">)</span><span class="operator">)</span> {
+	<span class="keyword">case</span> ClassUnsupported<span class="operator">:</span>
+		C3 <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+		C2 <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+		C0 <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+		<span class="keyword">break</span><span class="operator">;</span>
+	<span class="keyword">case</span> ClassNormal<span class="operator">:</span>
+		C3 <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+		C2 <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+		C0 <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+		<span class="keyword">break</span><span class="operator">;</span>
+	<span class="keyword">case</span> ClassInfinity<span class="operator">:</span>
+		C3 <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+		C2 <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+		C0 <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+		<span class="keyword">break</span><span class="operator">;</span>
+	<span class="keyword">case</span> ClassZero<span class="operator">:</span>
+		C3 <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+		C2 <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+		C0 <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+		<span class="keyword">break</span><span class="operator">;</span>
+	<span class="keyword">case</span> ClassEmpty<span class="operator">:</span>
+		C3 <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+		C2 <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+		C0 <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+		<span class="keyword">break</span><span class="operator">;</span>
+	<span class="keyword">case</span> ClassDenormal<span class="operator">:</span>
+		C3 <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+		C2 <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+		C0 <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+		<span class="keyword">break</span><span class="operator">;</span>
+}
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>FPU flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>C1 Sign of value in ST(0).
+C0, C2, C3 See table above.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Floating-Point Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+None.
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Protected Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#NM</code></td><td>EM or TS in CR0 is set.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Real-Address Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#NM</code></td><td>EM or TS in CR0 is set.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Virtual-8086 Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#NM</code></td><td>EM or TS in CR0 is set.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+</div>
+</body>
+</html>

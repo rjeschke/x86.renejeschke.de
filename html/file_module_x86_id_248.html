@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Chasing Dragons: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "POP: Pop a Value from the Stack (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>POP</h1>
+<h2>Pop a Value from the Stack</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>8F /0</code></td>
+<td class="grid"><code>POP r/m16</code></td>
+<td class="grid">Pop top of stack into m16; increment stack pointer.</td>
+</tr>
+<tr>
+<td class="grid"><code>8F /0</code></td>
+<td class="grid"><code>POP r/m32</code></td>
+<td class="grid">Pop top of stack into m32; increment stack pointer.</td>
+</tr>
+<tr>
+<td class="grid"><code>58+ rw</code></td>
+<td class="grid"><code>POP r16</code></td>
+<td class="grid">Pop top of stack into r16; increment stack pointer.</td>
+</tr>
+<tr>
+<td class="grid"><code>58+ rd</code></td>
+<td class="grid"><code>POP r32 Pop top of stack into r32; increment stack pointer.</code></td>
+<td class="grid"></td>
+</tr>
+<tr>
+<td class="grid"><code>1F</code></td>
+<td class="grid"><code>POP DS</code></td>
+<td class="grid">Pop top of stack into DS; increment stack pointer.</td>
+</tr>
+<tr>
+<td class="grid"><code>07</code></td>
+<td class="grid"><code>POP ES</code></td>
+<td class="grid">Pop top of stack into ES; increment stack pointer.</td>
+</tr>
+<tr>
+<td class="grid"><code>17</code></td>
+<td class="grid"><code>POP SS</code></td>
+<td class="grid">Pop top of stack into SS; increment stack pointer.</td>
+</tr>
+<tr>
+<td class="grid"><code>0F A1</code></td>
+<td class="grid"><code>POP FS</code></td>
+<td class="grid">Pop top of stack into FS; increment stack pointer.</td>
+</tr>
+<tr>
+<td class="grid"><code>0F A9</code></td>
+<td class="grid"><code>POP GS</code></td>
+<td class="grid">Pop top of stack into GS; increment stack pointer.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Loads the value from the top of the stack to the location specified with the destination operand and then increments the stack pointer. The destination operand can be a general-purpose register, memory location, or segment register.</p>
+<p>The address-size attribute of the stack segment determines the stack pointer size (16 bits or 32 bits-the source address size), and the operand-size attribute of the current code segment determines the amount the stack pointer is incremented (2 bytes or 4 bytes). For example, if these address- and operand-size attributes are 32, the 32-bit ESP register (stack pointer) is incremented by 4 and, if they are 16, the 16-bit SP register is incremented by 2. (The B flag in the stack segment's segment descriptor determines the stack's address-size attribute, and the D flag in the current code segment's segment descriptor, along with prefixes, determines the operandsize attribute and also the address-size attribute of the destination operand.) If the destination operand is one of the segment registers DS, ES, FS, GS, or SS, the value loaded into the register must be a valid segment selector. In protected mode, popping a segment selector into a segment register automatically causes the descriptor information associated with that segment selector to be loaded into the hidden (shadow) part of the segment register and causes the selector and the descriptor information to be validated (see the &quot;Operation&quot; section below).</p>
+<p>A null value (0000-0003) may be popped into the DS, ES, FS, or GS register without causing a general protection fault. However, any subsequent attempt to reference a segment whose corresponding segment register is loaded with a null value causes a general protection exception (#GP). In this situation, no memory reference occurs and the saved value of the segment register is null.</p>
+<p>The POP instruction cannot pop a value into the CS register. To load the CS register from the stack, use the RET instruction.</p>
+<p>If the ESP register is used as a base register for addressing a destination operand in memory, the POP instruction computes the effective address of the operand after it increments the ESP register. For the case of a 16-bit stack where ESP wraps to 0h as a result of the POP instruction, the resulting location of the memory write is processor-family-specific.</p>
+<p>The POP ESP instruction increments the stack pointer (ESP) before data at the old top of stack is written into the destination.</p>
+<p>A POP SS instruction inhibits all interrupts, including the NMI interrupt, until after execution of the next instruction. This action allows sequential execution of POP SS and MOV ESP, EBP instructions without the danger of having an invalid stack during an interrupt1. However, use of the LSS instruction is the preferred method of loading the SS and ESP registers.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre><span class="comment">/*</span>
+<span class="comment">1. Note that in a sequence of instructions that individually delay interrupts past the following instruction, only</span>
+<span class="comment">the first instruction in the sequence is guaranteed to delay the interrupt, but subsequent interrupt-delaying</span>
+<span class="comment">instructions may not delay the interrupt. Thus, in the following instruction sequence:</span>
+<span class="comment">	STI</span>
+<span class="comment">	POP SS</span>
+<span class="comment">	POP ESP</span>
+<span class="comment">interrupts may be recognized before the POP ESP executes, because STI also delays interrupts for one instruction.</span>
+<span class="comment">*/</span>
+
+<span class="keyword">if</span><span class="operator">(</span>StackAddressSize <span class="operator">==</span> <span class="number">32</span><span class="operator">)</span> {
+	<span class="keyword">if</span><span class="operator">(</span>OperandSize <span class="operator">==</span> <span class="number">32</span><span class="operator">)</span> {
+		Destination <span class="operator">=</span> SS<span class="operator">:</span>ESP<span class="operator">;</span> <span class="comment">//copy a doubleword</span>
+		ESP <span class="operator">=</span> ESP <span class="operator">+</span> <span class="number">4</span><span class="operator">;</span>
+	}
+	<span class="keyword">else</span> { <span class="comment">//OperandSize == 16</span>
+		Destination <span class="operator">=</span> SS<span class="operator">:</span>ESP<span class="operator">;</span> <span class="comment">//copy word</span>
+		ESP <span class="operator">=</span> ESP <span class="operator">+</span> <span class="number">2</span><span class="operator">;</span>
+	}
+}
+<span class="keyword">else</span> { <span class="comment">//StackAddressSize == 16</span>
+	<span class="keyword">if</span><span class="operator">(</span>OperandSize <span class="operator">==</span> <span class="number">16</span><span class="operator">)</span> {
+		Destination<span class="operator">=</span> SS<span class="operator">:</span>SP<span class="operator">;</span> <span class="comment">//copy a word</span>
+		SP <span class="operator">=</span> SP <span class="operator">+</span> <span class="number">2</span><span class="operator">;</span>
+	}
+	<span class="keyword">else</span> { <span class="comment">//OperanSize == 32</span>
+		Destination <span class="operator">=</span> SS<span class="operator">:</span>SP<span class="operator">;</span> <span class="comment">//copy a doubleword</span>
+		SP <span class="operator">=</span> SP <span class="operator">+</span> <span class="number">4</span><span class="operator">;</span>
+	}
+}
+
+<span class="comment">/*</span>
+<span class="comment">Loading a segment register while in protected mode results in special actions, as described in</span>
+<span class="comment">the following listing. These checks are performed on the segment selector and the segment</span>
+<span class="comment">descriptor it points to.</span>
+<span class="comment">*/</span>
+
+<span class="keyword">if</span><span class="operator">(</span>IsLoaded<span class="operator">(</span>SS<span class="operator">)</span><span class="operator">)</span> {
+	<span class="keyword">if</span><span class="operator">(</span>SegmentSelector <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> Exception<span class="operator">(</span>GP<span class="operator">(</span><span class="number">0</span><span class="operator">)</span><span class="operator">)</span><span class="operator">;</span>
+	<span class="keyword">if</span><span class="operator">(</span><span class="operator">!</span>IsWithinDescriptorTableLimits<span class="operator">(</span>SegmentSelector<span class="operator">.</span>Index<span class="operator">)</span> <span class="operator">||</span> SegmentSelector<span class="operator">.</span>RPL <span class="operator">!=</span> CPL <span class="operator">||</span> <span class="operator">!</span>IsWritableDataSegment<span class="operator">(</span>SegmentSelector<span class="operator">)</span> <span class="operator">||</span> DPL <span class="operator">!=</span> CPL<span class="operator">)</span> Exception<span class="operator">(</span>GP<span class="operator">(</span>Selector<span class="operator">)</span><span class="operator">)</span><span class="operator">;</span>
+	<span class="keyword">if</span><span class="operator">(</span><span class="operator">!</span>IsPresent<span class="operator">(</span>Segment<span class="operator">)</span><span class="operator">)</span> Exception<span class="operator">(</span>GP<span class="operator">(</span>Selector<span class="operator">)</span><span class="operator">)</span><span class="operator">;</span>
+}
+<span class="keyword">else</span> {
+	SS <span class="operator">=</span> SegmentSelector<span class="operator">;</span>
+	SS <span class="operator">=</span> SegmentDescriptor<span class="operator">;</span>
+}
+
+<span class="keyword">if</span><span class="operator">(</span><span class="operator">(</span>IsLoaded<span class="operator">(</span>DS<span class="operator">)</span> <span class="operator">||</span> IsLoaded<span class="operator">(</span>ES<span class="operator">)</span> <span class="operator">||</span> IsLoaded<span class="operator">(</span>FS<span class="operator">)</span> <span class="operator">||</span> IsLoaded<span class="operator">(</span>GS<span class="operator">)</span><span class="operator">)</span> <span class="operator">&amp;&amp;</span> SegmentSelector <span class="operator">!=</span> <span class="number">0</span><span class="operator">)</span> { <span class="comment">//DS, ES, FS, or GS is loaded with non-null segment selector</span>
+	<span class="keyword">if</span><span class="operator">(</span><span class="operator">!</span>IsWithinDescriptorTableLimits<span class="operator">(</span>SegmentSelector<span class="operator">.</span>Index<span class="operator">)</span> <span class="operator">||</span> IsData<span class="operator">(</span>SegmentSelector<span class="operator">)</span> <span class="operator">||</span> IsReadableCodeSegment<span class="operator">(</span>SegmentSelector<span class="operator">)</span> <span class="operator">||</span> <span class="operator">(</span>IsData<span class="operator">(</span>Segment<span class="operator">)</span> <span class="operator">||</span> <span class="operator">!</span>IsConformingCodeSegment<span class="operator">(</span>Segment<span class="operator">)</span> <span class="operator">&amp;&amp;</span> RPL <span class="operator">&gt;</span> DPL <span class="operator">&amp;&amp;</span> CPL <span class="operator">&gt;</span> DPL<span class="operator">)</span><span class="operator">)</span> Exception<span class="operator">(</span>GP<span class="operator">(</span>Selector<span class="operator">)</span><span class="operator">)</span><span class="operator">;</span>
+	<span class="keyword">if</span><span class="operator">(</span><span class="operator">!</span>IsPresent<span class="operator">(</span>Segment<span class="operator">)</span><span class="operator">)</span> Exception<span class="operator">(</span>NP<span class="operator">(</span>Selector<span class="operator">)</span><span class="operator">)</span><span class="operator">;</span>
+	<span class="keyword">else</span> {
+		SegmentRegister <span class="operator">=</span> SegmentSelector<span class="operator">;</span>
+		SegmentRegister <span class="operator">=</span> SegmenDescriptor<span class="operator">;</span>
+	}
+}
+
+<span class="keyword">if</span><span class="operator">(</span><span class="operator">(</span>IsLoaded<span class="operator">(</span>DS<span class="operator">)</span> <span class="operator">||</span> IsLoaded<span class="operator">(</span>ES<span class="operator">)</span> <span class="operator">||</span> IsLoaded<span class="operator">(</span>FS<span class="operator">)</span> <span class="operator">||</span> IsLoaded<span class="operator">(</span>GS<span class="operator">)</span><span class="operator">)</span> <span class="operator">&amp;&amp;</span> SegmentSelector <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> { <span class="comment">//DS, ES, FS, or GS is loaded with a null segment selector</span>
+	SegmentRegister <span class="operator">=</span> SegmentSelector<span class="operator">;</span>
+	SegmentRegister <span class="operator">=</span> SegmenDescriptor<span class="operator">;</span>
+}
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>None.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Instruction</th>
+<th>Latency</th>
+<th>Throughput</th>
+<th>Execution Unit</th>
+</tr>
+<tr><td class="grid"><code>CPUID</code></td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F2n</td></tr>
+<tr><td class="grid"><code>POP r32</code></td><td class="grid">1.5</td><td class="grid">1</td><td class="grid">MEM_LOAD ALU</td></tr>
+</table>
+</object>
+</div>
+</body>
+</html>

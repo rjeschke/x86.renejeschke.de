@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Control: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "XADD: Exchange and Add (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>XADD</h1>
+<h2>Exchange and Add</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>0F C0 /r</code></td>
+<td class="grid"><code>XADD r/m8, r8</code></td>
+<td class="grid">Exchange r8 and r/m8; load sum into r/m8.</td>
+</tr>
+<tr>
+<td class="grid"><code>0F C1 /r</code></td>
+<td class="grid"><code>XADD r/m16, r16</code></td>
+<td class="grid">Exchange r16 and r/m16; load sum into r/m16.</td>
+</tr>
+<tr>
+<td class="grid"><code>0F C1 /r</code></td>
+<td class="grid"><code>XADD r/m32, r32</code></td>
+<td class="grid">Exchange r32 and r/m32; load sum into r/m32.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Exchanges the first operand (destination operand) with the second operand (source operand), then loads the sum of the two values into the destination operand. The destination operand can be a register or a memory location; the source operand is a register.</p>
+<p>This instruction can be used with a LOCK prefix to allow the instruction to be executed atomically.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre>Temporary <span class="operator">=</span> Source <span class="operator">+</span> Destination<span class="operator">;</span>
+Source <span class="operator">=</span> Destination<span class="operator">;</span>
+Destination <span class="operator">=</span> Temporary<span class="operator">;</span>
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>The CF, PF, AF, SF, ZF, and OF flags are set according to the result of the addition, which is stored in the destination operand.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>IA-32 Architecture Compatibility</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>IA-32 processors earlier than the Intel486 processor do not recognize this instruction. If this instruction is used, you should provide an equivalent code sequence that runs on earlier processors.
+</p>
+</td>
+</tr>
+</table>
+</object>
+</div>
+</body>
+</html>

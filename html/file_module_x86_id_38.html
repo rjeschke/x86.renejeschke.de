@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>War on Theism: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "CMPS/CMPSB/CMPSW/CMPSD: Compare String Operands (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>CMPS/CMPSB/CMPSW/CMPSD</h1>
+<h2>Compare String Operands</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>A6</code></td>
+<td class="grid"><code>CMPS m8, m8</code></td>
+<td class="grid">Compares byte at address DS:(E)SI with byte at address ES:(E)DI and sets the status flags accordingly.</td>
+</tr>
+<tr>
+<td class="grid"><code>A7</code></td>
+<td class="grid"><code>CMPS m16, m16</code></td>
+<td class="grid">Compares word at address DS:(E)SI with word at address ES:(E)DI and sets the status flags accordingly.</td>
+</tr>
+<tr>
+<td class="grid"><code>A7</code></td>
+<td class="grid"><code>CMPS m32, m32</code></td>
+<td class="grid">Compares doubleword at address DS:(E)SI with doubleword at address ES:(E)DI and sets the status flags accordingly.</td>
+</tr>
+<tr>
+<td class="grid"><code>A6</code></td>
+<td class="grid"><code>CMPSB</code></td>
+<td class="grid">Compares byte at address DS:(E)SI with byte at address ES:(E)DI and sets the status flags accordingly.</td>
+</tr>
+<tr>
+<td class="grid"><code>A7</code></td>
+<td class="grid"><code>CMPSW</code></td>
+<td class="grid">Compares word at address DS:(E)SI with word at address ES:(E)DI and sets the status flags accordingly.</td>
+</tr>
+<tr>
+<td class="grid"><code>A7</code></td>
+<td class="grid"><code>CMPSD</code></td>
+<td class="grid">Compares doubleword at address DS:(E)SI with doubleword at address ES:(E)DI and sets the status flags accordingly.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Compares the byte, word, or double word specified with the first source operand with the byte, word, or double word specified with the second source operand and sets the status flags in the EFLAGS register according to the results. Both source operands are located in memory. The address of the first source operand is read from either the DS:ESI or the DS:SI registers (depending on the address-size attribute of the instruction, 32 or 16, respectively). The address of the second source operand is read from either the ES:EDI or the ES:DI registers (again depending on the address-size attribute of the instruction). The DS segment may be overridden with a segment override prefix, but the ES segment cannot be overridden.</p>
+<p>At the assembly-code level, two forms of this instruction are allowed: the &quot;explicit-operands&quot; form and the &quot;no-operands&quot; form. The explicit-operands form (specified with the CMPS mnemonic) allows the two source operands to be specified explicitly. Here, the source operands should be symbols that indicate the size and location of the source values. This explicit-operands form is provided to allow documentation; however, note that the documentation provided by this form can be misleading. That is, the source operand symbols must specify the correct type (size) of the operands (bytes, words, or doublewords), but they do not have to specify the correct location.</p>
+<p>The locations of the source operands are always specified by the DS:(E)SI and ES:(E)DI registers, which must be loaded correctly before the compare string instruction is executed.</p>
+<p>The no-operands form provides &quot;short forms&quot; of the byte, word, and doubleword versions of the CMPS instructions. Here also the DS:(E)SI and ES:(E)DI registers are assumed by the processor to specify the location of the source operands. The size of the source operands is selected with the mnemonic: CMPSB (byte comparison), CMPSW (word comparison), or CMPSD (doubleword comparison).</p>
+<p>After the comparison, the (E)SI and (E)DI registers increment or decrement automatically according to the setting of the DF flag in the EFLAGS register. (If the DF flag is 0, the (E)SI and (E)DI register increment; if the DF flag is 1, the (E)SI and (E)DI registers decrement.) The registers increment or decrement by 1 for byte operations, by 2 for word operations, or by 4 for doubleword operations.</p>
+<p>The CMPS, CMPSB, CMPSW, and CMPSD instructions can be preceded by the REP prefix for block comparisons of ECX bytes, words, or doublewords. More often, however, these instructions will be used in a LOOP construct that takes some action based on the setting of the status flags before the next comparison is made. See &quot;REP/REPE/REPZ/REPNE /REPNZ-Repeat String Operation Prefix&quot; in Chapter 4 for a description of the REP prefix.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre>Temporary <span class="operator">=</span> Source1 <span class="operator">-</span> Source2<span class="operator">;</span>
+SetStatusFlags<span class="operator">(</span>Temporary<span class="operator">)</span><span class="operator">;</span>
+<span class="keyword">if</span><span class="operator">(</span>IsByteOperation<span class="operator">(</span><span class="operator">)</span><span class="operator">)</span> {
+	<span class="keyword">if</span><span class="operator">(</span>DF <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> {
+		<span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">+</span> <span class="number">1</span><span class="operator">;</span>
+		<span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">+</span> <span class="number">1</span><span class="operator">;</span>
+	}
+	<span class="keyword">else</span> {
+		<span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">-</span> <span class="number">1</span><span class="operator">;</span>
+		<span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">-</span> <span class="number">1</span><span class="operator">;</span>
+	}
+}
+<span class="keyword">else</span> <span class="keyword">if</span><span class="operator">(</span>IsWordOperation<span class="operator">(</span><span class="operator">)</span><span class="operator">)</span> {
+	<span class="keyword">if</span><span class="operator">(</span>DF <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> {
+		<span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">+</span> <span class="number">2</span><span class="operator">;</span>
+		<span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">+</span> <span class="number">2</span><span class="operator">;</span>
+	}
+	<span class="keyword">else</span> {
+		<span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">-</span> <span class="number">2</span><span class="operator">;</span>
+		<span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">-</span> <span class="number">2</span><span class="operator">;</span>
+	}
+}
+<span class="keyword">else</span> { <span class="comment">//doubleword comparison</span>
+	<span class="keyword">if</span><span class="operator">(</span>DF <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> {
+		<span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">+</span> <span class="number">4</span><span class="operator">;</span>
+		<span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">+</span> <span class="number">4</span><span class="operator">;</span>
+	}
+	<span class="keyword">else</span> {
+		<span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">-</span> <span class="number">4</span><span class="operator">;</span>
+		<span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">-</span> <span class="number">4</span><span class="operator">;</span>
+	}
+}
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>The CF, OF, SF, ZF, AF, and PF flags are set according to the temporary result of the comparison.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Protected Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit. If the DS, ES, FS, or GS register contains a null segment selector.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit. If the DS, ES, FS, or GS register contains a null segment selector.</td></tr>
+<tr><td><code>#SS(0)</code></td><td>If a memory operand effective address is outside the SS segment limit.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>If a page fault occurs.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Real-Address Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#GP</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Virtual-8086 Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#SS(0)</code></td><td>If a memory operand effective address is outside the SS segment limit.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>If a page fault occurs.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+</div>
+</body>
+</html>

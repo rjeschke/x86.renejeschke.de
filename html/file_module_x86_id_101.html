@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Ultraviolence: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "FLD1/FLDL2T/FLDL2E/FLDPI/FLDLG2/FLDLN2/FLDZ: Load Constant (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>FLD1/FLDL2T/FLDL2E/FLDPI/FLDLG2/FLDLN2/FLDZ</h1>
+<h2>Load Constant</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>D9 E8</code></td>
+<td class="grid"><code>FLD1</code></td>
+<td class="grid">Push +1.0 onto the FPU register stack.</td>
+</tr>
+<tr>
+<td class="grid"><code>D9 E9</code></td>
+<td class="grid"><code>FLDL2T</code></td>
+<td class="grid">Push log_2(10) onto the FPU register stack.</td>
+</tr>
+<tr>
+<td class="grid"><code>D9 EA</code></td>
+<td class="grid"><code>FLDL2E</code></td>
+<td class="grid">Push log_2(e) onto the FPU register stack.</td>
+</tr>
+<tr>
+<td class="grid"><code>D9 EB</code></td>
+<td class="grid"><code>FLDPI</code></td>
+<td class="grid">Push pi onto the FPU register stack.</td>
+</tr>
+<tr>
+<td class="grid"><code>D9 EC</code></td>
+<td class="grid"><code>FLDLG2</code></td>
+<td class="grid">Push log_10(2) onto the FPU register stack.</td>
+</tr>
+<tr>
+<td class="grid"><code>D9 ED</code></td>
+<td class="grid"><code>FLDLN2</code></td>
+<td class="grid">Push log_e(2) onto the FPU register stack.</td>
+</tr>
+<tr>
+<td class="grid"><code>D9 EE</code></td>
+<td class="grid"><code>FLDZ</code></td>
+<td class="grid">Push +0.0 onto the FPU register stack.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Push one of seven commonly used constants (in double extended-precision floating-point format) onto the FPU register stack. The constants that can be loaded with these instructions include +1.0, +0.0, log_10(2), log_e(2), pi, log_2(10), and log_2(e). For each constant, an internal 66-bit constant is rounded (as specified by the RC field in the FPU control word) to double extendedprecision floating-point format. The inexact-result exception (#P) is not generated as a result of the rounding, nor is the C1 flag set in the x87 FPU status word if the value is rounded up.</p>
+<p>See the section titled &quot;Pi&quot; in Chapter 8 of the IA-32 Intel Architecture Software Developer's Manual, Volume 1, for a description of the pi constant.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre>Top <span class="operator">=</span> Top <span class="operator">-</span> <span class="number">1</span><span class="operator">;</span>
+ST<span class="operator">(</span><span class="number">0</span><span class="operator">)</span> <span class="operator">=</span> Constant<span class="operator">;</span>
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>FPU flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>C1 Set to 1 if stack overflow occurred; otherwise, set to 0.
+C0, C2, C3 Undefined.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>IA-32 Architecture Compatibility</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>When the RC field is set to round-to-nearest, the FPU produces the same constants that is produced by the Intel 8087 and Intel 287 math coprocessors.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Floating-Point Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#IS</code></td><td>Stack overflow occurred.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Protected Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#NM</code></td><td>EM or TS in CR0 is set.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Real-Address Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#NM</code></td><td>EM or TS in CR0 is set.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Virtual-8086 Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#NM</code></td><td>EM or TS in CR0 is set.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+</div>
+</body>
+</html>

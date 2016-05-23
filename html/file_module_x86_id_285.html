@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Winter: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "SAL/SAR/SHL/SHR: Shift (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>SAL/SAR/SHL/SHR</h1>
+<h2>Shift</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>D0 /4</code></td>
+<td class="grid"><code>SAL r/m8</code></td>
+<td class="grid">Multiply r/m8 by 2, 1 time.</td>
+</tr>
+<tr>
+<td class="grid"><code>D2 /4</code></td>
+<td class="grid"><code>SAL r/m8,CL</code></td>
+<td class="grid">Multiply r/m8 by 2, CL times.</td>
+</tr>
+<tr>
+<td class="grid"><code>C0 /4 ib</code></td>
+<td class="grid"><code>SAL r/m8,imm8</code></td>
+<td class="grid">Multiply r/m8 by 2, imm8 times.</td>
+</tr>
+<tr>
+<td class="grid"><code>D1 /4</code></td>
+<td class="grid"><code>SAL r/m16</code></td>
+<td class="grid">Multiply r/m16 by 2, 1 time.</td>
+</tr>
+<tr>
+<td class="grid"><code>D3 /4</code></td>
+<td class="grid"><code>SAL r/m16,CL</code></td>
+<td class="grid">Multiply r/m16 by 2, CL times.</td>
+</tr>
+<tr>
+<td class="grid"><code>C1 /4 ib</code></td>
+<td class="grid"><code>SAL r/m16,imm8</code></td>
+<td class="grid">Multiply r/m16 by 2, imm8 times.</td>
+</tr>
+<tr>
+<td class="grid"><code>D1 /4</code></td>
+<td class="grid"><code>SAL r/m32</code></td>
+<td class="grid">Multiply r/m32 by 2, 1 time.</td>
+</tr>
+<tr>
+<td class="grid"><code>D3 /4</code></td>
+<td class="grid"><code>SAL r/m32,CL</code></td>
+<td class="grid">Multiply r/m32 by 2, CL times.</td>
+</tr>
+<tr>
+<td class="grid"><code>C1 /4 ib</code></td>
+<td class="grid"><code>SAL r/m32,imm8</code></td>
+<td class="grid">Multiply r/m32 by 2, imm8 times.</td>
+</tr>
+<tr>
+<td class="grid"><code>D0 /7</code></td>
+<td class="grid"><code>SAR r/m8</code></td>
+<td class="grid">Signed divide* r/m8 by 2, 1 times.</td>
+</tr>
+<tr>
+<td class="grid"><code>D2 /7</code></td>
+<td class="grid"><code>SAR r/m8,CL</code></td>
+<td class="grid">Signed divide* r/m8 by 2, CL times.</td>
+</tr>
+<tr>
+<td class="grid"><code>C0 /7 ib</code></td>
+<td class="grid"><code>SAR r/m8,imm8</code></td>
+<td class="grid">Signed divide* r/m8 by 2, imm8 times.</td>
+</tr>
+<tr>
+<td class="grid"><code>D1 /7</code></td>
+<td class="grid"><code>SAR r/m16</code></td>
+<td class="grid">Signed divide* r/m16 by 2, 1 time.</td>
+</tr>
+<tr>
+<td class="grid"><code>D3 /7</code></td>
+<td class="grid"><code>SAR r/m16,CL</code></td>
+<td class="grid">Signed divide* r/m16 by 2, CL times.</td>
+</tr>
+<tr>
+<td class="grid"><code>C1 /7 ib</code></td>
+<td class="grid"><code>SAR r/m16,imm8</code></td>
+<td class="grid">Signed divide* r/m16 by 2, imm8 times.</td>
+</tr>
+<tr>
+<td class="grid"><code>D1 /7</code></td>
+<td class="grid"><code>SAR r/m32</code></td>
+<td class="grid">Signed divide* r/m32 by 2, 1 time.</td>
+</tr>
+<tr>
+<td class="grid"><code>D3 /7</code></td>
+<td class="grid"><code>SAR r/m32,CL</code></td>
+<td class="grid">Signed divide* r/m32 by 2, CL times.</td>
+</tr>
+<tr>
+<td class="grid"><code>C1 /7 ib</code></td>
+<td class="grid"><code>SAR r/m32,imm8</code></td>
+<td class="grid">Signed divide* r/m32 by 2, imm8 times.</td>
+</tr>
+<tr>
+<td class="grid"><code>D0 /4</code></td>
+<td class="grid"><code>SHL r/m8</code></td>
+<td class="grid">Multiply r/m8 by 2, 1 time.</td>
+</tr>
+<tr>
+<td class="grid"><code>D2 /4</code></td>
+<td class="grid"><code>SHL r/m8,CL</code></td>
+<td class="grid">Multiply r/m8 by 2, CL times.</td>
+</tr>
+<tr>
+<td class="grid"><code>C0 /4 ib</code></td>
+<td class="grid"><code>SHL r/m8,imm8</code></td>
+<td class="grid">Multiply r/m8 by 2, imm8 times.</td>
+</tr>
+<tr>
+<td class="grid"><code>D1 /4</code></td>
+<td class="grid"><code>SHL r/m16</code></td>
+<td class="grid">Multiply r/m16 by 2, 1 time.</td>
+</tr>
+<tr>
+<td class="grid"><code>D3 /4</code></td>
+<td class="grid"><code>SHL r/m16,CL</code></td>
+<td class="grid">Multiply r/m16 by 2, CL times.</td>
+</tr>
+<tr>
+<td class="grid"><code>C1 /4 ib</code></td>
+<td class="grid"><code>SHL r/m16,imm8</code></td>
+<td class="grid">Multiply r/m16 by 2, imm8 times.</td>
+</tr>
+<tr>
+<td class="grid"><code>D1 /4</code></td>
+<td class="grid"><code>SHL r/m32</code></td>
+<td class="grid">Multiply r/m32 by 2, 1 time.</td>
+</tr>
+<tr>
+<td class="grid"><code>D3 /4</code></td>
+<td class="grid"><code>SHL r/m32,CL</code></td>
+<td class="grid">Multiply r/m32 by 2, CL times.</td>
+</tr>
+<tr>
+<td class="grid"><code>C1 /4 ib</code></td>
+<td class="grid"><code>SHL r/m32,imm8</code></td>
+<td class="grid">Multiply r/m32 by 2, imm8 times.</td>
+</tr>
+<tr>
+<td class="grid"><code>D0 /5</code></td>
+<td class="grid"><code>SHR r/m8</code></td>
+<td class="grid">Unsigned divide r/m8 by 2, 1 time.</td>
+</tr>
+<tr>
+<td class="grid"><code>D2 /5</code></td>
+<td class="grid"><code>SHR r/m8,CL</code></td>
+<td class="grid">Unsigned divide r/m8 by 2, CL times.</td>
+</tr>
+<tr>
+<td class="grid"><code>C0 /5 ib</code></td>
+<td class="grid"><code>SHR r/m8,imm8</code></td>
+<td class="grid">Unsigned divide r/m8 by 2, imm8 times.</td>
+</tr>
+<tr>
+<td class="grid"><code>D1 /5</code></td>
+<td class="grid"><code>SHR r/m16</code></td>
+<td class="grid">Unsigned divide r/m16 by 2, 1 time.</td>
+</tr>
+<tr>
+<td class="grid"><code>D3 /5</code></td>
+<td class="grid"><code>SHR r/m16,CL</code></td>
+<td class="grid">Unsigned divide r/m16 by 2, CL times.</td>
+</tr>
+<tr>
+<td class="grid"><code>C1 /5 ib</code></td>
+<td class="grid"><code>SHR r/m16,imm8</code></td>
+<td class="grid">Unsigned divide r/m16 by 2, imm8 times.</td>
+</tr>
+<tr>
+<td class="grid"><code>D1 /5</code></td>
+<td class="grid"><code>SHR r/m32</code></td>
+<td class="grid">Unsigned divide r/m32 by 2, 1 time.</td>
+</tr>
+<tr>
+<td class="grid"><code>D3 /5</code></td>
+<td class="grid"><code>SHR r/m32,CL</code></td>
+<td class="grid">Unsigned divide r/m32 by 2, CL times.</td>
+</tr>
+<tr>
+<td class="grid"><code>C1 /5 ib</code></td>
+<td class="grid"><code>SHR r/m32,imm8</code></td>
+<td class="grid">Unsigned divide r/m32 by 2, imm8 times.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>NOTE: * Not the same form of division as IDIV; rounding is toward negative infinity.</p>
+<p>Shifts the bits in the first operand (destination operand) to the left or right by the number of bits specified in the second operand (count operand). Bits shifted beyond the destination operand boundary are first shifted into the CF flag, then discarded. At the end of the shift operation, the CF flag contains the last bit shifted out of the destination operand.</p>
+<p>The destination operand can be a register or a memory location. The count operand can be an immediate value or register CL. The count is masked to 5 bits, which limits the count range to 0 to 31. A special opcode encoding is provided for a count of 1.</p>
+<p>The shift arithmetic left (SAL) and shift logical left (SHL) instructions perform the same operation; they shift the bits in the destination operand to the left (toward more significant bit locations).</p>
+<p>For each shift count, the most significant bit of the destination operand is shifted into the CF flag, and the least significant bit is cleared (see Figure 7-7 in the IA-32 Intel Architecture Software Developer's Manual, Volume 1).</p>
+<p>The shift arithmetic right (SAR) and shift logical right (SHR) instructions shift the bits of the destination operand to the right (toward less significant bit locations). For each shift count, the least significant bit of the destination operand is shifted into the CF flag, and the most significant bit is either set or cleared depending on the instruction type. The SHR instruction clears the most significant bit (see Figure 7-8 in the IA-32 Intel Architecture Software Developer's Manual, Volume 1); the SAR instruction sets or clears the most significant bit to correspond to the sign (most significant bit) of the original value in the destination operand. In effect, the SAR instruction fills the empty bit position's shifted value with the sign of the unshifted value (see Figure 7-9 in the IA-32 Intel Architecture Software Developer's Manual, Volume 1).</p>
+<p>The SAR and SHR instructions can be used to perform signed or unsigned division, respectively, of the destination operand by powers of 2. For example, using the SAR instruction to shift a signed integer 1 bit to the right divides the value by 2.</p>
+<p>Using the SAR instruction to perform a division operation does not produce the same result as the IDIV instruction. The quotient from the IDIV instruction is rounded toward zero, whereas the &quot;quotient&quot; of the SAR instruction is rounded toward negative infinity. This difference is apparent only for negative numbers. For example, when the IDIV instruction is used to divide -9 by 4, the result is -2 with a remainder of -1. If the SAR instruction is used to shift -9 right by two bits, the result is -3 and the &quot;remainder&quot; is +3; however, the SAR instruction stores only the most significant bit of the remainder (in the CF flag).</p>
+<p>The OF flag is affected only on 1-bit shifts. For left shifts, the OF flag is set to 0 if the mostsignificant bit of the result is the same as the CF flag (that is, the top two bits of the original operand were the same); otherwise, it is set to 1. For the SAR instruction, the OF flag is cleared for all 1-bit shifts. For the SHR instruction, the OF flag is set to the most-significant bit of the original operand.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre>TemporaryCount <span class="operator">=</span> Count <span class="operator">&amp;</span> <span class="number">0x1F</span><span class="operator">;</span>
+TemporaryDestination <span class="operator">=</span> Destination<span class="operator">;</span>
+<span class="keyword">while</span><span class="operator">(</span>TemporaryCount <span class="operator">!=</span> <span class="number">0</span><span class="operator">)</span> {
+	<span class="keyword">if</span><span class="operator">(</span>Instruction <span class="operator">==</span> SAL <span class="operator">||</span> Instruction <span class="operator">==</span> SHL<span class="operator">)</span> {
+		CF <span class="operator">=</span> MSB<span class="operator">(</span>Destination<span class="operator">)</span><span class="operator">;</span>
+		Destination <span class="operator">=</span> Destination <span class="operator">&lt;&lt;</span> <span class="number">1</span><span class="operator">;</span>
+	}
+	<span class="comment">//instruction is SAR or SHR</span>
+	<span class="keyword">else</span> {
+		CF <span class="operator">=</span> LSB<span class="operator">(</span>Destination<span class="operator">)</span><span class="operator">;</span>
+		<span class="keyword">if</span><span class="operator">(</span>Instruction <span class="operator">==</span> SAR<span class="operator">)</span> Destination <span class="operator">=</span> Destination / <span class="number">2</span><span class="operator">;</span> <span class="comment">//Signed divide, rounding toward negative infinity</span>
+		<span class="comment">//Instruction is SHR</span>
+		<span class="keyword">else</span> Destination <span class="operator">=</span> Destination / <span class="number">2</span><span class="operator">;</span> <span class="comment">//Unsigned divide</span>
+	}
+	TemporaryCount <span class="operator">=</span> TemporaryCount <span class="operator">-</span> <span class="number">1</span><span class="operator">;</span>
+}
+<span class="comment">//Determine overflow</span>
+<span class="keyword">if</span><span class="operator">(</span>Count <span class="operator">&amp;</span> <span class="number">0x1F</span> <span class="operator">==</span> <span class="number">1</span><span class="operator">)</span> {
+	<span class="keyword">if</span><span class="operator">(</span>Instruction <span class="operator">==</span> SAL <span class="operator">||</span> Instruction <span class="operator">==</span> SHL<span class="operator">)</span> OF <span class="operator">=</span> MSB<span class="operator">(</span>Destination<span class="operator">)</span> <span class="operator">^</span> CF<span class="operator">;</span>
+	<span class="keyword">else</span> <span class="keyword">if</span><span class="operator">(</span>Instruction <span class="operator">==</span> SAR<span class="operator">)</span> OF <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+	<span class="comment">//Instruction == SHR</span>
+	<span class="keyword">else</span> OF <span class="operator">=</span> MSB<span class="operator">(</span>TemporaryDestination<span class="operator">)</span><span class="operator">;</span>
+}
+<span class="keyword">else</span> OF <span class="operator">=</span> Undefined<span class="operator">;</span>
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>The CF flag contains the value of the last bit shifted out of the destination operand; it is undefined for SHL and SHR instructions where the count is greater than or equal to the size (in bits) of the destination operand. The OF flag is affected only for 1-bit shifts (see &quot;Description&quot; above); otherwise, it is undefined. The SF, ZF, and PF flags are set according to the result. If the count is 0, the flags are not affected. For a non-zero count, the AF flag is undefined.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>IA-32 Architecture Compatibility</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>The 8086 does not mask the shift count. However, all other IA-32 processors (starting with the Intel 286 processor) do mask the shift count to 5 bits, resulting in a maximum count of 31. This masking is done in all operating modes (including the virtual-8086 mode) to reduce the maximum execution time of the instructions.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Instruction</th>
+<th>Latency</th>
+<th>Throughput</th>
+<th>Execution Unit</th>
+</tr>
+<tr><td class="grid"><code>CPUID</code></td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F3n/0F2n</td><td class="grid">0F2n</td></tr>
+<tr><td class="grid"><code>SAL/SAR/SHL/SHR</code></td><td class="grid">1/4/1</td><td class="grid">0.5/1</td><td class="grid">-</td></tr>
+</table>
+</object>
+</div>
+</body>
+</html>

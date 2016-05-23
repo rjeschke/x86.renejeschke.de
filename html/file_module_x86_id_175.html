@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Shroud: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "MONITOR: Setup Monitor Address (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>MONITOR</h1>
+<h2>Setup Monitor Address</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>0F 01 C8</code></td>
+<td class="grid"><code>MONITOR</code></td>
+<td class="grid">Sets up a linear address range to be monitored by hardware and activates the monitor. The address range should be of a write-back memory caching type.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>The MONITOR instruction arms the address monitoring hardware using the address specified in EAX. The address range that the monitoring hardware will check for store operations can be determined by the CPUID instruction. The monitoring hardware will detect stores to an address within the address range and triggers the monitor hardware when the write is detected. The state of the monitor hardware is used by the MWAIT instruction.</p>
+<p>The content of EAX is an effective address. By default, the DS segment is used to create a linear address that is then monitored. Segment overrides can be used with the MONITOR instruction.</p>
+<p>ECX and EDX are used to communicate other information to the MONITOR instruction. ECX specifies optional extensions for the MONITOR instruction. EDX specifies optional hints for the MONITOR instruction and does not change the architectural behavior of the instruction. For the Pentium 4 processor with CPUID signature of family = 15 and model = 3, no extensions or hints are defined. Specifying undefined hints in EDX are ignored by the processor, whereas specifying undefined extensions in ECX will raise a general protection fault exception on the execution of the MONITOR instruction.</p>
+<p>The address range must be in memory of write-back type. Only write-back memory type stores to the monitored address range will trigger the monitoring hardware. If the address range is not in memory of write-back type, the address monitor hardware may not be armed properly. The MONITOR instruction is ordered as a load operation with respect to other memory transactions.</p>
+<p>Additional information for determining the address range to prevent false wake-ups is described in Chapter 7 of the IA-32 Intel Architecture Software Developer's Manual, Volume 3.</p>
+<p>The MONITOR instruction can be used at all privilege levels and is subject to all permission checking and faults associated with a byte load. Like a load, the MONITOR instruction sets the A-bit but not the D-bit in the page tables. The MONITOR CPUID feature flag (bit 3 of ECX when CPUID is executed with EAX=1) indicates the availability of MONITOR and MWAIT instructions in the processor. When set, the unconditional execution of MONITOR is supported at privilege levels 0 and conditional execution at privilege levels 1 through 3 (software should test for the appropriate support of these instructions before unconditional use). The operating system or system BIOS may disable this instruction through the IA32_MISC_ENABLES MSR; disabling the instruction clears the CPUID feature flag and causes execution of the MONITOR instruction to generate an illegal opcode exception.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre><span class="comment">/*</span>
+<span class="comment">MONITOR sets up an address range for the monitor hardware using the content of EAX as an</span>
+<span class="comment">effective address and puts the monitor hardware in armed state. The memory address range</span>
+<span class="comment">should be within memory of the write-back caching type. A store to the specified address range</span>
+<span class="comment">will trigger the monitor hardware. The content of ECX and EDX are used to communicate other</span>
+<span class="comment">information to the monitor hardware.</span>
+<span class="comment">*/</span>
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Protected Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>For an illegal memory operand effective address in the CS, DS, ES, FS or GS segments.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>For an illegal memory operand effective address in the CS, DS, ES, FS or GS segments.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>For ECX has a value other than 0.</td></tr>
+<tr><td><code>#SS(0)</code></td><td>For an illegal address in the SS segment.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>For a page fault (TBD).</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Real-Address Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP</code></td><td>If any part of the operand lies outside of the effective address space from 0 to FFFFH.</td></tr>
+<tr><td><code>#GP</code></td><td>If any part of the operand lies outside of the effective address space from 0 to FFFFH.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>For ECX has a value other than 0.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Virtual-8086 Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP</code></td><td>If any part of the operand lies outside of the effective address space from 0 to FFFFH.</td></tr>
+<tr><td><code>#GP</code></td><td>If any part of the operand lies outside of the effective address space from 0 to FFFFH.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>For ECX has a value other than 0.</td></tr>
+<tr><td><code>#UD</code></td><td>If CPUID feature flag MONITOR is 0. If executed at privilege level 1 through 3 when the instruction is not available. If LOCK, REP, REPNE/NZ and Operand Size override prefixes are used.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+</div>
+</body>
+</html>

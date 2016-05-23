@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>War on Theism: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "LDDQU: Load Unaligned Integer 128 Bits (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>LDDQU</h1>
+<h2>Load Unaligned Integer 128 Bits</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>F2 0F F0 /r</code></td>
+<td class="grid"><code>LDDQU xmm, mem</code></td>
+<td class="grid">Load data from mem and return 128 bits in an xmm register.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>The instruction is functionally similar to MOVDQU xmm, m128 for loading from memory. That is: 16 bytes of data starting at an address specified by the source memory operand (second operand) are fetched from memory and placed in a destination register (first operand). The source operand need not be aligned on a 16-byte boundary. Up to 32 bytes may be loaded from memory; this is implementation dependent.</p>
+<p>This instruction may improve performance relative to MOVDQU if the source operand crosses a cache line boundary. In situations that require the data loaded by LDDQU be modified and stored to the same location, use MOVDQU or MOVDQA instead of LDDQU. To move a double quadword to or from memory locations that are known to be aligned on 16-byte boundaries, use the MOVDQA instruction.</p>
+<p>Implementation Notes - If the source is aligned to a 16-byte boundary, based on the implementation, the 16 bytes may be loaded more than once. For that reason, the usage of LDDQU should be avoided when using uncached or write-combining (WC) memory regions. For uncached or WC memory regions, keep using MOVDQU.</p>
+<p>- This instruction is a replacement for MOVDQU (load) in situations where cache line splits significantly affect performance. It should not be used in situations where store-load forwarding is performance critical. If performance of store-load forwarding is critical to the application, use MOVDQA store-load pairs when data is 128-bit aligned or MOVDQU store-load pairs when data is 128-bit unaligned.</p>
+<p>- If the memory address is not aligned on 16-byte boundary, some implementations may load up to 32 bytes and return 16 bytes in the destination. Some processor implementations may issue multiple loads to access the appropriate 16 bytes. Developers of multi-threaded or multi-processor software should be aware that on these processors the loads will be performed in a non-atomic way.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre>xmm<span class="operator">[</span><span class="number">0..127</span><span class="operator">]</span> <span class="operator">=</span> m128<span class="operator">;</span>
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Numeric Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+None.
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Protected Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>For an illegal memory operand effective address in the CS, DS, ES, FS or GS segments.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>For an illegal memory operand effective address in the CS, DS, ES, FS or GS segments.</td></tr>
+<tr><td><code>#SS(0)</code></td><td>For an illegal address in the SS segment.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>For a page fault.</td></tr>
+<tr><td><code>#NM</code></td><td>If TS bit in CR0 is set.</td></tr>
+<tr><td><code>#UD</code></td><td>If CR4.OSFXSR(bit 9) = 0. If CR0.EM = 1. If CPUID.SSE3(ECX bit 0) = 0.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Real-Address Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If any part of the operand would lie outside of the effective address space from 0 to 0FFFFH.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If any part of the operand would lie outside of the effective address space from 0 to 0FFFFH.</td></tr>
+<tr><td><code>#NM</code></td><td>If TS bit in CR0 is set.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Virtual-8086 Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If any part of the operand would lie outside of the effective address space from 0 to 0FFFFH.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If any part of the operand would lie outside of the effective address space from 0 to 0FFFFH.</td></tr>
+<tr><td><code>#NM</code></td><td>If TS bit in CR0 is set.</td></tr>
+<tr><td><code>#UD</code></td><td>If CR0.EM = 1. If CR4.OSFXSR(bit 9) = 0. If CPUID.SSE3(ECX bit 0) = 0.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>For a page fault.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+</div>
+</body>
+</html>

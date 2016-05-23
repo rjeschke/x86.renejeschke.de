@@ -1,0 +1,547 @@
+*
+{
+	font-family: "Arial", sans-serif;
+	font-size: 12pt;
+	margin: 0;
+	padding: 0;
+}
+
+body
+{
+	color: #000000;
+	background: #ffffff;
+}
+
+img.latex
+{
+	vertical-align: middle;
+}
+
+h1
+{
+	font-size: 2.5em;
+	margin: 0.8em 0 0.8em 0;
+}
+
+h2
+{
+	font-size: 2em;
+	margin: 0.6em 0 0.6em 0;
+}
+
+h2.paste_header
+{
+	margin: 1.5em 0 1em 0;
+}
+
+h3
+{
+	font-size: 1.5em;
+	margin: 1em 0 0.5em 0;
+}
+
+p
+{
+	text-align: justify;
+	margin: 0.4em 0 0.4em 0;
+}
+
+li
+{
+	list-style-type: none;
+}
+
+sup
+{
+	font-size: 0.8em;
+}
+
+ul.numlist li
+{
+	list-style-type: decimal;
+	margin-left: 4em;
+}
+
+ul.content li
+{
+	list-style-type: none;
+	margin-left: 2em;
+}
+
+#instruction_set_reference_main_entries
+{
+	width: auto;
+}
+
+#instruction_set_reference_main_entries td
+{
+	border: 1px solid #000;
+	padding-right: 8px;
+}
+
+#paste_description
+{
+	margin-bottom: 2em;
+}
+
+#paste_description td
+{
+	border: 1px solid #000;
+	background-color: #f8f8f8;
+}
+
+#logo
+{
+	margin: 0 0 0 8em;
+}
+
+#warning
+{
+	background-color: #f00;
+	padding: 0.2em 0 0.2em 4em;
+	margin: 0 0 1em 0;
+	font-weight: bold;
+	text-align: center;
+}
+
+#warning a
+{
+	text-decoration: none;
+	color: #fff;
+	background: none;
+}
+
+#warning a:hover
+{
+	text-decoration: underline;
+	color: #aaa;
+}
+
+#menu
+{
+	background-color: #000;
+	padding: 0.2em 0 0.2em 4em;
+	margin: 0 0 1em 0;
+}
+
+#menu li
+{
+	font-weight: bold;
+	display: inline;
+	margin-right: 2em;
+}
+
+#menu a
+{
+	text-decoration: none;
+	color: #fff;
+	background: none;
+}
+
+#menu a:hover
+{
+	text-decoration: underline;
+	color: #aaa;
+}
+
+div.indent
+{
+	margin-left: 4em;
+}
+
+div.main_container
+{
+	padding: 2em;
+}
+
+input
+{
+	color: #000;
+	border: 1px solid #000;
+	background-color: #f0f0f0;
+}
+
+textarea
+{
+	color: #000;
+	border: 1px solid #000;
+	background-color: #f0f0f0;
+}
+
+textarea.pastebin
+{
+	font-family: "Consolas", "Lucida Console", monospace;
+}
+
+select
+{
+	color: #000;
+	border: 1px solid #000;
+	background-color: #f0f0f0;
+}
+
+form.news
+{
+	margin-bottom: 2em;
+}
+
+form.pastebin
+{
+	margin-bottom: 2em;
+}
+
+table
+{
+	border-collapse: collapse;
+	background-color: #f8f8f8;
+	margin: 2em 0 2em 4em;
+}
+
+table.code td
+{
+	padding: 0.5em;
+}
+
+table.code pre
+{
+	white-space: pre-wrap;
+	max-width: 80em;
+}
+
+table.operations_table
+{
+	margin: 0;
+}
+
+table.function
+{
+	border: 1px solid #000;
+}
+
+table.function th
+{
+	text-align: center;
+	padding: 0 1em 0 1em;
+}
+
+table.function td
+{
+	text-align: center;
+	padding: 0 1em 0 1em;
+}
+
+table.bit_addition
+{
+	border: 1px solid #000;
+}
+
+table.bit_addition td, th
+{
+	text-align: left;
+	padding: 0 1em 0 1em;
+}
+
+table.mnemonic_table td
+{
+	text-align: left;
+	padding: 0 1em 0 1em;
+}
+
+table.box
+{
+	border: 1px solid #000;
+	width: 70em;
+	padding: 0;
+	margin-top: 1em;
+}
+
+table.news
+{
+	border: 1px solid #000;
+	width: 45em;
+	margin-bottom: 1.5em;
+	padding: 0;
+}
+
+table.paste_entries
+{
+	border: 1px solid #000;
+	width: 80em;
+	padding: 0;
+}
+
+table.view_paste
+{
+	border: 1px solid #000;
+}
+
+
+table.code_file
+{
+	border: 1px solid #000;
+	margin-top: 1.5em;
+	width: 45em;
+}
+
+table.math
+{
+	border: none;
+	background-color: #fff;
+	display: inline-table;
+	vertical-align: middle;
+}
+
+table.math td
+{
+	border: none;
+	background-color: #fff;
+	text-align: center;
+	font-size: 0.8em;
+}
+
+table.math i
+{
+	font-size: 0.8em;
+}
+
+table.math td.main
+{
+	font-size: 1em;
+}
+
+table.math td.main i
+{
+	font-size: 1em;
+}
+
+table.math td.bottom
+{
+	vertical-align: top;
+}
+
+th
+{
+	border: 1px solid #000;
+	background-color: #e0e0e0;
+}
+
+td
+{
+	border: 1px solid #000;
+	vertical-align: top;
+}
+
+tr.paste_header
+{
+	border: 1px solid #000;
+	background-color: #e0e0e0;
+}
+
+td.menu_container
+{
+	padding: 8px;
+}
+
+td.paste_head
+{
+	font-weight: bold;
+	border: 1px solid #000;
+	text-align: center;
+	background-color: #e0e0e0;
+}
+
+td.paste_entry
+{
+	padding-left: 0.2em;
+}
+
+td.paste_row1
+{
+	border: none;
+	border-right: 1px solid #000;
+	text-align: right;
+	vertical-align: middle;
+	padding-left: 0.4em;
+}
+
+td.paste_line1
+{
+	border: none;
+	vertical-align: middle;
+	padding: 0 0.6em 0 0.6em;
+}
+
+td.paste_row2
+{
+	border: none;
+	border-right: 1px solid #000;
+	background-color: #f0f0f0;
+	text-align: right;
+	vertical-align: middle;
+	padding-left: 0.4em;
+}
+
+td.paste_line2
+{
+	border: none;
+	background-color: #f0f0f0;
+	vertical-align: middle;
+	padding: 0 0.6em 0 0.6em;
+}
+
+td.code_header
+{
+	font-weight: bold;
+	border: 1px solid #000;
+	background-color: #e0e0e0;
+}
+
+td.grid
+{
+	border: 1px solid #000;
+}
+
+td.instruction_set_reference_box
+{
+	padding: 0.4em;
+}
+
+td.news
+{
+	border: 1px solid #000;
+	margin: 0;
+}
+
+#view_inner_paste
+{
+	border: 1px solid #000;
+	margin: 0;
+	font-family: "Consolas", "Lucida Console", monospace;
+}
+
+span
+{
+	font-family: "Consolas", "Lucida Console", monospace;
+}
+
+span.bit_shift
+{
+	color: #f00;
+}
+
+span.red
+{
+	color: #f00;
+}
+
+span.green
+{
+	color: #0a0;
+}
+
+span.keyword
+{
+	color: #00f;
+}
+
+span.variable
+{
+	color: #198e95;
+}
+
+span.special
+{
+	color: #ce7617;
+}
+
+span.comment
+{
+	color: #25a42b;
+}
+
+span.preprocessor
+{
+	color: #e400ff;
+}
+
+span.include
+{
+	color: #e400ff;
+}
+
+span.operator
+{
+	color: #808080;
+}
+
+span.number
+{
+	color: #f00;
+}
+
+span.string
+{
+	color: #f00;
+}
+
+span.instruction
+{
+	color: #00f;
+}
+
+span.register
+{
+	color: #ff9a41;
+}
+
+td.inner_paste
+{
+	padding: 0;
+}
+
+code
+{
+	font-family: "Consolas", "Lucida Console", monospace;
+}
+
+pre
+{
+	font-family: "Consolas", "Lucida Console", monospace;
+	margin: 0;
+	padding: 0;
+}
+
+pre.math
+{
+	font-family: "Arial", sans-serif;
+	display: inline;
+}
+
+a
+{
+	text-decoration: none;
+	color: #0020b0;
+	background: none;
+}
+
+
+a:visited
+{
+	color: #503090;
+}
+
+a:active
+{
+	color: #f0a000;
+}
+
+a:hover
+{
+	color: #2240b0;
+	text-decoration: underline;
+}
+
+p.math
+{
+	margin: 1em 0 1em 4em;
+}

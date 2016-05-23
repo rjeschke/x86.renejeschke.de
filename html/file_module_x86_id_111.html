@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Sun: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "FRSTOR: Restore x87 FPU State (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>FRSTOR</h1>
+<h2>Restore x87 FPU State</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>DD /4</code></td>
+<td class="grid"><code>FRSTOR m94/108byte</code></td>
+<td class="grid">Load FPU state from m94byte or m108byte.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Loads the FPU state (operating environment and register stack) from the memory area specified with the source operand. This state data is typically written to the specified memory location by a previous FSAVE/FNSAVE instruction.</p>
+<p>The FPU operating environment consists of the FPU control word, status word, tag word, instruction pointer, data pointer, and last opcode. Figures 8-9 through 8-12 in the IA-32 Intel Architecture Software Developer's Manual, Volume 1, show the layout in memory of the stored environment, depending on the operating mode of the processor (protected or real) and the current operand-size attribute (16-bit or 32-bit). In virtual-8086 mode, the real mode layouts are used. The contents of the FPU register stack are stored in the 80 bytes immediately following the operating environment image.</p>
+<p>The FRSTOR instruction should be executed in the same operating mode as the corresponding FSAVE/FNSAVE instruction.</p>
+<p>If one or more unmasked exception bits are set in the new FPU status word, a floating-point exception will be generated. To avoid raising exceptions when loading a new operating environment, clear all the exception flags in the FPU status word that is being loaded.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre>FPUControlWord <span class="operator">=</span> Source<span class="operator">.</span>FPUControlWord<span class="operator">;</span>
+FPUStatusWord <span class="operator">=</span> Source<span class="operator">.</span>FPUStatusWord<span class="operator">.</span><span class="operator">;</span>
+FPUTagWord <span class="operator">=</span> Source<span class="operator">.</span>FPUTagWord<span class="operator">.</span><span class="operator">;</span>
+FPUDataPointer <span class="operator">=</span> Source<span class="operator">.</span>FPUDataPointer<span class="operator">;</span>
+FPUInstructionPointer <span class="operator">=</span> Source<span class="operator">.</span>FPUInstructionPointer<span class="operator">;</span>
+FPULastInstructionOpcode <span class="operator">=</span> Source<span class="operator">.</span>FPULastInstructionOpcode<span class="operator">.</span><span class="operator">;</span>
+ST<span class="operator">(</span><span class="number">0</span><span class="operator">)</span> <span class="operator">=</span> Source<span class="operator">.</span>ST<span class="operator">(</span><span class="number">0</span><span class="operator">)</span><span class="operator">;</span>
+ST<span class="operator">(</span><span class="number">1</span><span class="operator">)</span> <span class="operator">=</span> Source<span class="operator">.</span>ST<span class="operator">(</span><span class="number">1</span><span class="operator">)</span><span class="operator">;</span>
+ST<span class="operator">(</span><span class="number">2</span><span class="operator">)</span> <span class="operator">=</span> Source<span class="operator">.</span>ST<span class="operator">(</span><span class="number">2</span><span class="operator">)</span><span class="operator">;</span>
+ST<span class="operator">(</span><span class="number">3</span><span class="operator">)</span> <span class="operator">=</span> Source<span class="operator">.</span>ST<span class="operator">(</span><span class="number">3</span><span class="operator">)</span><span class="operator">;</span>
+ST<span class="operator">(</span><span class="number">4</span><span class="operator">)</span> <span class="operator">=</span> Source<span class="operator">.</span>ST<span class="operator">(</span><span class="number">4</span><span class="operator">)</span><span class="operator">;</span>
+ST<span class="operator">(</span><span class="number">5</span><span class="operator">)</span> <span class="operator">=</span> Source<span class="operator">.</span>ST<span class="operator">(</span><span class="number">5</span><span class="operator">)</span><span class="operator">;</span>
+ST<span class="operator">(</span><span class="number">6</span><span class="operator">)</span> <span class="operator">=</span> Source<span class="operator">.</span>ST<span class="operator">(</span><span class="number">6</span><span class="operator">)</span><span class="operator">;</span>
+ST<span class="operator">(</span><span class="number">7</span><span class="operator">)</span> <span class="operator">=</span> Source<span class="operator">.</span>ST<span class="operator">(</span><span class="number">7</span><span class="operator">)</span><span class="operator">;</span>
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>FPU flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>The C0, C1, C2, C3 flags are loaded.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Floating-Point Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>None;</code></td><td>however, this operation might unmask an existing exception that has been detected but not generated, because it was masked. Here, the exception is generated at the completion of the instruction.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Protected Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit. If the DS, ES, FS, or GS register is used to access memory and it contains a null segment selector.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit. If the DS, ES, FS, or GS register is used to access memory and it contains a null segment selector.</td></tr>
+<tr><td><code>#SS(0)</code></td><td>If a memory operand effective address is outside the SS segment limit.</td></tr>
+<tr><td><code>#NM</code></td><td>EM or TS in CR0 is set.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>If a page fault occurs.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Real-Address Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#GP</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#SS</code></td><td>If a memory operand effective address is outside the SS segment limit.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Virtual-8086 Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#SS(0)</code></td><td>If a memory operand effective address is outside the SS segment limit.</td></tr>
+<tr><td><code>#NM</code></td><td>EM or TS in CR0 is set.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>If a page fault occurs.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+</div>
+</body>
+</html>

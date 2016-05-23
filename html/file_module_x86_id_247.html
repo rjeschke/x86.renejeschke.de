@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Liberation: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "PMULUDQ: Multiply Packed Unsigned Doubleword Integers (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>PMULUDQ</h1>
+<h2>Multiply Packed Unsigned Doubleword Integers</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>0F F4 /r</code></td>
+<td class="grid"><code>PMULUDQ mm1, mm2/m64</code></td>
+<td class="grid">Multiply unsigned doubleword integer in mm1 by unsigned doubleword integer in mm2/m64, and store the quadword result in mm1.</td>
+</tr>
+<tr>
+<td class="grid"><code>66 0F F4 /r</code></td>
+<td class="grid"><code>PMULUDQ xmm1, xmm2/m128</code></td>
+<td class="grid">Multiply packed unsigned doubleword integers in xmm1 by packed unsigned doubleword integers in xmm2/m128, and store the quadword results in xmm1.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Multiplies the first operand (destination operand) by the second operand (source operand) and stores the result in the destination operand. The source operand can be an unsigned doubleword integer stored in the low doubleword of an MMX technology register or a 64-bit memory location, or it can be two packed unsigned doubleword integers stored in the first (low) and third doublewords of an XMM register or an 128-bit memory location. The destination operand can be an unsigned doubleword integer stored in the low doubleword an MMX technology register or two packed doubleword integers stored in the first and third doublewords of an XMM register. The result is an unsigned quadword integer stored in the destination an MMX technology register or two packed unsigned quadword integers stored in an XMM register. When a quadword result is too large to be represented in 64 bits (overflow), the result is wrapped around and the low 64 bits are written to the destination element (that is, the carry is ignored).</p>
+<p>For 64-bit memory operands, 64 bits are fetched from memory, but only the low doubleword is used in the computation; for 128-bit memory operands, 128 bits are fetched from memory, but only the first and third doublewords are used in the computation.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre><span class="comment">//PMULUDQ instruction with 64-Bit operands:</span>
+<span class="keyword">if</span><span class="operator">(</span>OperandSize <span class="operator">==</span> <span class="number">64</span><span class="operator">)</span> Destination<span class="operator">[</span><span class="number">0..63</span><span class="operator">]</span> <span class="operator">=</span> Destination<span class="operator">[</span><span class="number">0..31</span><span class="operator">]</span> <span class="operator">*</span> Source<span class="operator">[</span><span class="number">0..31</span><span class="operator">]</span><span class="operator">;</span>
+<span class="comment">//PMULUDQ instruction with 128-Bit operands:</span>
+<span class="keyword">else</span> {
+	Destination<span class="operator">[</span><span class="number">0..63</span><span class="operator">]</span> <span class="operator">=</span> Destination<span class="operator">[</span><span class="number">0..31</span><span class="operator">]</span> <span class="operator">*</span> Source<span class="operator">[</span><span class="number">0..31</span><span class="operator">]</span><span class="operator">;</span>
+	Destination<span class="operator">[</span><span class="number">64..127</span><span class="operator">]</span> <span class="operator">=</span> Destination<span class="operator">[</span><span class="number">64..95</span><span class="operator">]</span> <span class="operator">*</span> Source<span class="operator">[</span><span class="number">64..95</span><span class="operator">]</span><span class="operator">;</span>
+}
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>None.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Instruction</th>
+<th>Latency</th>
+<th>Throughput</th>
+<th>Execution Unit</th>
+</tr>
+<tr><td class="grid"><code>CPUID</code></td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F2n</td></tr>
+<tr><td class="grid"><code>PMULUDQ mm, mm</code></td><td class="grid">9/8/6</td><td class="grid">-/1/2</td><td class="grid">FP_MUL</td></tr>
+<tr><td class="grid"><code>PMULUDQ xmm, xmm</code></td><td class="grid">9/8/6+2</td><td class="grid">2/2/4</td><td class="grid">FP_MUL</td></tr>
+</table>
+</object>
+</div>
+</body>
+</html>

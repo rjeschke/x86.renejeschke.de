@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Sun: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "LTR: Load Task Register (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>LTR</h1>
+<h2>Load Task Register</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>0F 00 /3</code></td>
+<td class="grid"><code>LTR r/m16</code></td>
+<td class="grid">Load r/m16 into task register.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Loads the source operand into the segment selector field of the task register. The source operand (a general-purpose register or a memory location) contains a segment selector that points to a task state segment (TSS). After the segment selector is loaded in the task register, the processor uses the segment selector to locate the segment descriptor for the TSS in the global descriptor table (GDT). It then loads the segment limit and base address for the TSS from the segment descriptor into the task register. The task pointed to by the task register is marked busy, but a switch to the task does not occur.</p>
+<p>The LTR instruction is provided for use in operating-system software; it should not be used in application programs. It can only be executed in protected mode when the CPL is 0. It is commonly used in initialization code to establish the first task to be executed.</p>
+<p>The operand-size attribute has no effect on this instruction.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre><span class="keyword">if</span><span class="operator">(</span><span class="operator">!</span>IsWithinDescriptorTableLimit<span class="operator">(</span>Source<span class="operator">.</span>Offset<span class="operator">)</span> <span class="operator">||</span> Source<span class="operator">.</span>Type <span class="operator">!=</span> TypeGlobal<span class="operator">)</span> Exception<span class="operator">(</span>GP<span class="operator">(</span>SegmentSelector<span class="operator">)</span><span class="operator">)</span><span class="operator">;</span>
+SegmentDescriptor <span class="operator">=</span> ReadSegmentDescriptor<span class="operator">(</span><span class="operator">)</span><span class="operator">;</span>
+<span class="keyword">if</span><span class="operator">(</span><span class="operator">!</span>IsForAnAvailableTSS<span class="operator">(</span>SegmentDescriptor<span class="operator">)</span><span class="operator">)</span> Exception<span class="operator">(</span>GP<span class="operator">(</span>SegmentSelector<span class="operator">)</span><span class="operator">)</span><span class="operator">;</span>
+<span class="keyword">if</span><span class="operator">(</span><span class="operator">!</span>IsPresent<span class="operator">(</span>SegmentDescriptor<span class="operator">)</span><span class="operator">)</span> Exception<span class="operator">(</span>GP<span class="operator">(</span>SegmentSelector<span class="operator">)</span><span class="operator">)</span><span class="operator">;</span>
+TSSSegmentDescriptor<span class="operator">.</span>Busy <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+<span class="comment">//Locked read-modify-write operation on the entire descriptor when setting busy flag</span>
+TaskRegister<span class="operator">.</span>SegmentSelector <span class="operator">=</span> Source<span class="operator">;</span>
+TaskRegister<span class="operator">.</span>SegmentDescriptor<span class="operator">.</span>TSSSegmentDescriptor<span class="operator">;</span>
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>None.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Protected Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If the current privilege level is not 0. If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit. If the DS, ES, FS, or GS register is used to access memory and it contains a null segment selector.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If the current privilege level is not 0. If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit. If the DS, ES, FS, or GS register is used to access memory and it contains a null segment selector.</td></tr>
+<tr><td><code>#GP(selector)</code></td><td>If the source selector points to a segment that is not a TSS or to one for a task that is already busy. If the selector points to LDT or is beyond the GDT limit.</td></tr>
+<tr><td><code>#NP(selector)</code></td><td>If the TSS is marked not present.</td></tr>
+<tr><td><code>#SS(0)</code></td><td>If a memory operand effective address is outside the SS segment limit.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Real-Address Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#UD</code></td><td>The LTR instruction is not recognized in real-address mode.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Virtual-8086 Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#UD</code></td><td>The LTR instruction is not recognized in virtual-8086 mode.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+</div>
+</body>
+</html>

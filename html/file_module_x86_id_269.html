@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Liberation: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "PUSH: Push Word or Doubleword Onto the Stack (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>PUSH</h1>
+<h2>Push Word or Doubleword Onto the Stack</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>FF /6</code></td>
+<td class="grid"><code>PUSH r/m16</code></td>
+<td class="grid">Push r/m16.</td>
+</tr>
+<tr>
+<td class="grid"><code>FF /6</code></td>
+<td class="grid"><code>PUSH r/m32</code></td>
+<td class="grid">Push r/m32.</td>
+</tr>
+<tr>
+<td class="grid"><code>50+rw</code></td>
+<td class="grid"><code>PUSH r16</code></td>
+<td class="grid">Push r16.</td>
+</tr>
+<tr>
+<td class="grid"><code>50+rd</code></td>
+<td class="grid"><code>PUSH r32</code></td>
+<td class="grid">Push r32.</td>
+</tr>
+<tr>
+<td class="grid"><code>6A</code></td>
+<td class="grid"><code>PUSH imm8</code></td>
+<td class="grid">Push imm8.</td>
+</tr>
+<tr>
+<td class="grid"><code>68</code></td>
+<td class="grid"><code>PUSH imm16</code></td>
+<td class="grid">Push imm16.</td>
+</tr>
+<tr>
+<td class="grid"><code>68</code></td>
+<td class="grid"><code>PUSH imm32</code></td>
+<td class="grid">Push imm32.</td>
+</tr>
+<tr>
+<td class="grid"><code>0E</code></td>
+<td class="grid"><code>PUSH CS</code></td>
+<td class="grid">Push CS.</td>
+</tr>
+<tr>
+<td class="grid"><code>16</code></td>
+<td class="grid"><code>PUSH SS</code></td>
+<td class="grid">Push SS.</td>
+</tr>
+<tr>
+<td class="grid"><code>1E</code></td>
+<td class="grid"><code>PUSH DS</code></td>
+<td class="grid">Push DS.</td>
+</tr>
+<tr>
+<td class="grid"><code>06</code></td>
+<td class="grid"><code>PUSH ES</code></td>
+<td class="grid">Push ES.</td>
+</tr>
+<tr>
+<td class="grid"><code>0F A0</code></td>
+<td class="grid"><code>PUSH FS</code></td>
+<td class="grid">Push FS.</td>
+</tr>
+<tr>
+<td class="grid"><code>0F A8</code></td>
+<td class="grid"><code>PUSH GS</code></td>
+<td class="grid">Push GS.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Decrements the stack pointer and then stores the source operand on the top of the stack. The address-size attribute of the stack segment determines the stack pointer size (16 bits or 32 bits), and the operand-size attribute of the current code segment determines the amount the stack pointer is decremented (2 bytes or 4 bytes). For example, if these address- and operand-size attributes are 32, the 32-bit ESP register (stack pointer) is decremented by 4 and, if they are 16, the 16-bit SP register is decremented by 2. (The B flag in the stack segment's segment descriptor determines the stack's address-size attribute, and the D flag in the current code segment's segment descriptor, along with prefixes, determines the operand-size attribute and also the address-size attribute of the source operand.) Pushing a 16-bit operand when the stack addresssize attribute is 32 can result in a misaligned the stack pointer (that is, the stack pointer is not aligned on a doubleword boundary).</p>
+<p>The PUSH ESP instruction pushes the value of the ESP register as it existed before the instruction was executed. Thus, if a PUSH instruction uses a memory operand in which the ESP register is used as a base register for computing the operand address, the effective address of the operand is computed before the ESP register is decremented.</p>
+<p>In the real-address mode, if the ESP or SP register is 1 when the PUSH instruction is executed, the processor shuts down due to a lack of stack space. No exception is generated to indicate this condition.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre><span class="keyword">if</span><span class="operator">(</span>StackAddressSize <span class="operator">==</span> <span class="number">32</span><span class="operator">)</span> {
+	<span class="keyword">if</span><span class="operator">(</span>OperandSize <span class="operator">==</span> <span class="number">32</span><span class="operator">)</span> {
+		ESP <span class="operator">=</span> ESP <span class="operator">-</span> <span class="number">4</span><span class="operator">;</span>
+		SS<span class="operator">:</span>ESP <span class="operator">=</span> Source <span class="comment">//push doubleword</span>
+	}
+	<span class="keyword">else</span> { <span class="comment">//OperandSize == 16</span>
+		ESP <span class="operator">=</span> ESP <span class="operator">-</span> <span class="number">2</span><span class="operator">;</span>
+		SS<span class="operator">:</span>ESP <span class="operator">=</span> Source<span class="operator">;</span> <span class="comment">//push word</span>
+	}
+}
+<span class="keyword">else</span> { <span class="comment">//StackAddressSize == 16</span>
+	<span class="keyword">if</span><span class="operator">(</span>OperandSize <span class="operator">==</span> <span class="number">16</span><span class="operator">)</span> {
+		SP <span class="operator">=</span> SP <span class="operator">-</span> <span class="number">2</span><span class="operator">;</span>
+		SS<span class="operator">:</span>ESP <span class="operator">=</span> Source <span class="comment">//push word</span>
+	}
+	<span class="keyword">else</span> { <span class="comment">//OperandSize == 32</span>
+		SP <span class="operator">=</span> SP <span class="operator">-</span> <span class="number">4</span><span class="operator">;</span>
+		SS<span class="operator">:</span>ESP <span class="operator">=</span> Source<span class="operator">;</span> <span class="comment">//push doubleword</span>
+	}
+}
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>None.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>IA-32 Architecture Compatibility</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>For IA-32 processors from the Intel 286 on, the PUSH ESP instruction pushes the value of the ESP register as it existed before the instruction was executed. (This is also true in the realaddress and virtual-8086 modes.) For the Intel 8086 processor, the PUSH SP instruction pushes the new value of the SP register (that is the value after it has been decremented by 2).
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Instruction</th>
+<th>Latency</th>
+<th>Throughput</th>
+<th>Execution Unit</th>
+</tr>
+<tr><td class="grid"><code>CPUID</code></td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F2n</td></tr>
+<tr><td class="grid"><code>PUSH</code></td><td class="grid">1.5</td><td class="grid">1</td><td class="grid">MEM_STORE ALU</td></tr>
+</table>
+</object>
+</div>
+</body>
+</html>

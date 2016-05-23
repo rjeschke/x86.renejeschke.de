@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Into the Void: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "FCOS: Cosine (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>FCOS</h1>
+<h2>Cosine</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>D9 FF</code></td>
+<td class="grid"><code>FCOS</code></td>
+<td class="grid">Replace ST(0) with its cosine.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Computes the cosine of the source operand in register ST(0) and stores the result in ST(0). The source operand must be given in radians and must be within the range -2^63 to +2^63. The following table shows the results obtained when taking the cosine of various classes of numbers.</p>
+<div>
+<table class="grid">
+<caption>FCOS Results</caption>
+<tr><th>ST(0) Source</th><th>ST(0) Destination</th></tr>
+<tr><td>-inf</td><td>*</td></tr>
+<tr><td>-F</td><td>-1 to +1</td></tr>
+<tr><td>-0</td><td>+1</td></tr>
+<tr><td>+0</td><td>+1</td></tr>
+<tr><td>+F</td><td>-1 to +1</td></tr>
+<tr><td>+inf</td><td>*</td></tr>
+<tr><td>NaN</td><td>NaN</td></tr>
+<tfoot>
+<tr><td colspan="2">NOTES: F Means finite floating-point value.</td></tr>
+<tr><td colspan="2">* Indicates floating-point invalid-arithmetic-operand (#IA) exception.</td></tr>
+</tfoot>
+</table>
+</div>
+<p>If the source operand is outside the acceptable range, the C2 flag in the FPU status word is set, and the value in register ST(0) remains unchanged. The instruction does not raise an exception when the source operand is out of range. It is up to the program to check the C2 flag for out-ofrange conditions. Source values outside the range -2^63 to +2^63 can be reduced to the range of the instruction by subtracting an appropriate integer multiple of 2 * pi or by using the FPREM instruction with a divisor of 2 * pi. See the section titled &quot;Pi&quot; in Chapter 8 of the IA-32 Intel Architecture Software Developer's Manual, Volume 1, for a discussion of the proper value to use for pi in performing such reductions.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre><span class="keyword">if</span><span class="operator">(</span>GetAbsoluteValue<span class="operator">(</span>ST<span class="operator">(</span><span class="number">0</span><span class="operator">)</span><span class="operator">)</span> <span class="operator">&lt;</span> <span class="operator">(</span><span class="number">1</span> <span class="operator">&lt;&lt;</span> <span class="number">63</span><span class="operator">)</span><span class="operator">)</span> {
+	C2 <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+	ST<span class="operator">(</span><span class="number">0</span><span class="operator">)</span> <span class="operator">=</span> Cosine<span class="operator">(</span>ST<span class="operator">(</span><span class="number">0</span><span class="operator">)</span><span class="operator">)</span><span class="operator">;</span>
+}
+<span class="keyword">else</span> C2 <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span> <span class="comment">//source operand is out-of-range</span>
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>FPU flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>C1 Set to 0 if stack underflow occurred.
+Set if result was rounded up; cleared otherwise.
+Undefined if C2 is 1.
+C2 Set to 1 if outside range (-2^63 &lt; source operand &lt; +2^63); otherwise, set to 0.
+C0, C3 Undefined.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Floating-Point Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#IS</code></td><td>Stack underflow occurred.</td></tr>
+<tr><td><code>#IS</code></td><td>Stack underflow occurred.</td></tr>
+<tr><td><code>#IA</code></td><td>Source operand is an SNaN value, infinite, or unsupported format.</td></tr>
+<tr><td><code>#D</code></td><td>Source is a denormal value.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Protected Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#NM</code></td><td>EM or TS in CR0 is set.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Real-Address Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#NM</code></td><td>EM or TS in CR0 is set.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Virtual-8086 Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#NM</code></td><td>EM or TS in CR0 is set.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Instruction</th>
+<th>Latency</th>
+<th>Throughput</th>
+<th>Execution Unit</th>
+</tr>
+<tr><td class="grid"><code>CPUID</code></td><td class="grid">0F3n/0F2n</td><td class="grid">0F3n/0F2n</td><td class="grid">0F2n</td></tr>
+<tr><td class="grid"><code>FCOS</code></td><td class="grid">180-280/190-240</td><td class="grid">130</td><td class="grid">-</td></tr>
+</table>
+</object>
+</div>
+</body>
+</html>

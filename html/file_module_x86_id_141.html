@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Ultraviolence: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "INS/INSB/INSW/INSD: Input from Port to String (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>INS/INSB/INSW/INSD</h1>
+<h2>Input from Port to String</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>6C INS m8, DX</code></td>
+<td class="grid"><code>Input byte from I/O port specified in DX into memory location specified in ES:(E)DI.</code></td>
+<td class="grid"></td>
+</tr>
+<tr>
+<td class="grid"><code>6D INS m16, DX</code></td>
+<td class="grid"><code>Input word from I/O port specified in DX into memory location specified in ES:(E)DI.</code></td>
+<td class="grid"></td>
+</tr>
+<tr>
+<td class="grid"><code>6D INS m32, DX</code></td>
+<td class="grid"><code>Input doubleword from I/O port specified in DX into memory location specified in ES:(E)DI.</code></td>
+<td class="grid"></td>
+</tr>
+<tr>
+<td class="grid"><code>6C INSB</code></td>
+<td class="grid"><code>Input byte from I/O port specified in DX into memory location specified with ES:(E)DI.</code></td>
+<td class="grid"></td>
+</tr>
+<tr>
+<td class="grid"><code>6D INSW</code></td>
+<td class="grid"><code>Input word from I/O port specified in DX into memory location specified in ES:(E)DI.</code></td>
+<td class="grid"></td>
+</tr>
+<tr>
+<td class="grid"><code>6D INSD</code></td>
+<td class="grid"><code>Input doubleword from I/O port specified in DX into memory location specified in ES:(E)DI.</code></td>
+<td class="grid"></td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Copies the data from the I/O port specified with the source operand (second operand) to the destination operand (first operand). The source operand is an I/O port address (from 0 to 65,535) that is read from the DX register. The destination operand is a memory location, the address of which is read from either the ES:EDI or the ES:DI registers (depending on the address-size attribute of the instruction, 32 or 16, respectively). (The ES segment cannot be overridden with a segment override prefix.) The size of the I/O port being accessed (that is, the size of the source and destination operands) is determined by the opcode for an 8-bit I/O port or by the operandsize attribute of the instruction for a 16- or 32-bit I/O port.</p>
+<p>At the assembly-code level, two forms of this instruction are allowed: the &quot;explicit-operands&quot; form and the &quot;no-operands&quot; form. The explicit-operands form (specified with the INS mnemonic) allows the source and destination operands to be specified explicitly. Here, the source operand must be &quot;DX,&quot; and the destination operand should be a symbol that indicates the size of the I/O port and the destination address. This explicit-operands form is provided to allow documentation; however, note that the documentation provided by this form can be misleading.</p>
+<p>That is, the destination operand symbol must specify the correct type (size) of the operand (byte, word, or doubleword), but it does not have to specify the correct location. The location is always specified by the ES:(E)DI registers, which must be loaded correctly before the INS instruction is executed.</p>
+<p>The no-operands form provides &quot;short forms&quot; of the byte, word, and doubleword versions of the INS instructions. Here also DX is assumed by the processor to be the source operand and ES:(E)DI is assumed to be the destination operand. The size of the I/O port is specified with the choice of mnemonic: INSB (byte), INSW (word), or INSD (doubleword).</p>
+<p>After the byte, word, or doubleword is transfer from the I/O port to the memory location, the (E)DI register is incremented or decremented automatically according to the setting of the DF flag in the EFLAGS register. (If the DF flag is 0, the (E)DI register is incremented; if the DF flag is 1, the (E)DI register is decremented.) The (E)DI register is incremented or decremented by 1 for byte operations, by 2 for word operations, or by 4 for doubleword operations.</p>
+<p>The INS, INSB, INSW, and INSD instructions can be preceded by the REP prefix for block input of ECX bytes, words, or doublewords. See &quot;REP/REPE/REPZ/REPNE /REPNZ-Repeat String Operation Prefix&quot; in this chapter for a description of the REP prefix.</p>
+<p>These instructions are only useful for accessing I/O ports located in the processor's I/O address space. See Chapter 13, Input/Output, in the IA-32 Intel Architecture Software Developer's Manual, Volume 1, for more information on accessing I/O ports in the I/O address space.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre><span class="keyword">if</span><span class="operator">(</span>PE <span class="operator">==</span> <span class="number">1</span> <span class="operator">&amp;&amp;</span> CPL <span class="operator">&gt;</span> IOPL <span class="operator">||</span> VM <span class="operator">==</span> <span class="number">1</span><span class="operator">)</span> { <span class="comment">//Protected mode with CPL > IOPL or virtual-8086 mode</span>
+	<span class="keyword">if</span><span class="operator">(</span>AnyPermissionBitSet<span class="operator">(</span>CurrentIOPort<span class="operator">(</span><span class="operator">)</span><span class="operator">)</span><span class="operator">)</span> Exception<span class="operator">(</span>GP<span class="operator">(</span><span class="number">0</span><span class="operator">)</span><span class="operator">)</span><span class="operator">;</span> <span class="comment">//If any I/O Permission Bit for I/O port being accessed == 1 the I/O operation is not allowed</span>
+	<span class="keyword">else</span> Destination <span class="operator">=</span> Source<span class="operator">;</span> <span class="comment">//I/O operation is allowed; Reads from selected I/O port</span>
+}
+<span class="keyword">else</span> Destination <span class="operator">=</span> Source<span class="operator">;</span> <span class="comment">//Real Mode or Protected Mode with CPL <= IOPL; Reads from selected I/O port</span>
+
+<span class="keyword">if</span><span class="operator">(</span>IsByteTransfer<span class="operator">(</span><span class="operator">)</span><span class="operator">)</span> {
+	<span class="keyword">if</span><span class="operator">(</span>DF <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">+</span> <span class="number">1</span><span class="operator">;</span>
+	<span class="keyword">else</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">-</span> <span class="number">1</span><span class="operator">;</span>
+}
+<span class="keyword">else</span> <span class="keyword">if</span><span class="operator">(</span>IsWordTransfer<span class="operator">(</span><span class="operator">)</span><span class="operator">)</span> {
+	<span class="keyword">if</span><span class="operator">(</span>DF <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">+</span> <span class="number">2</span><span class="operator">;</span>
+	<span class="keyword">else</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">-</span> <span class="number">2</span><span class="operator">;</span>
+}
+<span class="keyword">else</span> { <span class="comment">//doubleword transfer</span>
+	<span class="keyword">if</span><span class="operator">(</span>DF <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">+</span> <span class="number">4</span><span class="operator">;</span>
+	<span class="keyword">else</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">-</span> <span class="number">4</span><span class="operator">;</span>
+}
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>None.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Protected Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If the CPL is greater than (has less privilege) the I/O privilege level (IOPL) and any of the corresponding I/O permission bits in TSS for the I/O port being accessed is 1. If the destination is located in a non-writable segment. If an illegal memory operand effective address in the ES segments is given.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If the CPL is greater than (has less privilege) the I/O privilege level (IOPL) and any of the corresponding I/O permission bits in TSS for the I/O port being accessed is 1. If the destination is located in a non-writable segment. If an illegal memory operand effective address in the ES segments is given.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>If a page fault occurs.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Real-Address Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#GP</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Virtual-8086 Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If any of the I/O permission bits in the TSS for the I/O port being accessed is 1.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If any of the I/O permission bits in the TSS for the I/O port being accessed is 1.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>If a page fault occurs.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+</div>
+</body>
+</html>

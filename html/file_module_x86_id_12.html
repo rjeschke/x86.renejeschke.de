@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Shroud: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "AND: Logical AND (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>AND</h1>
+<h2>Logical AND</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>24 ib</code></td>
+<td class="grid"><code>AND AL, imm8</code></td>
+<td class="grid">AL AND imm8</td>
+</tr>
+<tr>
+<td class="grid"><code>25 iw</code></td>
+<td class="grid"><code>AND AX, imm16</code></td>
+<td class="grid">AX AND imm16</td>
+</tr>
+<tr>
+<td class="grid"><code>25 id</code></td>
+<td class="grid"><code>AND EAX, imm32</code></td>
+<td class="grid">EAX AND imm32</td>
+</tr>
+<tr>
+<td class="grid"><code>80 /4 ib</code></td>
+<td class="grid"><code>AND r/m8, imm8</code></td>
+<td class="grid">r/m8 AND imm8</td>
+</tr>
+<tr>
+<td class="grid"><code>81 /4 iw</code></td>
+<td class="grid"><code>AND r/m16, imm16</code></td>
+<td class="grid">r/m16 AND imm16</td>
+</tr>
+<tr>
+<td class="grid"><code>81 /4 id</code></td>
+<td class="grid"><code>AND r/m32, imm32</code></td>
+<td class="grid">r/m32 AND imm32</td>
+</tr>
+<tr>
+<td class="grid"><code>83 /4 ib</code></td>
+<td class="grid"><code>AND r/m16, imm8</code></td>
+<td class="grid">r/m16 AND imm8 (sign-extended)</td>
+</tr>
+<tr>
+<td class="grid"><code>83 /4 ib</code></td>
+<td class="grid"><code>AND r/m32, imm8</code></td>
+<td class="grid">r/m32 AND imm8 (sign-extended)</td>
+</tr>
+<tr>
+<td class="grid"><code>20 /r</code></td>
+<td class="grid"><code>AND r/m8, r8</code></td>
+<td class="grid">r/m8 AND r8</td>
+</tr>
+<tr>
+<td class="grid"><code>21 /r</code></td>
+<td class="grid"><code>AND r/m16, r16</code></td>
+<td class="grid">r/m16 AND r16</td>
+</tr>
+<tr>
+<td class="grid"><code>21 /r</code></td>
+<td class="grid"><code>AND r/m32, r32</code></td>
+<td class="grid">r/m32 AND r32</td>
+</tr>
+<tr>
+<td class="grid"><code>22 /r</code></td>
+<td class="grid"><code>AND r8, r/m8</code></td>
+<td class="grid">r8 AND r/m8</td>
+</tr>
+<tr>
+<td class="grid"><code>23 /r</code></td>
+<td class="grid"><code>AND r16, r/m16</code></td>
+<td class="grid">r16 AND r/m16</td>
+</tr>
+<tr>
+<td class="grid"><code>23 /r</code></td>
+<td class="grid"><code>AND r32, r/m32</code></td>
+<td class="grid">r32 AND r/m32</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Performs a bitwise AND operation on the destination (first) and source (second) operands and stores the result in the destination operand location. The source operand can be an immediate, a register, or a memory location; the destination operand can be a register or a memory location.</p>
+<p>(However, two memory operands cannot be used in one instruction.) Each bit of the result is set to 1 if both corresponding bits of the first and second operands are 1; otherwise, it is set to 0.</p>
+<p>This instruction can be used with a LOCK prefix to allow the it to be executed atomically.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre>Destination <span class="operator">=</span> Destination <span class="operator">&amp;</span> Source<span class="operator">;</span>
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>The OF and CF flags are cleared; the SF, ZF, and PF flags are set according to the result. The state of the AF flag is undefined.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Protected Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If the destination operand points to a non-writable segment. If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit. If the DS, ES, FS, or GS register contains a null segment selector.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If the destination operand points to a non-writable segment. If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit. If the DS, ES, FS, or GS register contains a null segment selector.</td></tr>
+<tr><td><code>#SS(0)</code></td><td>If a memory operand effective address is outside the SS segment limit.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>If a page fault occurs.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Real-Address Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#GP</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Virtual-8086 Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#SS(0)</code></td><td>If a memory operand effective address is outside the SS segment limit.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>If a page fault occurs.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Instruction</th>
+<th>Latency</th>
+<th>Throughput</th>
+<th>Execution Unit</th>
+</tr>
+<tr><td class="grid"><code>CPUID</code></td><td class="grid">0F3n/0F2n</td><td class="grid">0F3n/0F2n</td><td class="grid">0F2n</td></tr>
+<tr><td class="grid"><code>AND</code></td><td class="grid">1/0.5</td><td class="grid">0.5/0.5</td><td class="grid">ALU</td></tr>
+</table>
+</object>
+</div>
+</body>
+</html>

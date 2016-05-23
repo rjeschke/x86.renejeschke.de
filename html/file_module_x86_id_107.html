@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Chasing Dragons: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "FPREM: Partial Remainder (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>FPREM</h1>
+<h2>Partial Remainder</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>D9 F8</code></td>
+<td class="grid"><code>FPREM</code></td>
+<td class="grid">Replace ST(0) with the remainder obtained from dividing ST(0) by ST(1).</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Computes the remainder obtained from dividing the value in the ST(0) register (the dividend) by the value in the ST(1) register (the divisor or modulus), and stores the result in ST(0). The remainder represents the following value: Remainder = ST(0) - (Q * ST(1)) Here, Q is an integer value that is obtained by truncating the floating-point number quotient of [ST(0) / ST(1)] toward zero. The sign of the remainder is the same as the sign of the dividend. The magnitude of the remainder is less than that of the modulus, unless a partial remainder was computed (as described below).</p>
+<p>This instruction produces an exact result; the inexact-result exception does not occur and the rounding control has no effect. The following table shows the results obtained when computing the remainder of various classes of numbers, assuming that underflow does not occur.</p>
+<div>
+<table class="grid">
+<caption>FPREM Results</caption>
+<tr><td>-</td><td>ST(0): -inf</td><td>ST(0): -F</td><td>ST(0): -0</td><td>ST(0): +0</td><td>ST(0): +F</td><td>ST(0): +inf</td><td>ST(0): NaN</td></tr>
+<tr><td>ST(1): -inf</td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td><td>NaN</td></tr>
+<tr><td>ST(1): -F</td><td>ST(0)</td><td>-F</td><td>or</td><td>-0</td><td>**</td><td>**</td><td>-F</td><td>or</td><td>-0</td><td>ST(0)</td><td>NaN</td></tr>
+<tr><td>ST(1): -0</td><td>-0</td><td>-0</td><td>*</td><td>*</td><td>-0</td><td>-0</td><td>NaN</td></tr>
+<tr><td>ST(1): +0</td><td>+0</td><td>+0</td><td>*</td><td>*</td><td>+0</td><td>+0</td><td>NaN</td></tr>
+<tr><td>ST(1): +F</td><td>ST(0)</td><td>+F</td><td>or</td><td>+0</td><td>**</td><td>**</td><td>+F</td><td>or</td><td>+0</td><td>ST(0)</td><td>NaN</td></tr>
+<tr><td>ST(1): +inf</td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td><td>*</td><td>NaN</td></tr>
+<tr><td>ST(1): NaN</td><td>NaN</td><td>NaN</td><td>NaN</td><td>NaN</td><td>NaN</td><td>NaN</td><td>NaN</td></tr>
+<tfoot>
+<tr><td colspan="8">F Means finite floating-point value.</td></tr>
+<tr><td colspan="8">* Indicates floating-point invalid-arithmetic-operand (#IA) exception.</td></tr>
+<tr><td colspan="8">** Indicates floating-point zero-divide (#Z) exception.</td></tr>
+</tfoot>
+</table>
+</div>
+<p>When the result is 0, its sign is the same as that of the dividend. When the modulus is infinite, the result is equal to the value in ST(0).</p>
+<p>The FPREM instruction does not compute the remainder specified in IEEE Std 754. The IEEE specified remainder can be computed with the FPREM1 instruction. The FPREM instruction is provided for compatibility with the Intel 8087 and Intel287 math coprocessors.</p>
+<p>The FPREM instruction gets its name &quot;partial remainder&quot; because of the way it computes the remainder. This instructions arrives at a remainder through iterative subtraction. It can, however, reduce the exponent of ST(0) by no more than 63 in one execution of the instruction.</p>
+<p>If the instruction succeeds in producing a remainder that is less than the modulus, the operation is complete and the C2 flag in the FPU status word is cleared. Otherwise, C2 is set, and the result in ST(0) is called the partial remainder. The exponent of the partial remainder will be less than the exponent of the original dividend by at least 32. Software can re-execute the instruction (using the partial remainder in ST(0) as the dividend) until C2 is cleared. (Note that while executing such a remainder-computation loop, a higher-priority interrupting routine that needs the FPU can force a context switch in-between the instructions in the loop.) An important use of the FPREM instruction is to reduce the arguments of periodic functions.</p>
+<p>When reduction is complete, the instruction stores the three least-significant bits of the quotient in the C3, C1, and C0 flags of the FPU status word. This information is important in argument reduction for the tangent function (using a modulus of pi/4), because it locates the original angle in the correct one of eight sectors of the unit circle.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre>D <span class="operator">=</span> GetExponent<span class="operator">(</span>ST<span class="operator">(</span><span class="number">0</span><span class="operator">)</span><span class="operator">)</span> <span class="operator">-</span> GetExponent<span class="operator">(</span>ST<span class="operator">(</span><span class="number">1</span><span class="operator">)</span><span class="operator">)</span><span class="operator">;</span>
+<span class="keyword">if</span><span class="operator">(</span>D <span class="operator">&lt;</span> <span class="number">64</span><span class="operator">)</span> {
+	Q <span class="operator">=</span> Integer<span class="operator">(</span>TruncateTowardZero<span class="operator">(</span>ST<span class="operator">(</span><span class="number">0</span><span class="operator">)</span> / ST<span class="operator">(</span><span class="number">1</span><span class="operator">)</span><span class="operator">)</span><span class="operator">)</span><span class="operator">;</span>
+	ST<span class="operator">(</span><span class="number">0</span><span class="operator">)</span> <span class="operator">=</span> ST<span class="operator">(</span><span class="number">0</span><span class="operator">)</span> <span class="operator">-</span> <span class="operator">(</span>ST<span class="operator">(</span><span class="number">1</span><span class="operator">)</span> <span class="operator">*</span> Q<span class="operator">)</span><span class="operator">;</span>
+	C0 <span class="operator">=</span> GetLeastSignificantBit<span class="operator">(</span>Q2<span class="operator">)</span><span class="operator">;</span>
+	C1 <span class="operator">=</span> GetLeastSignificantBit<span class="operator">(</span>Q0<span class="operator">)</span><span class="operator">;</span>
+	C2 <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+	C3 <span class="operator">=</span> GetLeastSignificantBit<span class="operator">(</span>Q1<span class="operator">)</span><span class="operator">;</span>
+}
+<span class="keyword">else</span> {
+	C2 <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+	N <span class="operator">=</span> Constant<span class="operator">;</span> <span class="comment">//This is an implementation-dependent number between 32 and 63.</span>
+	QQ <span class="operator">=</span> Integer<span class="operator">(</span>TruncateTowardZero<span class="operator">(</span><span class="operator">(</span>ST<span class="operator">(</span><span class="number">0</span><span class="operator">)</span> / ST<span class="operator">(</span><span class="number">1</span><span class="operator">)</span><span class="operator">)</span> / <span class="number">2</span> <span class="operator">*</span> <span class="operator">(</span>D <span class="operator">-</span> N<span class="operator">)</span><span class="operator">)</span><span class="operator">)</span><span class="operator">;</span>
+	ST<span class="operator">(</span><span class="number">0</span><span class="operator">)</span> <span class="operator">=</span> ST<span class="operator">(</span><span class="number">0</span><span class="operator">)</span> <span class="operator">-</span> <span class="operator">(</span>ST<span class="operator">(</span><span class="number">1</span><span class="operator">)</span> <span class="operator">*</span> QQ <span class="operator">*</span> <span class="number">2</span><span class="operator">(</span>D <span class="operator">-</span> N<span class="operator">)</span><span class="operator">)</span><span class="operator">;</span>
+}
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>FPU flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>C0 Set to bit 2 (Q2) of the quotient.
+C1 Set to 0 if stack underflow occurred; otherwise, set to least significant bit
+of quotient (Q0).
+C2 Set to 0 if reduction complete; set to 1 if incomplete.
+C3 Set to bit 1 (Q1) of the quotient.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Floating-Point Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#IS</code></td><td>Stack underflow occurred.</td></tr>
+<tr><td><code>#IS</code></td><td>Stack underflow occurred.</td></tr>
+<tr><td><code>#IA</code></td><td>Source operand is an SNaN value, modulus is 0, dividend is infinite, or unsupported</td></tr>
+<tr><td><code>#D</code></td><td>Source operand is a denormal value.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Protected Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#NM</code></td><td>EM or TS in CR0 is set.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Real-Address Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#NM</code></td><td>EM or TS in CR0 is set.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Virtual-8086 Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#NM</code></td><td>EM or TS in CR0 is set.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+</div>
+</body>
+</html>

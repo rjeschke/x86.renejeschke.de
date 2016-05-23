@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Shroud: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "LOOP/LOOPcc: Loop According to ECX Counter (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>LOOP/LOOPcc</h1>
+<h2>Loop According to ECX Counter</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>E2 cb</code></td>
+<td class="grid"><code>LOOP rel8</code></td>
+<td class="grid">Decrement count; jump short if count != 0.</td>
+</tr>
+<tr>
+<td class="grid"><code>E1 cb</code></td>
+<td class="grid"><code>LOOPE rel8</code></td>
+<td class="grid">Decrement count; jump short if count != 0 and ZF=1.</td>
+</tr>
+<tr>
+<td class="grid"><code>E1 cb</code></td>
+<td class="grid"><code>LOOPZ rel8</code></td>
+<td class="grid">Decrement count; jump short if count != 0 and ZF=1.</td>
+</tr>
+<tr>
+<td class="grid"><code>E0 cb</code></td>
+<td class="grid"><code>LOOPNE rel8</code></td>
+<td class="grid">Decrement count; jump short if count != 0 and ZF=0.</td>
+</tr>
+<tr>
+<td class="grid"><code>E0 cb</code></td>
+<td class="grid"><code>LOOPNZ rel8</code></td>
+<td class="grid">Decrement count; jump short if count != 0 and ZF=0.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Performs a loop operation using the ECX or CX register as a counter. Each time the LOOP instruction is executed, the count register is decremented, then checked for 0. If the count is 0, the loop is terminated and program execution continues with the instruction following the LOOP instruction. If the count is not zero, a near jump is performed to the destination (target) operand, which is presumably the instruction at the beginning of the loop. If the address-size attribute is 32 bits, the ECX register is used as the count register; otherwise the CX register is used.</p>
+<p>The target instruction is specified with a relative offset (a signed offset relative to the current value of the instruction pointer in the EIP register). This offset is generally specified as a label in assembly code, but at the machine code level, it is encoded as a signed, 8-bit immediate value, which is added to the instruction pointer. Offsets of -128 to +127 are allowed with this instruction.</p>
+<p>Some forms of the loop instruction (LOOPcc) also accept the ZF flag as a condition for terminating the loop before the count reaches zero. With these forms of the instruction, a condition code (cc) is associated with each instruction to indicate the condition being tested for. Here, the LOOPcc instruction itself does not affect the state of the ZF flag; the ZF flag is changed by other instructions in the loop.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre><span class="keyword">if</span><span class="operator">(</span>AddressSize <span class="operator">==</span> <span class="number">32</span><span class="operator">)</span> Count <span class="operator">=</span> ECX<span class="operator">;</span>
+<span class="keyword">else</span> Count <span class="operator">=</span> CX<span class="operator">;</span> <span class="comment">//AddressSize == 16</span>
+
+Count <span class="operator">=</span> Count <span class="operator">-</span> <span class="number">1</span><span class="operator">;</span>
+
+<span class="keyword">switch</span><span class="operator">(</span>Instruction<span class="operator">)</span> {
+	<span class="keyword">case</span> LOOPE<span class="operator">:</span>
+	<span class="keyword">case</span> LOOPZ<span class="operator">:</span>
+		<span class="keyword">if</span><span class="operator">(</span>ZF <span class="operator">==</span> <span class="number">1</span> <span class="operator">&amp;&amp;</span> Count <span class="operator">!=</span> <span class="number">0</span><span class="operator">)</span> BranchCond <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+		<span class="keyword">else</span> BranchCond <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+		<span class="keyword">break</span><span class="operator">;</span>
+	<span class="keyword">case</span> LOOPNE<span class="operator">:</span>
+	<span class="keyword">case</span> LOOPNZ<span class="operator">:</span>
+		<span class="keyword">if</span><span class="operator">(</span>ZF <span class="operator">==</span> <span class="number">0</span> <span class="operator">&amp;&amp;</span> Count <span class="operator">!=</span> <span class="number">0</span><span class="operator">)</span> BranchCond <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+		<span class="keyword">else</span> BranchCond <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+		<span class="keyword">break</span><span class="operator">;</span>
+	<span class="keyword">default</span><span class="operator">:</span> <span class="comment">//LOOP</span>
+		<span class="keyword">if</span><span class="operator">(</span>Count <span class="operator">!=</span> <span class="number">0</span><span class="operator">)</span> BranchCond <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+		<span class="keyword">else</span> BranchCond <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+		<span class="keyword">break</span><span class="operator">;</span>
+}
+<span class="keyword">if</span><span class="operator">(</span>BranchCond <span class="operator">==</span> <span class="number">1</span><span class="operator">)</span> {
+	EIP <span class="operator">=</span> EIP <span class="operator">+</span> SignExtend<span class="operator">(</span>Destination<span class="operator">)</span><span class="operator">;</span>
+	<span class="keyword">if</span><span class="operator">(</span>OperandSize <span class="operator">==</span> <span class="number">16</span><span class="operator">)</span> EIP <span class="operator">=</span> EIP <span class="operator">&amp;</span> <span class="number">0xFFFF</span><span class="operator">;</span>
+	<span class="keyword">else</span> <span class="comment">/*OperandSize == 32*/</span> <span class="keyword">if</span><span class="operator">(</span>EIP <span class="operator">&lt;</span> CS<span class="operator">.</span>Base <span class="operator">||</span> EIP <span class="operator">&lt;</span> CS<span class="operator">.</span>Limit<span class="operator">)</span> Exception<span class="operator">(</span>GP<span class="operator">)</span><span class="operator">;</span>
+}
+<span class="keyword">else</span> ResumeExecution<span class="operator">(</span><span class="operator">)</span><span class="operator">;</span> <span class="comment">//Terminate loop and continue program execution at EIP</span>
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>None.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Protected Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If the offset being jumped to is beyond the limits of the CS segment.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Real-Address Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP</code></td><td>If the offset being jumped to is beyond the limits of the CS segment or is outside of the effective address space from 0 to FFFFH. This condition can occur if a 32-bit address size override prefix is used.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Virtual-8086 Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+Same exceptions as in Real Address Mode
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Instruction</th>
+<th>Latency</th>
+<th>Throughput</th>
+<th>Execution Unit</th>
+</tr>
+<tr><td class="grid"><code>CPUID</code></td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F2n</td></tr>
+<tr><td class="grid"><code>LOOP</code></td><td class="grid">8</td><td class="grid">1.5</td><td class="grid">ALU</td></tr>
+</table>
+</object>
+</div>
+</body>
+</html>

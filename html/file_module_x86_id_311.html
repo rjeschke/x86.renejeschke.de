@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Liberation: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "SUBSD: Subtract Scalar Double-Precision Floating-Point Values (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>SUBSD</h1>
+<h2>Subtract Scalar Double-Precision Floating-Point Values</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>F2 0F 5C /r</code></td>
+<td class="grid"><code>SUBSD xmm1, xmm2/m64</code></td>
+<td class="grid">Subtract the low double-precision floating-point value in xmm2/mem64 from xmm1.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Subtracts the low double-precision floating-point value in the source operand (second operand) from the low double-precision floating-point value in the destination operand (first operand), and stores the double-precision floating-point result in the destination operand. The source operand can be an XMM register or a 64-bit memory location. The destination operand is an XMM register. The high quadword of the destination operand remains unchanged. See Figure 11-4 in the IA-32 Intel Architecture Software Developer's Manual, Volume 1 for an illustration of a scalar double-precision floating-point operation.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre>Destination<span class="operator">[</span><span class="number">0..63</span><span class="operator">]</span> <span class="operator">=</span> Destination<span class="operator">[</span><span class="number">0..63</span><span class="operator">]</span> <span class="operator">-</span> Source<span class="operator">[</span><span class="number">0..63</span><span class="operator">]</span><span class="operator">;</span>
+<span class="comment">//Destination[64..127] remains unchanged</span>
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Instruction</th>
+<th>Latency</th>
+<th>Throughput</th>
+<th>Execution Unit</th>
+</tr>
+<tr><td class="grid"><code>CPUID</code></td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F2n</td></tr>
+<tr><td class="grid"><code>SUBSD xmm, xmm</code></td><td class="grid">5/4/3</td><td class="grid">2/2/1</td><td class="grid">FP_ADD</td></tr>
+</table>
+</object>
+</div>
+</body>
+</html>

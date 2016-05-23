@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Control: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "PADDSB/PADDSW: Add Packed Signed Integers with Signed Saturation (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>PADDSB/PADDSW</h1>
+<h2>Add Packed Signed Integers with Signed Saturation</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>0F EC /r</code></td>
+<td class="grid"><code>PADDSB mm, mm/m64</code></td>
+<td class="grid">Add packed signed byte integers from mm/m64 and mm and saturate the results.</td>
+</tr>
+<tr>
+<td class="grid"><code>66 0F EC /r</code></td>
+<td class="grid"><code>PADDSB xmm1</code></td>
+<td class="grid">Add packed signed byte integers from xmm2/m128 and xmm1 saturate the results.</td>
+</tr>
+<tr>
+<td class="grid"><code>0F ED /r</code></td>
+<td class="grid"><code>PADDSW mm, mm/m64</code></td>
+<td class="grid">Add packed signed word integers from mm/m64 and mm and saturate the results.</td>
+</tr>
+<tr>
+<td class="grid"><code>66 0F ED /r</code></td>
+<td class="grid"><code>PADDSW xmm1, xmm2/m128</code></td>
+<td class="grid">Add packed signed word integers from xmm2/m128 and xmm1 and saturate the results.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Performs an SIMD add of the packed signed integers from the source operand (second operand) and the destination operand (first operand), and stores the packed integer results in the destination operand. See Figure 9-4 in the IA-32 Intel Architecture Software Developer's Manual, Volume 1 for an illustration of an SIMD operation. Overflow is handled with signed saturation, as described in the following paragraphs.</p>
+<p>These instructions can operate on either 64-bit or 128-bit operands. When operating on 64-bit operands, the destination operand must be an MMX technology register and the source operand can be either an MMX technology register or a 64-bit memory location. When operating on 128- bit operands, the destination operand must be an XMM register and the source operand can be either an XMM register or a 128-bit memory location.</p>
+<p>The PADDSB instruction adds packed signed byte integers. When an individual byte result is beyond the range of a signed byte integer (that is, greater than 7FH or less than 80H), the saturated value of 7FH or 80H, respectively, is written to the destination operand.</p>
+<p>The PADDSW instruction adds packed signed word integers. When an individual word result is beyond the range of a signed word integer (that is, greater than 7FFFH or less than 8000H), the saturated value of 7FFFH or 8000H, respectively, is written to the destination operand.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre><span class="keyword">switch</span><span class="operator">(</span>Instruction<span class="operator">)</span> {
+	<span class="keyword">case</span> PADDSB<span class="operator">:</span>
+		<span class="keyword">if</span><span class="operator">(</span>OperandSize <span class="operator">==</span> <span class="number">64</span><span class="operator">)</span> {
+			<span class="comment">//PADDSB instruction with 64-bit operands:</span>
+			Destination<span class="operator">[</span><span class="number">0..7</span><span class="operator">]</span> <span class="operator">=</span> SaturateToSignedByte<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">0..7</span><span class="operator">]</span> <span class="operator">+</span> Source<span class="operator">[</span><span class="number">0..7</span><span class="operator">]</span><span class="operator">)</span><span class="operator">;</span>
+			Destination<span class="operator">[</span><span class="number">8..15</span><span class="operator">]</span> <span class="operator">=</span> SaturateToSignedByte<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">8..15</span><span class="operator">]</span> <span class="operator">+</span> Source<span class="operator">[</span><span class="number">8..15</span><span class="operator">]</span><span class="operator">)</span><span class="operator">;</span>
+			Destination<span class="operator">[</span><span class="number">16..23</span><span class="operator">]</span> <span class="operator">=</span> SaturateToSignedByte<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">16..23</span><span class="operator">]</span> <span class="operator">+</span> Source<span class="operator">[</span><span class="number">16..23</span><span class="operator">]</span><span class="operator">)</span><span class="operator">;</span>
+			Destination<span class="operator">[</span><span class="number">24..31</span><span class="operator">]</span> <span class="operator">=</span> SaturateToSignedByte<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">24..31</span><span class="operator">]</span> <span class="operator">+</span> Source<span class="operator">[</span><span class="number">24..31</span><span class="operator">]</span><span class="operator">)</span><span class="operator">;</span>
+			Destination<span class="operator">[</span><span class="number">32..39</span><span class="operator">]</span> <span class="operator">=</span> SaturateToSignedByte<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">32..39</span><span class="operator">]</span> <span class="operator">+</span> Source<span class="operator">[</span><span class="number">32..39</span><span class="operator">]</span><span class="operator">)</span><span class="operator">;</span>
+			Destination<span class="operator">[</span><span class="number">40..47</span><span class="operator">]</span> <span class="operator">=</span> SaturateToSignedByte<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">40..47</span><span class="operator">]</span> <span class="operator">+</span> Source<span class="operator">[</span><span class="number">40..47</span><span class="operator">]</span><span class="operator">)</span><span class="operator">;</span>
+			Destination<span class="operator">[</span><span class="number">48..55</span><span class="operator">]</span> <span class="operator">=</span> SaturateToSignedByte<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">48..55</span><span class="operator">]</span> <span class="operator">+</span> Source<span class="operator">[</span><span class="number">48..55</span><span class="operator">]</span><span class="operator">)</span><span class="operator">;</span>
+			Destination<span class="operator">[</span><span class="number">56..63</span><span class="operator">]</span> <span class="operator">=</span> SaturateToSignedByte<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">56..63</span><span class="operator">]</span> <span class="operator">+</span> Source<span class="operator">[</span><span class="number">56..63</span><span class="operator">]</span><span class="operator">)</span><span class="operator">;</span>
+		}
+		<span class="keyword">else</span> {
+			<span class="comment">//PADDSB instruction with 128-bit operands:</span>
+			Destination<span class="operator">[</span><span class="number">0..7</span><span class="operator">]</span> <span class="operator">=</span> SaturateToSignedByte<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">0..7</span><span class="operator">]</span> <span class="operator">+</span> Source<span class="operator">[</span><span class="number">0..7</span><span class="operator">]</span><span class="operator">)</span><span class="operator">;</span>
+			Destination<span class="operator">[</span><span class="number">8..15</span><span class="operator">]</span> <span class="operator">=</span> SaturateToSignedByte<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">8..15</span><span class="operator">]</span> <span class="operator">+</span> Source<span class="operator">[</span><span class="number">8..15</span><span class="operator">]</span><span class="operator">)</span><span class="operator">;</span>
+			Destination<span class="operator">[</span><span class="number">16..23</span><span class="operator">]</span> <span class="operator">=</span> SaturateToSignedByte<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">16..23</span><span class="operator">]</span> <span class="operator">+</span> Source<span class="operator">[</span><span class="number">16..23</span><span class="operator">]</span><span class="operator">)</span><span class="operator">;</span>
+			Destination<span class="operator">[</span><span class="number">24..31</span><span class="operator">]</span> <span class="operator">=</span> SaturateToSignedByte<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">24..31</span><span class="operator">]</span> <span class="operator">+</span> Source<span class="operator">[</span><span class="number">24..31</span><span class="operator">]</span><span class="operator">)</span><span class="operator">;</span>
+			Destination<span class="operator">[</span><span class="number">32..39</span><span class="operator">]</span> <span class="operator">=</span> SaturateToSignedByte<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">32..39</span><span class="operator">]</span> <span class="operator">+</span> Source<span class="operator">[</span><span class="number">32..39</span><span class="operator">]</span><span class="operator">)</span><span class="operator">;</span>
+			Destination<span class="operator">[</span><span class="number">40..47</span><span class="operator">]</span> <span class="operator">=</span> SaturateToSignedByte<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">40..47</span><span class="operator">]</span> <span class="operator">+</span> Source<span class="operator">[</span><span class="number">40..47</span><span class="operator">]</span><span class="operator">)</span><span class="operator">;</span>
+			Destination<span class="operator">[</span><span class="number">48..55</span><span class="operator">]</span> <span class="operator">=</span> SaturateToSignedByte<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">48..55</span><span class="operator">]</span> <span class="operator">+</span> Source<span class="operator">[</span><span class="number">48..55</span><span class="operator">]</span><span class="operator">)</span><span class="operator">;</span>
+			Destination<span class="operator">[</span><span class="number">56..63</span><span class="operator">]</span> <span class="operator">=</span> SaturateToSignedByte<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">56..63</span><span class="operator">]</span> <span class="operator">+</span> Source<span class="operator">[</span><span class="number">56..63</span><span class="operator">]</span><span class="operator">)</span><span class="operator">;</span>
+			Destination<span class="operator">[</span><span class="number">64..71</span><span class="operator">]</span> <span class="operator">=</span> SaturateToSignedByte<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">64..71</span><span class="operator">]</span> <span class="operator">+</span> Source<span class="operator">[</span><span class="number">64..71</span><span class="operator">]</span><span class="operator">)</span><span class="operator">;</span>
+			Destination<span class="operator">[</span><span class="number">72..79</span><span class="operator">]</span> <span class="operator">=</span> SaturateToSignedByte<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">72..79</span><span class="operator">]</span> <span class="operator">+</span> Source<span class="operator">[</span><span class="operator">]</span><span class="number">72..79</span><span class="operator">)</span><span class="operator">;</span>
+			Destination<span class="operator">[</span><span class="number">80..87</span><span class="operator">]</span> <span class="operator">=</span> SaturateToSignedByte<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">80..87</span><span class="operator">]</span> <span class="operator">+</span> Source<span class="operator">[</span><span class="number">80..87</span><span class="operator">]</span><span class="operator">)</span><span class="operator">;</span>
+			Destination<span class="operator">[</span><span class="number">88..95</span><span class="operator">]</span> <span class="operator">=</span> SaturateToSignedByte<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">88..95</span><span class="operator">]</span> <span class="operator">+</span> Source<span class="operator">[</span><span class="number">88..95</span><span class="operator">]</span><span class="operator">)</span><span class="operator">;</span>
+			Destination<span class="operator">[</span><span class="number">96..103</span><span class="operator">]</span> <span class="operator">=</span> SaturateToSignedByte<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">96..103</span><span class="operator">]</span> <span class="operator">+</span> Source<span class="operator">[</span><span class="number">96..103</span><span class="operator">]</span><span class="operator">)</span><span class="operator">;</span>
+			Destination<span class="operator">[</span><span class="number">104..111</span><span class="operator">]</span> <span class="operator">=</span> SaturateToSignedByte<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">104..111</span><span class="operator">]</span> <span class="operator">+</span> Source<span class="operator">[</span><span class="number">104..111</span><span class="operator">]</span><span class="operator">)</span><span class="operator">;</span>
+			Destination<span class="operator">[</span><span class="number">112..119</span><span class="operator">]</span> <span class="operator">=</span> SaturateToSignedByte<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">112..119</span><span class="operator">]</span> <span class="operator">+</span> Source<span class="operator">[</span><span class="number">112..119</span><span class="operator">]</span><span class="operator">)</span><span class="operator">;</span>
+			Destination<span class="operator">[</span><span class="number">120..127</span><span class="operator">]</span> <span class="operator">=</span> SaturateToSignedByte<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">120..111</span><span class="operator">]</span> <span class="operator">+</span> Source<span class="operator">[</span><span class="number">120..127</span><span class="operator">]</span><span class="operator">)</span><span class="operator">;</span>
+		}
+		<span class="keyword">break</span><span class="operator">;</span>
+	<span class="keyword">case</span> PADDSW<span class="operator">:</span>
+		<span class="keyword">if</span><span class="operator">(</span>OperandSize <span class="operator">==</span> <span class="number">64</span><span class="operator">)</span> {
+			<span class="comment">//PADDSW instruction with 64-bit operands:</span>
+			Destination<span class="operator">[</span><span class="number">0..15</span><span class="operator">]</span> <span class="operator">=</span> SaturateToSignedWord<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">0..15</span><span class="operator">]</span> <span class="operator">+</span> Source<span class="operator">[</span><span class="number">0..15</span><span class="operator">]</span><span class="operator">)</span><span class="operator">;</span>
+			Destination<span class="operator">[</span><span class="number">16..31</span><span class="operator">]</span> <span class="operator">=</span> SaturateToSignedWord<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">16..31</span><span class="operator">]</span> <span class="operator">+</span> Source<span class="operator">[</span><span class="number">16..31</span><span class="operator">]</span><span class="operator">)</span><span class="operator">;</span>
+			Destination<span class="operator">[</span><span class="number">32..47</span><span class="operator">]</span> <span class="operator">=</span> SaturateToSignedWord<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">32..47</span><span class="operator">]</span> <span class="operator">+</span> Source<span class="operator">[</span><span class="number">32..47</span><span class="operator">]</span><span class="operator">)</span><span class="operator">;</span>
+			Destination<span class="operator">[</span><span class="number">48..63</span><span class="operator">]</span> <span class="operator">=</span> SaturateToSignedWord<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">48..63</span><span class="operator">]</span> <span class="operator">+</span> Source<span class="operator">[</span><span class="number">48..63</span><span class="operator">]</span><span class="operator">)</span><span class="operator">;</span>
+		}
+		<span class="keyword">else</span> {
+			<span class="comment">//PADDSW instruction with 128-bit operands:</span>
+			Destination<span class="operator">[</span><span class="number">0..15</span><span class="operator">]</span> <span class="operator">=</span> SaturateToSignedWord<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">0..15</span><span class="operator">]</span> <span class="operator">+</span> Source<span class="operator">[</span><span class="number">0..15</span><span class="operator">]</span><span class="operator">)</span><span class="operator">;</span>
+			Destination<span class="operator">[</span><span class="number">16..31</span><span class="operator">]</span> <span class="operator">=</span> SaturateToSignedWord<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">16..31</span><span class="operator">]</span> <span class="operator">+</span> Source<span class="operator">[</span><span class="number">16..31</span><span class="operator">]</span><span class="operator">)</span><span class="operator">;</span>
+			Destination<span class="operator">[</span><span class="number">32..47</span><span class="operator">]</span> <span class="operator">=</span> SaturateToSignedWord<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">32..47</span><span class="operator">]</span> <span class="operator">+</span> Source<span class="operator">[</span><span class="number">32..47</span><span class="operator">]</span><span class="operator">)</span><span class="operator">;</span>
+			Destination<span class="operator">[</span><span class="number">48..63</span><span class="operator">]</span> <span class="operator">=</span> SaturateToSignedWord<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">48..63</span><span class="operator">]</span> <span class="operator">+</span> Source<span class="operator">[</span><span class="number">48..63</span><span class="operator">]</span><span class="operator">)</span><span class="operator">;</span>
+			Destination<span class="operator">[</span><span class="number">64..79</span><span class="operator">]</span> <span class="operator">=</span> SaturateToSignedWord<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">64..79</span><span class="operator">]</span> <span class="operator">+</span> Source<span class="operator">[</span><span class="number">64..79</span><span class="operator">]</span><span class="operator">)</span><span class="operator">;</span>
+			Destination<span class="operator">[</span><span class="number">80..95</span><span class="operator">]</span> <span class="operator">=</span> SaturateToSignedWord<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">80..95</span><span class="operator">]</span> <span class="operator">+</span> Source<span class="operator">[</span><span class="number">80..95</span><span class="operator">]</span><span class="operator">)</span><span class="operator">;</span>
+			Destination<span class="operator">[</span><span class="number">96..111</span><span class="operator">]</span> <span class="operator">=</span> SaturateToSignedWord<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">96..111</span><span class="operator">]</span> <span class="operator">+</span> Source<span class="operator">[</span><span class="number">96..111</span><span class="operator">]</span><span class="operator">)</span><span class="operator">;</span>
+			Destination<span class="operator">[</span><span class="number">112..127</span><span class="operator">]</span> <span class="operator">=</span> SaturateToSignedWord<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">112..127</span><span class="operator">]</span> <span class="operator">+</span> Source<span class="operator">[</span><span class="number">112..127</span><span class="operator">]</span><span class="operator">;</span>
+		}
+		<span class="keyword">break</span><span class="operator">;</span>
+}
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>None.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Protected Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit. (128-bit operations only) If a memory operand is not aligned on a 16-byte boundary, regardless of segment.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit. (128-bit operations only) If a memory operand is not aligned on a 16-byte boundary, regardless of segment.</td></tr>
+<tr><td><code>#SS(0)</code></td><td>If a memory operand effective address is outside the SS segment limit.</td></tr>
+<tr><td><code>#UD</code></td><td>If EM in CR0 is set. 128-bit operations will generate #UD only if OSFXSR in CR4 is 0. Execution of 128-bit instructions on a non-SSE2 capable processor (one that is MMX technology capable) will result in the instruction operating on the mm registers, not #UD.</td></tr>
+<tr><td><code>#NM</code></td><td>If TS in CR0 is set.</td></tr>
+<tr><td><code>#MF</code></td><td>(64-bit operations only) If there is a pending x87 FPU exception.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>If a page fault occurs.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Real-Address Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>(128-bit operations only) If a memory operand is not aligned on a 16-byte boundary, regardless of segment. If any part of the operand lies outside of the effective address space from 0 to FFFFH.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>(128-bit operations only) If a memory operand is not aligned on a 16-byte boundary, regardless of segment. If any part of the operand lies outside of the effective address space from 0 to FFFFH.</td></tr>
+<tr><td><code>#UD</code></td><td>If EM in CR0 is set. 128-bit operations will generate #UD only if OSFXSR in CR4 is 0. Execution of 128-bit instructions on a non-SSE2 capable processor (one that is MMX technology capable) will result in the instruction operating on the mm registers, not #UD.</td></tr>
+<tr><td><code>#NM</code></td><td>If TS in CR0 is set.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Virtual-8086 Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+Same exceptions as in Real Address Mode
+<div>
+<table class="operations_table">
+<tr><td><code>#PF(fault-code)</code></td><td>For a page fault.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>For a page fault.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Instruction</th>
+<th>Latency</th>
+<th>Throughput</th>
+<th>Execution Unit</th>
+</tr>
+<tr><td class="grid"><code>CPUID</code></td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F2n</td></tr>
+<tr><td class="grid"><code>PADDSB/PADDSW mm, mm</code></td><td class="grid">2/2/-</td><td class="grid">1/1/-</td><td class="grid">MMX_ALU</td></tr>
+<tr><td class="grid"><code>PADDSB/PADDSW xmm, xmm</code></td><td class="grid">2/2/1</td><td class="grid">2/2/1</td><td class="grid">MMX_ALU</td></tr>
+</table>
+</object>
+</div>
+</body>
+</html>

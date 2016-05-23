@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Ultraviolence: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "FSUB/FSUBP/FISUB: Subtract (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>FSUB/FSUBP/FISUB</h1>
+<h2>Subtract</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>D8 /4</code></td>
+<td class="grid"><code>FSUB m32fp</code></td>
+<td class="grid">Subtract m32fp from ST(0) and store result in ST(0).</td>
+</tr>
+<tr>
+<td class="grid"><code>DC /4</code></td>
+<td class="grid"><code>FSUB m64fp</code></td>
+<td class="grid">Subtract m64fp from ST(0) and store result in ST(0).</td>
+</tr>
+<tr>
+<td class="grid"><code>D8 E0+i</code></td>
+<td class="grid"><code>FSUB ST(0), ST(i)</code></td>
+<td class="grid">Subtract ST(i) from ST(0) and store result in ST(0).</td>
+</tr>
+<tr>
+<td class="grid"><code>DC E8+i</code></td>
+<td class="grid"><code>FSUB ST(i), ST(0)</code></td>
+<td class="grid">Subtract ST(0) from ST(i) and store result in ST(i).</td>
+</tr>
+<tr>
+<td class="grid"><code>DE E8+i</code></td>
+<td class="grid"><code>FSUBP ST(i), ST(0)</code></td>
+<td class="grid">Subtract ST(0) from ST(i), store result in ST(i), and pop register stack.</td>
+</tr>
+<tr>
+<td class="grid"><code>DE E9</code></td>
+<td class="grid"><code>FSUBP</code></td>
+<td class="grid">Subtract ST(0) from ST(1), store result in ST(1), and pop register stack.</td>
+</tr>
+<tr>
+<td class="grid"><code>DA /4</code></td>
+<td class="grid"><code>FISUB m32int</code></td>
+<td class="grid">Subtract m32int from ST(0) and store result in ST(0).</td>
+</tr>
+<tr>
+<td class="grid"><code>DE /4</code></td>
+<td class="grid"><code>FISUB m16int</code></td>
+<td class="grid">Subtract m16int from ST(0) and store result in ST(0).</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Subtracts the source operand from the destination operand and stores the difference in the destination location. The destination operand is always an FPU data register; the source operand can be a register or a memory location. Source operands in memory can be in single-precision or double-precision floating-point format or in word or doubleword integer format.</p>
+<p>The no-operand version of the instruction subtracts the contents of the ST(0) register from the ST(1) register and stores the result in ST(1). The one-operand version subtracts the contents of a memory location (either a floating-point or an integer value) from the contents of the ST(0) register and stores the result in ST(0). The two-operand version, subtracts the contents of the ST(0) register from the ST(i) register or vice versa.</p>
+<p>The FSUBP instructions perform the additional operation of popping the FPU register stack following the subtraction. To pop the register stack, the processor marks the ST(0) register as empty and increments the stack pointer (TOP) by 1. The no-operand version of the floating-point subtract instructions always results in the register stack being popped. In some assemblers, the mnemonic for this instruction is FSUB rather than FSUBP.</p>
+<p>The FISUB instructions convert an integer source operand to double extended-precision floating-point format before performing the subtraction.</p>
+<p>The following table shows the results obtained when subtracting various classes of numbers from one another, assuming that neither overflow nor underflow occurs. Here, the Source value is subtracted from the Destination value (Destination - Source = result).</p>
+<p>When the difference between two operands of like sign is 0, the result is +0, except for the round toward -infinite mode, in which case the result is -0. This instruction also guarantees that +0 - (-0) = +0, and that -0 - (+0) = -0. When the source operand is an integer 0, it is treated as a +0.</p>
+<p>When one operand is infinite, the result is infinite of the expected sign. If both operands are infinite of the same sign, an invalid-operation exception is generated.</p>
+<div>
+<table class="grid">
+<caption>FSUB/FSUBP/FISUB Results</caption>
+<tr><td>- Source: -inf</td><td>Source: -F or -I</td><td>Source: -0</td><td>Source: +0</td><td>Source: +F or +I</td><td>Source: +inf</td><td>Source: NaN</td></tr>
+<tr><td>Destination: -inf</td><td>*</td><td>-inf</td><td>-inf</td><td>-inf</td><td>-inf</td><td>-inf</td><td>NaN</td></tr>
+<tr><td>Destination: -F</td><td>+inf</td><td>&Atilde;�&acirc;��&Atilde;�&Acirc;&plusmn;F</td><td>or</td><td>&Atilde;�&acirc;��&Atilde;�&Acirc;&plusmn;0</td><td>Destination</td><td>Destination</td><td>-F</td><td>-inf</td><td>NaN</td></tr>
+<tr><td>Destination: -0</td><td>+inf</td><td>-Source</td><td>&Atilde;�&acirc;��&Atilde;�&Acirc;&plusmn;0</td><td>-0</td><td>-Source</td><td>-inf</td><td>NaN</td></tr>
+<tr><td>Destination: +0</td><td>+inf</td><td>-Source</td><td>+0</td><td>&Atilde;�&acirc;��&Atilde;�&Acirc;&plusmn;0</td><td>-Source</td><td>-inf</td><td>NaN</td></tr>
+<tr><td>Destination: +F</td><td>+inf</td><td>+F</td><td>Destination</td><td>Destination</td><td>&Atilde;�&acirc;��&Atilde;�&Acirc;&plusmn;F</td><td>or</td><td>&Atilde;�&acirc;��&Atilde;�&Acirc;&plusmn;0</td><td>-inf</td><td>NaN</td></tr>
+<tr><td>Destination: +inf</td><td>+inf</td><td>+inf</td><td>+inf</td><td>+inf</td><td>+8</td><td>*</td><td>NaN</td></tr>
+<tr><td>Destination: NaN</td><td>NaN</td><td>NaN</td><td>NaN</td><td>NaN</td><td>NaN</td><td>NaN</td><td>NaN</td></tr>
+<tfoot>
+<tr><td colspan="8">F Means finite floating-point value.</td></tr>
+<tr><td colspan="8">I Means integer.</td></tr>
+<tr><td colspan="8">* Indicates floating-point invalid-arithmetic-operand (#IA) exception.</td></tr>
+</tfoot>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre><span class="keyword">if</span><span class="operator">(</span>Instruction <span class="operator">==</span> FISUB<span class="operator">)</span> Destination <span class="operator">=</span> Destination <span class="operator">-</span> ConvertToExtendedDouble<span class="operator">(</span>Source<span class="operator">)</span><span class="operator">;</span>
+<span class="keyword">else</span> Destination <span class="operator">=</span> Destination <span class="operator">-</span> Source<span class="operator">;</span> <span class="comment">//source operand is floating-point value</span>
+
+<span class="keyword">if</span><span class="operator">(</span>Instruction <span class="operator">==</span> FSUBP<span class="operator">)</span> PopRegisterStack<span class="operator">(</span><span class="operator">)</span><span class="operator">;</span>
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>FPU flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>C1 Set to 0 if stack underflow occurred.
+Set if result was rounded up; cleared otherwise.
+C0, C2, C3 Undefined.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Floating-Point Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#IS</code></td><td>Stack underflow occurred.</td></tr>
+<tr><td><code>#IS</code></td><td>Stack underflow occurred.</td></tr>
+<tr><td><code>#IA</code></td><td>Operand is an SNaN value or unsupported format. Operands are infinities of like sign.</td></tr>
+<tr><td><code>#D</code></td><td>Source operand is a denormal value.</td></tr>
+<tr><td><code>#U</code></td><td>Result is too small for destination format.</td></tr>
+<tr><td><code>#O</code></td><td>Result is too large for destination format.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Protected Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit. If the DS, ES, FS, or GS register is used to access memory and it contains a null segment selector.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit. If the DS, ES, FS, or GS register is used to access memory and it contains a null segment selector.</td></tr>
+<tr><td><code>#SS(0)</code></td><td>If a memory operand effective address is outside the SS segment limit.</td></tr>
+<tr><td><code>#NM</code></td><td>EM or TS in CR0 is set.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>If a page fault occurs.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Real-Address Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#GP</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#SS</code></td><td>If a memory operand effective address is outside the SS segment limit.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Virtual-8086 Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#SS(0)</code></td><td>If a memory operand effective address is outside the SS segment limit.</td></tr>
+<tr><td><code>#NM</code></td><td>EM or TS in CR0 is set.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>If a page fault occurs.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Instruction</th>
+<th>Latency</th>
+<th>Throughput</th>
+<th>Execution Unit</th>
+</tr>
+<tr><td class="grid"><code>CPUID</code></td><td class="grid">0F3n/0F2n</td><td class="grid">0F3n/0F2n</td><td class="grid">0F2n</td></tr>
+<tr><td class="grid"><code>FSUB</code></td><td class="grid">6/5</td><td class="grid">1/1</td><td class="grid">FP_ADD</td></tr>
+</table>
+</object>
+</div>
+</body>
+</html>

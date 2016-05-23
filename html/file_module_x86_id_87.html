@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Chasing Dragons: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "FCOM/FCOMP/FCOMPP: Compare Floating Point Values (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>FCOM/FCOMP/FCOMPP</h1>
+<h2>Compare Floating Point Values</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>D8 /2</code></td>
+<td class="grid"><code>FCOM m32fp</code></td>
+<td class="grid">Compare ST(0) with m32fp.</td>
+</tr>
+<tr>
+<td class="grid"><code>DC /2</code></td>
+<td class="grid"><code>FCOM m64fp</code></td>
+<td class="grid">Compare ST(0) with m64fp.</td>
+</tr>
+<tr>
+<td class="grid"><code>D8 D0+i</code></td>
+<td class="grid"><code>FCOM ST(i)</code></td>
+<td class="grid">Compare ST(0) with ST(i).</td>
+</tr>
+<tr>
+<td class="grid"><code>D8 D1</code></td>
+<td class="grid"><code>FCOM</code></td>
+<td class="grid">Compare ST(0) with ST(1).</td>
+</tr>
+<tr>
+<td class="grid"><code>D8 /3</code></td>
+<td class="grid"><code>FCOMP m32fp</code></td>
+<td class="grid">Compare ST(0) with m32fp and pop register stack.</td>
+</tr>
+<tr>
+<td class="grid"><code>DC /3</code></td>
+<td class="grid"><code>FCOMP m64fp</code></td>
+<td class="grid">Compare ST(0) with m64fp and pop register stack.</td>
+</tr>
+<tr>
+<td class="grid"><code>D8 D8+i</code></td>
+<td class="grid"><code>FCOMP ST(i)</code></td>
+<td class="grid">Compare ST(0) with ST(i) and pop register stack.</td>
+</tr>
+<tr>
+<td class="grid"><code>D8 D9</code></td>
+<td class="grid"><code>FCOMP</code></td>
+<td class="grid">Compare ST(0) with ST(1) and pop register stack.</td>
+</tr>
+<tr>
+<td class="grid"><code>DE D9</code></td>
+<td class="grid"><code>FCOMPP</code></td>
+<td class="grid">Compare ST(0) with ST(1) and pop register stack twice.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Compares the contents of register ST(0) and source value and sets condition code flags C0, C2, and C3 in the FPU status word according to the results (see the table below). The source operand can be a data register or a memory location. If no source operand is given, the value in ST(0) is compared with the value in ST(1). The sign of zero is ignored, so that -0.0 is equal to +0.0.</p>
+<div>
+<table class="grid">
+<caption>FCOM/FCOMP/FCOMPP Results</caption>
+<tr><th>Condition</th><th>C3</th><th>C2</th><th>C0</th></tr>
+<tr><td>ST(0) &gt; Source</td><td>0</td><td>0</td><td>0</td></tr>
+<tr><td>ST(0) &lt; Source</td><td>0</td><td>0</td><td>1</td></tr>
+<tr><td>ST(0) = Source</td><td>1</td><td>0</td><td>0</td></tr>
+<tr><td>Unordered*</td><td>1</td><td>1</td><td>1</td></tr>
+<tfoot>
+<tr><td colspan="4">NOTE: * Flags not set if unmasked invalid-arithmetic-operand (#IA) exception is generated.</td></tr>
+</tfoot>
+</table>
+</div>
+<p>This instruction checks the class of the numbers being compared (see &quot;FXAM-Examine&quot; in this chapter). If either operand is a NaN or is in an unsupported format, an invalid-arithmeticoperand exception (#IA) is raised and, if the exception is masked, the condition flags are set to &quot;unordered.&quot; If the invalid-arithmetic-operand exception is unmasked, the condition code flags are not set.</p>
+<p>The FCOMP instruction pops the register stack following the comparison operation and the FCOMPP instruction pops the register stack twice following the comparison operation. To pop the register stack, the processor marks the ST(0) register as empty and increments the stack pointer (TOP) by 1.</p>
+<p>The FCOM instructions perform the same operation as the FUCOM instructions. The only difference is how they handle QNaN operands. The FCOM instructions raise an invalid-arithmetic- operand exception (#IA) when either or both of the operands is a NaN value or is in an unsupported format. The FUCOM instructions perform the same operation as the FCOM instructions, except that they do not generate an invalid-arithmetic-operand exception for QNaNs.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre>OperandRelation <span class="operator">=</span> Compare<span class="operator">(</span>ST<span class="operator">(</span><span class="number">0</span><span class="operator">)</span><span class="operator">,</span> Source<span class="operator">)</span><span class="operator">;</span>
+<span class="keyword">switch</span><span class="operator">(</span>OperandRelation<span class="operator">)</span> {
+	RelationGreaterThan<span class="operator">:</span>
+		C3 <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+		C2 <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+		C0 <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+		<span class="keyword">break</span><span class="operator">;</span>
+	RelationLessThan<span class="operator">:</span>
+		C3 <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+		C2 <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+		C0 <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+		<span class="keyword">break</span><span class="operator">;</span>
+	RelationEqual<span class="operator">:</span>
+		C3 <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+		C2 <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+		C0 <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+		<span class="keyword">break</span><span class="operator">;</span>
+}
+<span class="keyword">if</span><span class="operator">(</span>IsNaN<span class="operator">(</span>ST<span class="operator">(</span><span class="number">0</span><span class="operator">)</span><span class="operator">)</span> <span class="operator">||</span> IsNaN<span class="operator">(</span>Source<span class="operator">)</span> <span class="operator">||</span> IsUnsupportedFormat<span class="operator">(</span>ST<span class="operator">(</span><span class="number">0</span><span class="operator">)</span><span class="operator">)</span> <span class="operator">||</span> IsUnsupportedFormat<span class="operator">(</span>Source<span class="operator">)</span><span class="operator">)</span> Exception<span class="operator">(</span>IA<span class="operator">)</span><span class="operator">;</span>
+<span class="keyword">if</span><span class="operator">(</span>FPUControlWord<span class="operator">.</span>IM <span class="operator">==</span> <span class="number">1</span><span class="operator">)</span> {
+	C3 <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+	C2 <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+	C0 <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+}
+<span class="keyword">if</span><span class="operator">(</span>Instruction <span class="operator">==</span> FCOMP<span class="operator">)</span> PopRegisterStack<span class="operator">(</span><span class="operator">)</span><span class="operator">;</span>
+<span class="keyword">if</span><span class="operator">(</span>Instruction <span class="operator">==</span> FCOMPP<span class="operator">)</span> {
+	PopRegisterStack<span class="operator">(</span><span class="operator">)</span><span class="operator">;</span>
+	PopRegisterStack<span class="operator">(</span><span class="operator">)</span><span class="operator">;</span>
+}
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>FPU flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>C1 Set to 0 if stack underflow occurred; otherwise, set to 0.
+C0, C2, C3 See table above.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Floating-Point Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#IS</code></td><td>Stack underflow occurred.</td></tr>
+<tr><td><code>#IS</code></td><td>Stack underflow occurred.</td></tr>
+<tr><td><code>#IA</code></td><td>One or both operands are NaN values or have unsupported formats. Register is marked empty.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Protected Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit. If the DS, ES, FS, or GS register contains a null segment selector.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit. If the DS, ES, FS, or GS register contains a null segment selector.</td></tr>
+<tr><td><code>#SS(0)</code></td><td>If a memory operand effective address is outside the SS segment limit.</td></tr>
+<tr><td><code>#NM</code></td><td>EM or TS in CR0 is set.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>If a page fault occurs.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Real-Address Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#GP</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#SS</code></td><td>If a memory operand effective address is outside the SS segment limit.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Virtual-8086 Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#SS(0)</code></td><td>If a memory operand effective address is outside the SS segment limit.</td></tr>
+<tr><td><code>#NM</code></td><td>EM or TS in CR0 is set.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>If a page fault occurs.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Instruction</th>
+<th>Latency</th>
+<th>Throughput</th>
+<th>Execution Unit</th>
+</tr>
+<tr><td class="grid"><code>CPUID</code></td><td class="grid">0F3n/0F2n</td><td class="grid">0F3n/0F2n</td><td class="grid">0F2n</td></tr>
+<tr><td class="grid"><code>FCOM</code></td><td class="grid">3/2</td><td class="grid">1/1</td><td class="grid">FP_MISC</td></tr>
+</table>
+</object>
+</div>
+</body>
+</html>

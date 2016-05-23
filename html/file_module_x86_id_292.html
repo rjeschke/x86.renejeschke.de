@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Into the Void: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "SHRD: Double Precision Shift Right (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>SHRD</h1>
+<h2>Double Precision Shift Right</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>0F AC</code></td>
+<td class="grid"><code>SHRD r/m16, r16, imm8</code></td>
+<td class="grid">Shift r/m16 to right imm8 places while shifting bits from r16 in from the left.</td>
+</tr>
+<tr>
+<td class="grid"><code>0F AD</code></td>
+<td class="grid"><code>SHRD r/m16, r16, CL</code></td>
+<td class="grid">Shift r/m16 to right CL places while shifting bits from r16 in from the left.</td>
+</tr>
+<tr>
+<td class="grid"><code>0F AC</code></td>
+<td class="grid"><code>SHRD r/m32, r32, mm8</code></td>
+<td class="grid">Shift r/m32 to right imm8 places while shifting bits from r32 in from the left.</td>
+</tr>
+<tr>
+<td class="grid"><code>0F AD</code></td>
+<td class="grid"><code>SHRD r/m32, r32, CL</code></td>
+<td class="grid">Shift r/m32 to right CL places while shifting bits from r32 in from the left.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Shifts the first operand (destination operand) to the right the number of bits specified by the third operand (count operand). The second operand (source operand) provides bits to shift in from the left (starting with the most significant bit of the destination operand). The destination operand can be a register or a memory location; the source operand is a register. The count operand is an unsigned integer that can be an immediate byte or the contents of the CL register. Only bits 0 through 4 of the count are used, which masks the count to a value between 0 and 31. If the count is greater than the operand size, the result in the destination operand is undefined.</p>
+<p>If the count is 1 or greater, the CF flag is filled with the last bit shifted out of the destination operand. For a 1-bit shift, the OF flag is set if a sign change occurred; otherwise, it is cleared. If the count operand is 0, the flags are not affected. </p>
+<p>The SHRD instruction is useful for multiprecision shifts of 64 bits or more.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre>Count <span class="operator">=</span> Count <span class="operator">%</span> <span class="number">32</span><span class="operator">;</span>
+<span class="keyword">if</span><span class="operator">(</span>Count <span class="operator">!=</span> <span class="number">0</span><span class="operator">)</span> {
+	<span class="keyword">if</span><span class="operator">(</span>Count <span class="operator">&gt;</span> OperandSize<span class="operator">)</span> { <span class="comment">//Bad parameters</span>
+		Destination <span class="operator">=</span> Undefined<span class="operator">;</span>
+		<span class="operator">(</span>CF<span class="operator">,</span> OF<span class="operator">,</span> SF<span class="operator">,</span> ZF<span class="operator">,</span> AF<span class="operator">,</span> PF<span class="operator">)</span> <span class="operator">=</span> Undefined<span class="operator">;</span>
+	}
+	<span class="keyword">else</span> { <span class="comment">//Perform the shift</span>
+		<span class="keyword">for</span><span class="operator">(</span>i <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span> i <span class="operator">&lt;=</span> OperandSize <span class="operator">-</span> <span class="number">1</span><span class="operator">;</span> <span class="operator">++</span>i<span class="operator">)</span> Destination<span class="operator">[</span>i<span class="operator">]</span> <span class="operator">=</span> Destination<span class="operator">[</span>i <span class="operator">+</span> Count<span class="operator">]</span><span class="operator">;</span>
+		<span class="keyword">for</span><span class="operator">(</span>i <span class="operator">=</span> OperandSize <span class="operator">-</span> Count<span class="operator">;</span> i <span class="operator">&gt;=</span> OperandSize <span class="operator">-</span> <span class="number">1</span><span class="operator">;</span> <span class="operator">--</span>i<span class="operator">)</span> Destination<span class="operator">[</span>i<span class="operator">]</span> <span class="operator">=</span> Source<span class="operator">[</span>i <span class="operator">+</span> Count <span class="operator">-</span> OperandSize<span class="operator">]</span><span class="operator">;</span>
+	}
+}
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>If the count is 1 or greater, the CF flag is filled with the last bit shifted out of the destination operand and the SF, ZF, and PF flags are set according to the value of the result. For a 1-bit shift, the OF flag is set if a sign change occurred; otherwise, it is cleared. For shifts greater than 1 bit, the OF flag is undefined. If a shift occurs, the AF flag is undefined. If the count operand is 0, the flags are not affected. If the count is greater than the operand size, the flags are undefined.
+</p>
+</td>
+</tr>
+</table>
+</object>
+</div>
+</body>
+</html>

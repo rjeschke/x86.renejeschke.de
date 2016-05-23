@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Chasing Dragons: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "SCAS/SCASB/SCASW/SCASD: Scan String (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>SCAS/SCASB/SCASW/SCASD</h1>
+<h2>Scan String</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>AE</code></td>
+<td class="grid"><code>SCAS m8</code></td>
+<td class="grid">Compare AL with byte at ES:(E)DI and set status flags.</td>
+</tr>
+<tr>
+<td class="grid"><code>AF</code></td>
+<td class="grid"><code>SCAS m16</code></td>
+<td class="grid">Compare AX with word at ES:(E)DI and set status flags.</td>
+</tr>
+<tr>
+<td class="grid"><code>AF</code></td>
+<td class="grid"><code>SCAS m32</code></td>
+<td class="grid">Compare EAX with doubleword at ES(E)DI and set status flags.</td>
+</tr>
+<tr>
+<td class="grid"><code>AE</code></td>
+<td class="grid"><code>SCASB</code></td>
+<td class="grid">Compare AL with byte at ES:(E)DI and set status flags.</td>
+</tr>
+<tr>
+<td class="grid"><code>AF</code></td>
+<td class="grid"><code>SCASW</code></td>
+<td class="grid">Compare AX with word at ES:(E)DI and set status flags.</td>
+</tr>
+<tr>
+<td class="grid"><code>AF</code></td>
+<td class="grid"><code>SCASD</code></td>
+<td class="grid">Compare EAX with doubleword at ES:(E)DI and set status flags.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Compares the byte, word, or double word specified with the memory operand with the value in the AL, AX, or EAX register, and sets the status flags in the EFLAGS register according to the results. The memory operand address is read from either the ES:EDI or the ES:DI registers (depending on the address-size attribute of the instruction, 32 or 16, respectively). The ES segment cannot be overridden with a segment override prefix.</p>
+<p>At the assembly-code level, two forms of this instruction are allowed: the &quot;explicit-operands&quot; form and the &quot;no-operands&quot; form. The explicit-operand form (specified with the SCAS mnemonic) allows the memory operand to be specified explicitly. Here, the memory operand should be a symbol that indicates the size and location of the operand value. The register operand is then automatically selected to match the size of the memory operand (the AL register for byte comparisons, AX for word comparisons, and EAX for doubleword comparisons). This explicit-operand form is provided to allow documentation; however, note that the documentation provided by this form can be misleading. That is, the memory operand symbol must specify the correct type (size) of the operand (byte, word, or doubleword), but it does not have to specify the correct location. The location is always specified by the ES:(E)DI registers, which must be loaded correctly before the compare string instruction is executed.</p>
+<p>The no-operands form provides &quot;short forms&quot; of the byte, word, and doubleword versions of the SCAS instructions. Here also ES:(E)DI is assumed to be the memory operand and the AL, AX, or EAX register is assumed to be the register operand. The size of the two operands is selected with the mnemonic: SCASB (byte comparison), SCASW (word comparison), or SCASD (doubleword comparison).</p>
+<p>After the comparison, the (E)DI register is incremented or decremented automatically according to the setting of the DF flag in the EFLAGS register. (If the DF flag is 0, the (E)DI register is incremented; if the DF flag is 1, the (E)DI register is decremented.) The (E)DI register is incremented or decremented by 1 for byte operations, by 2 for word operations, or by 4 for doubleword operations.</p>
+<p>The SCAS, SCASB, SCASW, and SCASD instructions can be preceded by the REP prefix for block comparisons of ECX bytes, words, or doublewords. More often, however, these instructions will be used in a LOOP construct that takes some action based on the setting of the status flags before the next comparison is made. See &quot;REP/REPE/REPZ/REPNE /REPNZ-Repeat String Operation Prefix&quot; in this chapter for a description of the REP prefix.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre><span class="keyword">if</span><span class="operator">(</span>IsByteComparison<span class="operator">(</span><span class="operator">)</span><span class="operator">)</span> {
+	Temporary <span class="operator">=</span> AL <span class="operator">-</span> Source<span class="operator">;</span>
+	SetStatusFlags<span class="operator">(</span>Temporary<span class="operator">)</span><span class="operator">;</span>
+	<span class="keyword">if</span><span class="operator">(</span>DF <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> {
+		<span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">+</span> <span class="number">1</span><span class="operator">;</span>
+		<span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">+</span> <span class="number">1</span><span class="operator">;</span>
+	}
+	<span class="keyword">else</span> {
+		<span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">-</span> <span class="number">1</span><span class="operator">;</span>
+		<span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">-</span> <span class="number">1</span><span class="operator">;</span>
+	}
+}
+<span class="keyword">else</span> <span class="keyword">if</span><span class="operator">(</span>IsWordComparison<span class="operator">(</span><span class="operator">)</span><span class="operator">)</span> {
+	Temporary <span class="operator">=</span> Ax <span class="operator">-</span> Source<span class="operator">;</span>
+	SetStatusFlags<span class="operator">(</span>Temporary<span class="operator">)</span><span class="operator">;</span>
+	<span class="keyword">if</span><span class="operator">(</span>DF <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> {
+		<span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">+</span> <span class="number">2</span><span class="operator">;</span>
+		<span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">+</span> <span class="number">2</span><span class="operator">;</span>
+	}
+	<span class="keyword">else</span> {
+		<span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">-</span> <span class="number">2</span><span class="operator">;</span>
+		<span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">-</span> <span class="number">2</span><span class="operator">;</span>
+	}
+}
+<span class="keyword">else</span> { <span class="comment">//doubleword comparison</span>
+	Temporary <span class="operator">=</span> EAX <span class="operator">-</span> Source<span class="operator">;</span>
+	SetStatusFlags<span class="operator">(</span>Temporary<span class="operator">)</span><span class="operator">;</span>
+	<span class="keyword">if</span><span class="operator">(</span>DF <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> {
+		<span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">+</span> <span class="number">4</span><span class="operator">;</span>
+		<span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">+</span> <span class="number">4</span><span class="operator">;</span>
+	}
+	<span class="keyword">else</span> {
+		<span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">-</span> <span class="number">4</span><span class="operator">;</span>
+		<span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">-</span> <span class="number">4</span><span class="operator">;</span>
+	}
+}
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>The OF, SF, ZF, AF, PF, and CF flags are set according to the temporary result of the comparison.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Instruction</th>
+<th>Latency</th>
+<th>Throughput</th>
+<th>Execution Unit</th>
+</tr>
+<tr><td class="grid"><code>CPUID</code></td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F2n</td></tr>
+<tr><td class="grid"><code>SCAS</code></td><td class="grid">4</td><td class="grid">1.5</td><td class="grid">ALU MEM_LOAD</td></tr>
+</table>
+</object>
+</div>
+</body>
+</html>

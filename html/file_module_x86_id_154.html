@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Sun: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "LEAVE: High Level Procedure Exit (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>LEAVE</h1>
+<h2>High Level Procedure Exit</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>C9</code></td>
+<td class="grid"><code>LEAVE</code></td>
+<td class="grid">Set SP to BP, then pop BP.</td>
+</tr>
+<tr>
+<td class="grid"><code>C9</code></td>
+<td class="grid"><code>LEAVE</code></td>
+<td class="grid">Set ESP to EBP, then pop EBP.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Releases the stack frame set up by an earlier ENTER instruction. The LEAVE instruction copies the frame pointer (in the EBP register) into the stack pointer register (ESP), which releases the stack space allocated to the stack frame. The old frame pointer (the frame pointer for the calling procedure that was saved by the ENTER instruction) is then popped from the stack into the EBP register, restoring the calling procedure's stack frame.</p>
+<p>A RET instruction is commonly executed following a LEAVE instruction to return program control to the calling procedure.</p>
+<p>See &quot;Procedure Calls for Block-Structured Languages&quot; in Chapter 6 of the IA-32 Intel Architecture Software Developer's Manual, Volume 1, for detailed information on the use of the ENTER and LEAVE instructions.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre><span class="keyword">if</span><span class="operator">(</span>StackAddressSize <span class="operator">==</span> <span class="number">32</span><span class="operator">)</span> ESP <span class="operator">=</span> EBP<span class="operator">;</span>
+<span class="keyword">else</span> SP <span class="operator">=</span> BP<span class="operator">;</span> <span class="comment">//StackAddressSize = 16</span>
+
+<span class="keyword">if</span><span class="operator">(</span>OperandSize <span class="operator">==</span> <span class="number">32</span><span class="operator">)</span> EBP <span class="operator">=</span> Pop<span class="operator">(</span><span class="operator">)</span><span class="operator">;</span>
+<span class="keyword">else</span> BP <span class="operator">=</span> Pop<span class="operator">(</span><span class="operator">)</span><span class="operator">;</span> <span class="comment">//OperandSize == 16</span>
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>None.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Protected Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#SS(0)</code></td><td>If the EBP register points to a location that is not within the limits of the current stack segment.</td></tr>
+<tr><td><code>#SS(0)</code></td><td>If the EBP register points to a location that is not within the limits of the current stack segment.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>If a page fault occurs.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Real-Address Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP</code></td><td>If the EBP register points to a location outside of the effective address space from 0 to FFFFH.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Virtual-8086 Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If the EBP register points to a location outside of the effective address space from 0 to FFFFH.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If the EBP register points to a location outside of the effective address space from 0 to FFFFH.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>If a page fault occurs.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+</div>
+</body>
+</html>

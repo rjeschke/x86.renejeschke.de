@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>War on Theism: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "HSUBPS: Packed Single-FP Horizontal Subtract (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>HSUBPS</h1>
+<h2>Packed Single-FP Horizontal Subtract</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>F2 0F 7D /r</code></td>
+<td class="grid"><code>HSUBPS xmm1, xmm2/m128</code></td>
+<td class="grid">Subtract horizontally packed SP FP numbers in xmm2/m128 from xmm1.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Subtracts the single-precision floating-point value in the second dword of the destination operand from the first dword of the destination operand and stores the result in the first dword of the destination operand.</p>
+<p>Subtracts the single-precision floating-point value in the fourth dword of the destination operand from the third dword of the destination operand and stores the result in the second dword of the destination operand.</p>
+<p>Subtracts the single-precision floating-point value in the second dword of the source operand from the first dword of the source operand and stores the result in the third dword of the destination operand.</p>
+<p>Subtracts the single-precision floating-point value in the fourth dword of the source operand from the third dword of the source operand and stores the result in the fourth dword of the destination operand.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre>xmm1<span class="operator">[</span><span class="number">0..31</span><span class="operator">]</span> <span class="operator">=</span> xmm1<span class="operator">[</span><span class="number">0..31</span><span class="operator">]</span> <span class="operator">-</span> xmm1<span class="operator">[</span><span class="number">32..63</span><span class="operator">]</span><span class="operator">;</span>
+xmm1<span class="operator">[</span><span class="number">32..63</span><span class="operator">]</span> <span class="operator">=</span> xmm1<span class="operator">[</span><span class="number">64..95</span><span class="operator">]</span> <span class="operator">-</span> xmm1<span class="operator">[</span><span class="number">96..127</span><span class="operator">]</span><span class="operator">;</span>
+xmm1<span class="operator">[</span><span class="number">64..95</span><span class="operator">]</span> <span class="operator">=</span> xmm2/m128<span class="operator">[</span><span class="number">0..31</span><span class="operator">]</span> <span class="operator">-</span> xmm2/m128<span class="operator">[</span><span class="number">32..63</span><span class="operator">]</span><span class="operator">;</span>
+xmm1<span class="operator">[</span><span class="number">96..127</span><span class="operator">]</span> <span class="operator">=</span> xmm2/m128<span class="operator">[</span><span class="number">64..95</span><span class="operator">]</span> <span class="operator">-</span> xmm2/m128<span class="operator">[</span><span class="number">96..127</span><span class="operator">]</span><span class="operator">;</span>
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+When the source operand is a memory operand, the operand must be aligned on a 16-byte boundary or a general-protection exception (#GP) will be generated.
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Numeric Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+Overflow, Underflow, Invalid, Precision, Denormal.
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Protected Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>For an illegal memory operand effective address in the CS, DS, ES, FS or GS segments. If a memory operand is not aligned on a 16-byte boundary, regardless of segment.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>For an illegal memory operand effective address in the CS, DS, ES, FS or GS segments. If a memory operand is not aligned on a 16-byte boundary, regardless of segment.</td></tr>
+<tr><td><code>#SS(0)</code></td><td>For an illegal address in the SS segment.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>For a page fault.</td></tr>
+<tr><td><code>#NM</code></td><td>If TS bit in CR0 is set.</td></tr>
+<tr><td><code>#XM</code></td><td>For an unmasked Streaming SIMD Extensions numeric exception (CR4.OSXMMEXCPT = 1).</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Real-Address Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If any part of the operand would lie outside of the effective address space from 0 to 0FFFFH. If a memory operand is not aligned on a 16-byte boundary, regardless of segment.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If any part of the operand would lie outside of the effective address space from 0 to 0FFFFH. If a memory operand is not aligned on a 16-byte boundary, regardless of segment.</td></tr>
+<tr><td><code>#NM</code></td><td>If TS bit in CR0 is set.</td></tr>
+<tr><td><code>#XM</code></td><td>For an unmasked Streaming SIMD Extensions numeric exception (CR4.OSXMMEXCPT = 1).</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Virtual-8086 Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If any part of the operand would lie outside of the effective address space from 0 to 0FFFFH. If a memory operand is not aligned on a 16-byte boundary, regardless of segment.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If any part of the operand would lie outside of the effective address space from 0 to 0FFFFH. If a memory operand is not aligned on a 16-byte boundary, regardless of segment.</td></tr>
+<tr><td><code>#NM</code></td><td>If TS bit in CR0 is set.</td></tr>
+<tr><td><code>#XM</code></td><td>For an unmasked Streaming SIMD Extensions numeric exception (CR4.OSXMMEXCPT = 1).</td></tr>
+<tr><td><code>#UD</code></td><td>If CR0.EM = 1. For an unmasked Streaming SIMD Extensions numeric exception (CR4.OSXMMEXCPT = 0). If CR4.OSFXSR(bit 9) = 0. If CPUID.SSE3(ECX bit 0) = 0.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Instruction</th>
+<th>Latency</th>
+<th>Throughput</th>
+<th>Execution Unit</th>
+</tr>
+<tr><td class="grid"><code>CPUID</code></td><td class="grid">0F3n</td><td class="grid">0F3n</td><td class="grid">0F3n</td></tr>
+<tr><td class="grid"><code>HSUBPS</code></td><td class="grid">13</td><td class="grid">4</td><td class="grid">FP_ADD FP_MISC</td></tr>
+</table>
+</object>
+</div>
+</body>
+</html>

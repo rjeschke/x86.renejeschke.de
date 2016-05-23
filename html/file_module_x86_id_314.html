@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Into the Void: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "SYSEXIT: Fast Return from Fast System Call (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>SYSEXIT</h1>
+<h2>Fast Return from Fast System Call</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>0F 35</code></td>
+<td class="grid"><code>SYSEXIT Fast return to privilege level 3 user code.</code></td>
+<td class="grid"></td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Executes a fast return to privilege level 3 user code. This instruction is a companion instruction to the SYSENTER instruction. The SYSEXIT instruction is optimized to provide the maximum performance for returns from system procedures executing at protections levels 0 to user procedures executing at protection level 3. This instruction must be executed from code executing at privilege level 0.</p>
+<p>Prior to executing the SYSEXIT instruction, software must specify the privilege level 3 code segment and code entry point, and the privilege level 3 stack segment and stack pointer by writing values into the following MSR and general-purpose registers:</p>
+<dl>
+<dt>SYSENTER_CS_MSR</dt>
+<dd>Contains the 32-bit segment selector for the privilege level 0 code segment in which the processor is currently executing. (This value is used to compute the segment selectors for the privilege level 3 code and stack segments.)</dd>
+<dt>EDX</dt>
+<dd>Contains the 32-bit offset into the privilege level 3 code segment to the first instruction to be executed in the user code.</dd>
+<dt>ECX</dt>
+<dd>Contains the 32-bit stack pointer for the privilege level 3 stack.</dd>
+</dl>
+<p>The SYSENTER_CS_MSR MSR can be read from and written to using the RDMSR and WRMSR instructions. The register address is listed in Table 4-3. This address is defined to remain fixed for future IA-32 processors.</p>
+<p>When the SYSEXIT instruction is executed, the processor does the following:</p>
+<ul>
+<li>Adds 16 to the value in SYSENTER_CS_MSR and loads the sum into the CS selector register.</li>
+<li>Loads the instruction pointer from the EDX register into the EIP register.</li>
+<li>Adds 24 to the value in SYSENTER_CS_MSR and loads the sum into the SS selector register.</li>
+<li>Loads the stack pointer from the ECX register into the ESP register.</li>
+<li>Switches to privilege level 3.</li>
+<li>Begins executing the user code at the EIP address.</li>
+</ul>
+<p>See &quot;SYSENTER-Fast System Call&quot; for information about using the SYSENTER and SYSEXIT instructions as companion call and return instructions.</p>
+<p>The SYSEXIT instruction always transfers program control to a protected-mode code segment with a DPL of 3. The instruction requires that the following conditions are met by the operating system:</p>
+<ul>
+<li>The segment descriptor for the selected user code segment selects a flat, 32-bit code segment of up to 4 GBytes, with execute, read, accessed, and non-conforming permissions.</li>
+<li>The segment descriptor for selected user stack segment selects a flat, 32-bit stack segment of up to 4 GBytes, with expand-up, read, write, and accessed permissions.</li>
+</ul>
+<p>The SYSENTER can be invoked from all operating modes except real-address mode.</p>
+<p>The SYSENTER and SYSEXIT instructions were introduced into the IA-32 architecture in the Pentium II processor. The availability of these instructions on a processor is indicated with the SYSENTER/SYSEXIT present (SEP) feature flag returned to the EDX register by the CPUID instruction. An operating system that qualifies the SEP flag must also qualify the processor family and model to ensure that the SYSENTER/SYSEXIT instructions are actually present.</p>
+<p>For example:</p>
+<p>IF (CPUID SEP bit is set) THEN IF (Family = 6) AND (Model &lt; 3) AND (Stepping &lt; 3) THEN SYSENTER/SYSEXIT_Not_Supported FI; ELSE SYSENTER/SYSEXIT_Supported FI; When the CPUID instruction is executed on the Pentium Pro processor (model 1), the processor returns a the SEP flag as set, but does not support the SYSENTER/SYSEXIT instructions.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre><span class="keyword">if</span><span class="operator">(</span>SYSENTER_CS_MSR <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> Exception<span class="operator">(</span>GP<span class="operator">(</span><span class="number">0</span><span class="operator">)</span><span class="operator">)</span><span class="operator">;</span>
+<span class="keyword">if</span><span class="operator">(</span>CR0<span class="operator">.</span>PE <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> Exception<span class="operator">(</span>GP<span class="operator">(</span><span class="number">0</span><span class="operator">)</span><span class="operator">)</span><span class="operator">;</span>
+<span class="keyword">if</span><span class="operator">(</span>CPL <span class="operator">!=</span> <span class="number">0</span><span class="operator">)</span> Exception<span class="operator">(</span>GP<span class="operator">(</span><span class="number">0</span><span class="operator">)</span><span class="operator">)</span><span class="operator">;</span>
+CS<span class="operator">.</span>SEL <span class="operator">=</span> SYSENTER_CS_MSR <span class="operator">+</span> <span class="number">16</span><span class="operator">;</span> <span class="comment">//Segment selector for return CS</span>
+<span class="comment">//Set rest of CS to a fixed value</span>
+CS<span class="operator">.</span>BASE <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span> <span class="comment">//Flat segment</span>
+CS<span class="operator">.</span>LIMIT <span class="operator">=</span> <span class="number">0xFFFF</span><span class="operator">;</span> <span class="comment">//4 GByte limit</span>
+CS<span class="operator">.</span>ARbyte<span class="operator">.</span>G <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span> <span class="comment">//4 KByte granularity</span>
+CS<span class="operator">.</span>ARbyte<span class="operator">.</span>S <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+CS<span class="operator">.</span>ARbyte<span class="operator">.</span>TYPE <span class="operator">=</span> <span class="number">0xB</span><span class="operator">;</span> <span class="comment">//Execute, Read, Non-Conforming Code</span>
+CS<span class="operator">.</span>ARbyte<span class="operator">.</span>D <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span> <span class="comment">//32-bit code segment</span>
+CS<span class="operator">.</span>ARbyte<span class="operator">.</span>DPL <span class="operator">=</span> <span class="number">3</span><span class="operator">;</span>
+CS<span class="operator">.</span>ARbyte<span class="operator">.</span>RPL <span class="operator">=</span> <span class="number">3</span><span class="operator">;</span>
+CS<span class="operator">.</span>ARbyte<span class="operator">.</span>P <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+SS<span class="operator">.</span>SEL <span class="operator">=</span> SYSENTER_CS_MSR <span class="operator">+</span> <span class="number">24</span><span class="operator">;</span> <span class="comment">//Segment selector for return SS</span>
+<span class="comment">//Set rest of SS to a fixed value</span>
+SS<span class="operator">.</span>BASE <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span> <span class="comment">//Flat segment</span>
+SS<span class="operator">.</span>LIMIT <span class="operator">=</span> <span class="number">0xFFFF</span><span class="operator">;</span> <span class="comment">//4 GByte limit</span>
+SS<span class="operator">.</span>ARbyte<span class="operator">.</span>G <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span> <span class="comment">//4 KByte granularity</span>
+SS<span class="operator">.</span>ARbyte<span class="operator">.</span>S <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+SS<span class="operator">.</span>ARbyte<span class="operator">.</span>TYPE <span class="operator">=</span> <span class="number">3</span><span class="operator">;</span> <span class="comment">//Expand Up, Read/Write, Data</span>
+SS<span class="operator">.</span>ARbyte<span class="operator">.</span>D <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span> <span class="comment">//32-bit stack segment</span>
+SS<span class="operator">.</span>ARbyte<span class="operator">.</span>DPL <span class="operator">=</span> <span class="number">3</span><span class="operator">;</span>
+SS<span class="operator">.</span>ARbyte<span class="operator">.</span>RPL <span class="operator">=</span> <span class="number">3</span><span class="operator">;</span>
+SS<span class="operator">.</span>ARbyte<span class="operator">.</span>P <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+ESP <span class="operator">=</span> ECX<span class="operator">;</span>
+EIP <span class="operator">=</span> EDX<span class="operator">;</span>
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>None.
+</p>
+</td>
+</tr>
+</table>
+</object>
+</div>
+</body>
+</html>

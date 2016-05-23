@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Chasing Dragons: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "UNPCKLPS: Unpack and Interleave Low Packed Single-Precision Floating-Point Values (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>UNPCKLPS</h1>
+<h2>Unpack and Interleave Low Packed Single-Precision Floating-Point Values</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>0F 14 /r</code></td>
+<td class="grid"><code>UNPCKLPS xmm1, xmm2/m128</code></td>
+<td class="grid">Unpack and interleaves the single-precision floating-point values from low quadwords of xmm1 and xmm2/mem into xmm1.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Performs an interleaved unpack of the low-order single-precision floating-point values from the source operand (second operand) and the destination operand (first operand). The source operand can be an XMM register or a 128-bit memory location; the destination operand is an XMM register.</p>
+<p>When unpacking from a memory operand, an implementation may fetch only the appropriate 64 bits; however, alignment to 16-byte boundary and normal segment checking will still be enforced.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre>Destination<span class="operator">[</span><span class="number">0..31</span><span class="operator">]</span> <span class="operator">=</span> Destination<span class="operator">[</span><span class="number">0..31</span><span class="operator">]</span><span class="operator">;</span>
+Destination<span class="operator">[</span><span class="number">32..63</span><span class="operator">]</span> <span class="operator">=</span> Source<span class="operator">[</span><span class="number">0..31</span><span class="operator">]</span><span class="operator">;</span>
+Destination<span class="operator">[</span><span class="number">64..95</span><span class="operator">]</span> <span class="operator">=</span> Destination<span class="operator">[</span><span class="number">32..63</span><span class="operator">]</span><span class="operator">;</span>
+Destination<span class="operator">[</span><span class="number">96..127</span><span class="operator">]</span> <span class="operator">=</span> Source<span class="operator">[</span><span class="number">32..63</span><span class="operator">]</span><span class="operator">;</span>
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Instruction</th>
+<th>Latency</th>
+<th>Throughput</th>
+<th>Execution Unit</th>
+</tr>
+<tr><td class="grid"><code>CPUID</code></td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F2n</td></tr>
+<tr><td class="grid"><code>UNPCKLPS xmm, xmm</code></td><td class="grid">4/4/3</td><td class="grid">2/2/2</td><td class="grid">MMX_SHFT</td></tr>
+</table>
+</object>
+</div>
+</body>
+</html>

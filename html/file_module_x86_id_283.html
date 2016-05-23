@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Ultraviolence: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "RSQRTSS: Compute Reciprocal of Square Root of Scalar Single- Precision Floating-Point Value (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>RSQRTSS</h1>
+<h2>Compute Reciprocal of Square Root of Scalar Single- Precision Floating-Point Value</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>F3 0F 52 /r</code></td>
+<td class="grid"><code>RSQRTSS xmm1, xmm2/m32</code></td>
+<td class="grid">Computes the approximate reciprocal of the square root of the low single-precision floating-point value in xmm2/m32 and stores the results in xmm1.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Computes an approximate reciprocal of the square root of the low single-precision floatingpoint value in the source operand (second operand) stores the single-precision floating-point result in the destination operand. The source operand can be an XMM register or a 32-bit memory location. The destination operand is an XMM register. The three high-order doublewords of the destination operand remain unchanged. See Figure 10-6 in the IA-32 Intel Architecture Software Developer's Manual, Volume 1 for an illustration of a scalar single-precision floating-point operation.</p>
+<p>The relative error for this approximation is:</p>
+<p>|Relative Error| &lt;= 1.5 * 2-12 The RSQRTSS instruction is not affected by the rounding control bits in the MXCSR register.</p>
+<p>When a source value is a 0.0, an infinite of the sign of the source value is returned. A denormal source value is treated as a 0.0 (of the same sign). When a source value is a negative value (other than -0.0), a floating-point indefinite is returned. When a source value is an SNaN or QNaN, the SNaN is converted to a QNaN or the source QNaN is returned.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre>Destination<span class="operator">[</span><span class="number">0..31</span><span class="operator">]</span> <span class="operator">=</span> Approximate<span class="operator">(</span><span class="number">1.0</span> / SquareRoot<span class="operator">(</span>Source<span class="operator">[</span><span class="number">0..31</span><span class="operator">]</span><span class="operator">)</span><span class="operator">)</span><span class="operator">;</span>
+<span class="comment">//Destination[32..127] remains unchanged</span>
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Instruction</th>
+<th>Latency</th>
+<th>Throughput</th>
+<th>Execution Unit</th>
+</tr>
+<tr><td class="grid"><code>CPUID</code></td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F2n</td></tr>
+<tr><td class="grid"><code>RSQRTSS xmm, xmm</code></td><td class="grid">6/6/-</td><td class="grid">4/4/1</td><td class="grid">MMX_MISC MMX_SHFT</td></tr>
+</table>
+</object>
+</div>
+</body>
+</html>

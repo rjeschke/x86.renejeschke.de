@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Ultraviolence: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "MOVS/MOVSB/MOVSW/MOVSD: Move Data from String to String (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>MOVS/MOVSB/MOVSW/MOVSD</h1>
+<h2>Move Data from String to String</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>A4</code></td>
+<td class="grid"><code>MOVS m8, m8</code></td>
+<td class="grid">Move byte at address DS:(E)SI to address ES:(E)DI.</td>
+</tr>
+<tr>
+<td class="grid"><code>A5</code></td>
+<td class="grid"><code>MOVS m16, m16</code></td>
+<td class="grid">Move word at address DS:(E)SI to address ES:(E)DI.</td>
+</tr>
+<tr>
+<td class="grid"><code>A5</code></td>
+<td class="grid"><code>MOVS m32, m32</code></td>
+<td class="grid">Move doubleword at address DS:(E)SI to address ES:(E)DI.</td>
+</tr>
+<tr>
+<td class="grid"><code>A4</code></td>
+<td class="grid"><code>MOVSB</code></td>
+<td class="grid">Move byte at address DS:(E)SI to address ES:(E)DI.</td>
+</tr>
+<tr>
+<td class="grid"><code>A5</code></td>
+<td class="grid"><code>MOVSW</code></td>
+<td class="grid">Move word at address DS:(E)SI to address ES:(E)DI.</td>
+</tr>
+<tr>
+<td class="grid"><code>A5</code></td>
+<td class="grid"><code>MOVSD</code></td>
+<td class="grid">Move doubleword at address DS:(E)SI to address</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Moves the byte, word, or doubleword specified with the second operand (source operand) to the location specified with the first operand (destination operand). Both the source and destination operands are located in memory. The address of the source operand is read from the DS:ESI or the DS:SI registers (depending on the address-size attribute of the instruction, 32 or 16, respectively).</p>
+<p>The address of the destination operand is read from the ES:EDI or the ES:DI registers (again depending on the address-size attribute of the instruction). The DS segment may be overridden with a segment override prefix, but the ES segment cannot be overridden.</p>
+<p>At the assembly-code level, two forms of this instruction are allowed: the &quot;explicit-operands&quot; form and the &quot;no-operands&quot; form. The explicit-operands form (specified with the MOVS mnemonic) allows the source and destination operands to be specified explicitly. Here, the source and destination operands should be symbols that indicate the size and location of the source value and the destination, respectively. This explicit-operands form is provided to allow documentation; however, note that the documentation provided by this form can be misleading.</p>
+<p>That is, the source and destination operand symbols must specify the correct type (size) of the operands (bytes, words, or doublewords), but they do not have to specify the correct location.</p>
+<p>The locations of the source and destination operands are always specified by the DS:(E)SI and ES:(E)DI registers, which must be loaded correctly before the move string instruction is executed.</p>
+<p>The no-operands form provides &quot;short forms&quot; of the byte, word, and doubleword versions of the MOVS instructions. Here also DS:(E)SI and ES:(E)DI are assumed to be the source and destination operands, respectively. The size of the source and destination operands is selected with the mnemonic: MOVSB (byte move), MOVSW (word move), or MOVSD (doubleword move).</p>
+<p>After the move operation, the (E)SI and (E)DI registers are incremented or decremented automatically according to the setting of the DF flag in the EFLAGS register. (If the DF flag is 0, the (E)SI and (E)DI register are incremented; if the DF flag is 1, the (E)SI and (E)DI registers are decremented.) The registers are incremented or decremented by 1 for byte operations, by 2 for word operations, or by 4 for doubleword operations.</p>
+<p>The MOVS, MOVSB, MOVSW, and MOVSD instructions can be preceded by the REP prefix (see &quot;REP/REPE/REPZ/REPNE /REPNZ-Repeat String Operation Prefix&quot; in Chapter 4) for block moves of ECX bytes, words, or doublewords.</p>
+<p>ES:(E)DI.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre>Destination <span class="operator">=</span> Source<span class="operator">;</span>
+<span class="keyword">if</span><span class="operator">(</span>IsByteMove<span class="operator">(</span><span class="operator">)</span><span class="operator">)</span> {
+	<span class="keyword">if</span><span class="operator">(</span>DF <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> {
+		<span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">+</span> <span class="number">1</span><span class="operator">;</span>
+		<span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">+</span> <span class="number">1</span><span class="operator">;</span>
+	}
+	<span class="keyword">else</span> {
+		<span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">-</span> <span class="number">1</span><span class="operator">;</span>
+		<span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">-</span> <span class="number">1</span><span class="operator">;</span>
+	}
+}
+<span class="keyword">else</span> <span class="keyword">if</span><span class="operator">(</span>IsWordMove<span class="operator">(</span><span class="operator">)</span><span class="operator">)</span> {
+	<span class="keyword">if</span><span class="operator">(</span>DF <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> {
+		<span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">+</span> <span class="number">2</span><span class="operator">;</span>
+		<span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">+</span> <span class="number">2</span><span class="operator">;</span>
+	}
+	<span class="keyword">else</span> {
+		<span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">-</span> <span class="number">2</span><span class="operator">;</span>
+		<span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">-</span> <span class="number">2</span><span class="operator">;</span>
+	}
+}
+<span class="keyword">else</span> { <span class="comment">//doubleword move</span>
+	<span class="keyword">if</span><span class="operator">(</span>DF <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> {
+		<span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">+</span> <span class="number">4</span><span class="operator">;</span>
+		<span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">+</span> <span class="number">4</span><span class="operator">;</span>
+	}
+	<span class="keyword">else</span> {
+		<span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">-</span> <span class="number">4</span><span class="operator">;</span>
+		<span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">-</span> <span class="number">4</span><span class="operator">;</span>
+	}
+}
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>None.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Protected Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If the destination is located in a non-writable segment. If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit. If the DS, ES, FS, or GS register contains a null segment selector.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If the destination is located in a non-writable segment. If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit. If the DS, ES, FS, or GS register contains a null segment selector.</td></tr>
+<tr><td><code>#SS(0)</code></td><td>If a memory operand effective address is outside the SS segment limit.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>If a page fault occurs.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Real-Address Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#GP</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Virtual-8086 Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#SS(0)</code></td><td>If a memory operand effective address is outside the SS segment limit.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>If a page fault occurs.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Instruction</th>
+<th>Latency</th>
+<th>Throughput</th>
+<th>Execution Unit</th>
+</tr>
+<tr><td class="grid"><code>CPUID</code></td><td class="grid">0F3n/0F2n</td><td class="grid">0F3n/0F2n</td><td class="grid">0F2n</td></tr>
+<tr><td class="grid"><code>MOVSB/MOVSW</code></td><td class="grid">1/0.5</td><td class="grid">0.5/0.5</td><td class="grid">ALU</td></tr>
+</table>
+</object>
+</div>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Shroud: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "SUB: Subtract (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>SUB</h1>
+<h2>Subtract</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>2C ib</code></td>
+<td class="grid"><code>SUB AL,imm8</code></td>
+<td class="grid">Subtract imm8 from AL.</td>
+</tr>
+<tr>
+<td class="grid"><code>2D iw</code></td>
+<td class="grid"><code>SUB AX,imm16</code></td>
+<td class="grid">Subtract imm16 from AX.</td>
+</tr>
+<tr>
+<td class="grid"><code>2D id</code></td>
+<td class="grid"><code>SUB EAX,imm32</code></td>
+<td class="grid">Subtract imm32 from EAX.</td>
+</tr>
+<tr>
+<td class="grid"><code>80 /5 ib</code></td>
+<td class="grid"><code>SUB r/m8,imm8</code></td>
+<td class="grid">Subtract imm8 from r/m8.</td>
+</tr>
+<tr>
+<td class="grid"><code>81 /5 iw</code></td>
+<td class="grid"><code>SUB r/m16,imm16</code></td>
+<td class="grid">Subtract imm16 from r/m16.</td>
+</tr>
+<tr>
+<td class="grid"><code>81 /5 id</code></td>
+<td class="grid"><code>SUB r/m32,imm32</code></td>
+<td class="grid">Subtract imm32 from r/m32.</td>
+</tr>
+<tr>
+<td class="grid"><code>83 /5 ib</code></td>
+<td class="grid"><code>SUB r/m16,imm8</code></td>
+<td class="grid">Subtract sign-extended imm8 from r/m16.</td>
+</tr>
+<tr>
+<td class="grid"><code>83 /5 ib</code></td>
+<td class="grid"><code>SUB r/m32,imm8</code></td>
+<td class="grid">Subtract sign-extended imm8 from r/m32.</td>
+</tr>
+<tr>
+<td class="grid"><code>28 /r</code></td>
+<td class="grid"><code>SUB r/m8,r8</code></td>
+<td class="grid">Subtract r8 from r/m8.</td>
+</tr>
+<tr>
+<td class="grid"><code>29 /r</code></td>
+<td class="grid"><code>SUB r/m16,r16</code></td>
+<td class="grid">Subtract r16 from r/m16.</td>
+</tr>
+<tr>
+<td class="grid"><code>29 /r</code></td>
+<td class="grid"><code>SUB r/m32,r32</code></td>
+<td class="grid">Subtract r32 from r/m32.</td>
+</tr>
+<tr>
+<td class="grid"><code>2A /r</code></td>
+<td class="grid"><code>SUB r8,r/m8</code></td>
+<td class="grid">Subtract r/m8 from r8.</td>
+</tr>
+<tr>
+<td class="grid"><code>2B /r</code></td>
+<td class="grid"><code>SUB r16,r/m16</code></td>
+<td class="grid">Subtract r/m16 from r16.</td>
+</tr>
+<tr>
+<td class="grid"><code>2B /r</code></td>
+<td class="grid"><code>SUB r32,r/m32</code></td>
+<td class="grid">Subtract r/m32 from r32.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Subtracts the second operand (source operand) from the first operand (destination operand) and stores the result in the destination operand. The destination operand can be a register or a memory location; the source operand can be an immediate, register, or memory location.</p>
+<p>(However, two memory operands cannot be used in one instruction.) When an immediate value is used as an operand, it is sign-extended to the length of the destination operand format.</p>
+<p>The SUB instruction performs integer subtraction. It evaluates the result for both signed and unsigned integer operands and sets the OF and CF flags to indicate an overflow in the signed or unsigned result, respectively. The SF flag indicates the sign of the signed result.</p>
+<p>This instruction can be used with a LOCK prefix to allow the instruction to be executed atomically.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre>Destination <span class="operator">=</span> Destination <span class="operator">-</span> Source<span class="operator">;</span>
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>The OF, SF, ZF, AF, PF, and CF flags are set according to the result.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Instruction</th>
+<th>Latency</th>
+<th>Throughput</th>
+<th>Execution Unit</th>
+</tr>
+<tr><td class="grid"><code>CPUID</code></td><td class="grid">0F3n/0F2n</td><td class="grid">0F3n/0F2n</td><td class="grid">0F2n</td></tr>
+<tr><td class="grid"><code>SUB</code></td><td class="grid">1/0.5</td><td class="grid">0.5/0.5</td><td class="grid">ALU</td></tr>
+</table>
+</object>
+</div>
+</body>
+</html>

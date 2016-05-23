@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Liberation: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "TEST: Logical Compare (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>TEST</h1>
+<h2>Logical Compare</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>A8 ib</code></td>
+<td class="grid"><code>TEST AL,imm8</code></td>
+<td class="grid">AND imm8 with AL; set SF, ZF, PF according to result.</td>
+</tr>
+<tr>
+<td class="grid"><code>A9 iw</code></td>
+<td class="grid"><code>TEST AX,imm16</code></td>
+<td class="grid">AND imm16 with AX; set SF, ZF, PF according to result.</td>
+</tr>
+<tr>
+<td class="grid"><code>A9 id</code></td>
+<td class="grid"><code>TEST EAX,imm32</code></td>
+<td class="grid">AND imm32 with EAX; set SF, ZF, PF according to result.</td>
+</tr>
+<tr>
+<td class="grid"><code>F6 /0 ib</code></td>
+<td class="grid"><code>TEST r/m8,imm8</code></td>
+<td class="grid">AND imm8 with r/m8; set SF, ZF, PF according to result.</td>
+</tr>
+<tr>
+<td class="grid"><code>F7 /0 iw</code></td>
+<td class="grid"><code>TEST r/m16,imm16</code></td>
+<td class="grid">AND imm16 with r/m16; set SF, ZF, PF according to result.</td>
+</tr>
+<tr>
+<td class="grid"><code>F7 /0 id</code></td>
+<td class="grid"><code>TEST r/m32,imm32</code></td>
+<td class="grid">AND imm32 with r/m32; set SF, ZF, PF according to result.</td>
+</tr>
+<tr>
+<td class="grid"><code>84 /r</code></td>
+<td class="grid"><code>TEST r/m8,r8</code></td>
+<td class="grid">AND r8 with r/m8; set SF, ZF, PF according to result.</td>
+</tr>
+<tr>
+<td class="grid"><code>85 /r</code></td>
+<td class="grid"><code>TEST r/m16,r16</code></td>
+<td class="grid">AND r16 with r/m16; set SF, ZF, PF according to result.</td>
+</tr>
+<tr>
+<td class="grid"><code>85 /r</code></td>
+<td class="grid"><code>TEST r/m32,r32</code></td>
+<td class="grid">AND r32 with r/m32; set SF, ZF, PF according to result.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Computes the bit-wise logical AND of first operand (source 1 operand) and the second operand (source 2 operand) and sets the SF, ZF, and PF status flags according to the result. The result is then discarded.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre>Temporary <span class="operator">=</span> Source1 <span class="operator">&amp;</span> Source2<span class="operator">;</span>
+SF <span class="operator">=</span> MSB<span class="operator">(</span>Temporary<span class="operator">)</span><span class="operator">;</span>
+<span class="keyword">if</span><span class="operator">(</span>Temporary <span class="operator">=</span> <span class="number">0</span><span class="operator">)</span> ZF <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+<span class="keyword">else</span> ZF <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+PF <span class="operator">=</span> BitwiseXNOR<span class="operator">(</span>Temporary<span class="operator">[</span><span class="number">0</span><span class="operator">:</span><span class="number">7</span><span class="operator">]</span><span class="operator">)</span><span class="operator">;</span>
+<span class="keyword">for</span><span class="operator">(</span>PF <span class="operator">=</span> <span class="number">1</span><span class="operator">,</span> i <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span> i <span class="operator">&lt;</span> <span class="number">8</span><span class="operator">;</span> <span class="operator">++</span>i<span class="operator">)</span> PF <span class="operator">^=</span> Temporary<span class="operator">[</span>i<span class="operator">]</span><span class="operator">;</span>
+CF <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+OF <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+AF <span class="operator">=</span> Undefined<span class="operator">;</span>
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>The OF and CF flags are set to 0. The SF, ZF, and PF flags are set according to the result (see the &quot;Operation&quot; section above). The state of the AF flag is undefined.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Instruction</th>
+<th>Latency</th>
+<th>Throughput</th>
+<th>Execution Unit</th>
+</tr>
+<tr><td class="grid"><code>CPUID</code></td><td class="grid">0F3n/0F2n</td><td class="grid">0F3n/0F2n</td><td class="grid">0F2n</td></tr>
+<tr><td class="grid"><code>TEST</code></td><td class="grid">1/0.5</td><td class="grid">0.5/0.5</td><td class="grid">ALU</td></tr>
+</table>
+</object>
+</div>
+</body>
+</html>

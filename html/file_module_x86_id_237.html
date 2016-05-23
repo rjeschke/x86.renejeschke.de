@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Into the Void: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "PINSRW: Insert Word (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>PINSRW</h1>
+<h2>Insert Word</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>0F C4 /r ib</code></td>
+<td class="grid"><code>PINSRW mm, r32/m16, imm8</code></td>
+<td class="grid">Insert the low word from r32 or from m16 into mm at the word position specified by imm8.</td>
+</tr>
+<tr>
+<td class="grid"><code>66 0F C4 /r ib</code></td>
+<td class="grid"><code>PINSRW xmm, r32/m16, imm8</code></td>
+<td class="grid">Move the low word of r32 or from m16 into xmm at the word position specified by imm8.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Copies a word from the source operand (second operand) and inserts it in the destination operand (first operand) at the location specified with the count operand (third operand). (The other words in the destination register are left untouched.) The source operand can be a generalpurpose register or a 16-bit memory location. (When the source operand is a general-purpose register, the low word of the register is copied.) The destination operand can be an MMX technology register or an XMM register. The count operand is an 8-bit immediate. When specifying a word location in an MMX technology register, the 2 least-significant bits of the count operand specify the location; for an XMM register, the 3 least-significant bits specify the location.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre><span class="keyword">switch</span><span class="operator">(</span>OperandSize<span class="operator">)</span> {
+	<span class="keyword">case</span> <span class="number">8</span><span class="operator">:</span>
+		<span class="comment">//PINSRW instruction with 64-bit source operand:</span>
+		Masks<span class="operator">[</span><span class="operator">]</span> <span class="operator">=</span> {
+			<span class="number">0x000000000000FFFF</span><span class="operator">,</span>
+			<span class="number">0x00000000FFFF0000</span><span class="operator">,</span>
+			<span class="number">0x0000FFFF00000000</span><span class="operator">,</span>
+			<span class="number">0xFFFF000000000000</span>
+		}<span class="operator">;</span>
+		SEL <span class="operator">=</span> Count <span class="operator">&amp;</span> <span class="number">3</span><span class="operator">;</span>
+		Mask <span class="operator">=</span> Masks<span class="operator">[</span>SEL<span class="operator">]</span><span class="operator">;</span>
+		Destination <span class="operator">=</span> <span class="operator">(</span>Destination <span class="operator">&amp;</span> <span class="operator">~</span>Mask<span class="operator">)</span> <span class="operator">|</span> <span class="operator">(</span><span class="operator">(</span><span class="operator">(</span>Source <span class="operator">&lt;&lt;</span> <span class="operator">(</span>SEL <span class="operator">*</span> <span class="number">16</span><span class="operator">)</span><span class="operator">)</span> <span class="operator">&amp;</span> Mask<span class="operator">)</span><span class="operator">;</span>
+		<span class="keyword">break</span><span class="operator">;</span>
+	<span class="keyword">case</span> <span class="number">16</span><span class="operator">:</span>
+		<span class="comment">//PINSRW instruction with 128-bit source operand:</span>
+		Masks<span class="operator">[</span><span class="operator">]</span> <span class="operator">=</span> {
+			<span class="number">0x0000000000000000000000000000FFFF</span><span class="operator">,</span>
+			<span class="number">0x000000000000000000000000FFFF0000</span><span class="operator">,</span>
+			<span class="number">0x00000000000000000000FFFF00000000</span><span class="operator">,</span>
+			<span class="number">0x0000000000000000FFFF000000000000</span><span class="operator">,</span>
+			<span class="number">0x000000000000FFFF0000000000000000</span><span class="operator">,</span>
+			<span class="number">0x00000000FFFF00000000000000000000</span><span class="operator">,</span>
+			<span class="number">0x0000FFFF000000000000000000000000</span><span class="operator">,</span>
+			<span class="number">0xFFFF0000000000000000000000000000</span>
+		}<span class="operator">;</span>
+		SEL <span class="operator">=</span> Count <span class="operator">&amp;</span> <span class="number">7</span><span class="operator">;</span>
+		Mask <span class="operator">=</span> Masks<span class="operator">[</span>SEL<span class="operator">]</span><span class="operator">;</span>
+		Destination <span class="operator">=</span> <span class="operator">(</span>Destination <span class="operator">&amp;</span> <span class="operator">~</span>Mask<span class="operator">)</span> <span class="operator">|</span> <span class="operator">(</span><span class="operator">(</span><span class="operator">(</span>Source <span class="operator">&lt;&lt;</span> <span class="operator">(</span>SEL <span class="operator">*</span> <span class="number">16</span><span class="operator">)</span><span class="operator">)</span> <span class="operator">&amp;</span> Mask<span class="operator">)</span><span class="operator">;</span>
+		<span class="keyword">break</span><span class="operator">;</span>
+}
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>None.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Protected Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#SS(0)</code></td><td>If a memory operand effective address is outside the SS segment limit.</td></tr>
+<tr><td><code>#UD</code></td><td>If EM in CR0 is set. (128-bit operations only) If OSFXSR in CR4 is 0. (128-bit operations only) If CPUID feature flag SSE2 is 0.</td></tr>
+<tr><td><code>#NM</code></td><td>If TS in CR0 is set.</td></tr>
+<tr><td><code>#MF</code></td><td>(64-bit operations only) If there is a pending x87 FPU exception.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>If a page fault occurs.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Real-Address Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If any part of the operand lies outside of the effective address space from 0 to FFFFH.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If any part of the operand lies outside of the effective address space from 0 to FFFFH.</td></tr>
+<tr><td><code>#UD</code></td><td>If EM in CR0 is set. (128-bit operations only) If OSFXSR in CR4 is 0. (128-bit operations only) If CPUID feature flag SSE2 is 0.</td></tr>
+<tr><td><code>#NM</code></td><td>If TS in CR0 is set.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Virtual-8086 Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+Same exceptions as in Real Address Mode
+<div>
+<table class="operations_table">
+<tr><td><code>#PF(fault-code)</code></td><td>For a page fault.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>For a page fault.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Numeric Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+None.
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Instruction</th>
+<th>Latency</th>
+<th>Throughput</th>
+<th>Execution Unit</th>
+</tr>
+<tr><td class="grid"><code>CPUID</code></td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F2n</td></tr>
+<tr><td class="grid"><code>PINSRW mm, r32, imm8</code></td><td class="grid">4/4/1</td><td class="grid">1/1/1</td><td class="grid">MMX_SHFT MMX_MISC</td></tr>
+<tr><td class="grid"><code>PINSRW xmm, r32, imm8</code></td><td class="grid">4/4/1+1</td><td class="grid">2/2/2</td><td class="grid">MMX_SHFT MMX_MISC</td></tr>
+</table>
+</object>
+</div>
+</body>
+</html>

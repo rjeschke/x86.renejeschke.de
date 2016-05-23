@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Into the Void: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "RCL/RCR/ROL/ROR: Rotate (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>RCL/RCR/ROL/ROR</h1>
+<h2>Rotate</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>D0 /2</code></td>
+<td class="grid"><code>RCL r/m8, 1</code></td>
+<td class="grid">Rotate 9 bits (CF, r/m8) left once.</td>
+</tr>
+<tr>
+<td class="grid"><code>D2 /2</code></td>
+<td class="grid"><code>RCL r/m8, CL</code></td>
+<td class="grid">Rotate 9 bits (CF, r/m8) left CL times.</td>
+</tr>
+<tr>
+<td class="grid"><code>C0 /2 ib</code></td>
+<td class="grid"><code>RCL r/m8, imm8</code></td>
+<td class="grid">Rotate 9 bits (CF, r/m8) left imm8 times.</td>
+</tr>
+<tr>
+<td class="grid"><code>D1 /2</code></td>
+<td class="grid"><code>RCL r/m16, 1</code></td>
+<td class="grid">Rotate 17 bits (CF, r/m16) left once.</td>
+</tr>
+<tr>
+<td class="grid"><code>D3 /2</code></td>
+<td class="grid"><code>RCL r/m16, CL</code></td>
+<td class="grid">Rotate 17 bits (CF, r/m16) left CL times.</td>
+</tr>
+<tr>
+<td class="grid"><code>C1 /2 ib</code></td>
+<td class="grid"><code>RCL r/m16, imm8</code></td>
+<td class="grid">Rotate 17 bits (CF, r/m16) left imm8 times.</td>
+</tr>
+<tr>
+<td class="grid"><code>D1 /2</code></td>
+<td class="grid"><code>RCL r/m32, 1</code></td>
+<td class="grid">Rotate 33 bits (CF, r/m32) left once.</td>
+</tr>
+<tr>
+<td class="grid"><code>D3 /2</code></td>
+<td class="grid"><code>RCL r/m32, CL</code></td>
+<td class="grid">Rotate 33 bits (CF, r/m32) left CL times.</td>
+</tr>
+<tr>
+<td class="grid"><code>C1 /2 ib</code></td>
+<td class="grid"><code>RCL r/m32,i mm8</code></td>
+<td class="grid">Rotate 33 bits (CF, r/m32) left imm8 times.</td>
+</tr>
+<tr>
+<td class="grid"><code>D0 /3</code></td>
+<td class="grid"><code>RCR r/m8, 1</code></td>
+<td class="grid">Rotate 9 bits (CF, r/m8) right once.</td>
+</tr>
+<tr>
+<td class="grid"><code>D2 /3</code></td>
+<td class="grid"><code>RCR r/m8, CL</code></td>
+<td class="grid">Rotate 9 bits (CF, r/m8) right CL times.</td>
+</tr>
+<tr>
+<td class="grid"><code>C0 /3 ib</code></td>
+<td class="grid"><code>RCR r/m8, imm8</code></td>
+<td class="grid">Rotate 9 bits (CF, r/m8) right imm8 times.</td>
+</tr>
+<tr>
+<td class="grid"><code>D1 /3</code></td>
+<td class="grid"><code>RCR r/m16, 1</code></td>
+<td class="grid">Rotate 17 bits (CF, r/m16) right once.</td>
+</tr>
+<tr>
+<td class="grid"><code>D3 /3</code></td>
+<td class="grid"><code>RCR r/m16, CL</code></td>
+<td class="grid">Rotate 17 bits (CF, r/m16) right CL times.</td>
+</tr>
+<tr>
+<td class="grid"><code>C1 /3 ib</code></td>
+<td class="grid"><code>RCR r/m16, imm8</code></td>
+<td class="grid">Rotate 17 bits (CF, r/m16) right imm8 times.</td>
+</tr>
+<tr>
+<td class="grid"><code>D1 /3</code></td>
+<td class="grid"><code>RCR r/m32, 1</code></td>
+<td class="grid">Rotate 33 bits (CF, r/m32) right once.</td>
+</tr>
+<tr>
+<td class="grid"><code>D3 /3</code></td>
+<td class="grid"><code>RCR r/m32, CL</code></td>
+<td class="grid">Rotate 33 bits (CF, r/m32) right CL times.</td>
+</tr>
+<tr>
+<td class="grid"><code>C1 /3 ib</code></td>
+<td class="grid"><code>RCR r/m32, imm8</code></td>
+<td class="grid">Rotate 33 bits (CF, r/m32) right imm8 times.</td>
+</tr>
+<tr>
+<td class="grid"><code>D0 /0 ROL r/m8, 1</code></td>
+<td class="grid"><code>Rotate 8 bits r/m8 left once.</code></td>
+<td class="grid"></td>
+</tr>
+<tr>
+<td class="grid"><code>D2 /0 ROL r/m8, CL</code></td>
+<td class="grid"><code>Rotate 8 bits r/m8 left CL times.</code></td>
+<td class="grid"></td>
+</tr>
+<tr>
+<td class="grid"><code>C0 /0 ib ROL r/m8, imm8</code></td>
+<td class="grid"><code>Rotate 8 bits r/m8 left imm8 times.</code></td>
+<td class="grid"></td>
+</tr>
+<tr>
+<td class="grid"><code>D1 /0 ROL r/m16, 1</code></td>
+<td class="grid"><code>Rotate 16 bits r/m16 left once.</code></td>
+<td class="grid"></td>
+</tr>
+<tr>
+<td class="grid"><code>D3 /0 ROL r/m16, CL</code></td>
+<td class="grid"><code>Rotate 16 bits r/m16 left CL times.</code></td>
+<td class="grid"></td>
+</tr>
+<tr>
+<td class="grid"><code>C1 /0 ib ROL r/m16, imm8</code></td>
+<td class="grid"><code>Rotate 16 bits r/m16 left imm8 times.</code></td>
+<td class="grid"></td>
+</tr>
+<tr>
+<td class="grid"><code>D1 /0 ROL r/m32, 1</code></td>
+<td class="grid"><code>Rotate 32 bits r/m32 left once.</code></td>
+<td class="grid"></td>
+</tr>
+<tr>
+<td class="grid"><code>D3 /0 ROL r/m32, CL</code></td>
+<td class="grid"><code>Rotate 32 bits r/m32 left CL times.</code></td>
+<td class="grid"></td>
+</tr>
+<tr>
+<td class="grid"><code>C1 /0 ib ROL r/m32, imm8</code></td>
+<td class="grid"><code>Rotate 32 bits r/m32 left imm8 times.</code></td>
+<td class="grid"></td>
+</tr>
+<tr>
+<td class="grid"><code>D0 /1</code></td>
+<td class="grid"><code>ROR r/m8, 1</code></td>
+<td class="grid">Rotate 8 bits r/m8 right once.</td>
+</tr>
+<tr>
+<td class="grid"><code>D2 /1</code></td>
+<td class="grid"><code>ROR r/m8, CL</code></td>
+<td class="grid">Rotate 8 bits r/m8 right CL times.</td>
+</tr>
+<tr>
+<td class="grid"><code>C0 /1 ib</code></td>
+<td class="grid"><code>ROR r/m8, imm8</code></td>
+<td class="grid">Rotate 8 bits r/m16 right imm8 times.</td>
+</tr>
+<tr>
+<td class="grid"><code>D1 /1</code></td>
+<td class="grid"><code>ROR r/m16, 1</code></td>
+<td class="grid">Rotate 16 bits r/m16 right once.</td>
+</tr>
+<tr>
+<td class="grid"><code>D3 /1</code></td>
+<td class="grid"><code>ROR r/m16, CL</code></td>
+<td class="grid">Rotate 16 bits r/m16 right CL times.</td>
+</tr>
+<tr>
+<td class="grid"><code>C1 /1 ib</code></td>
+<td class="grid"><code>ROR r/m16, imm8</code></td>
+<td class="grid">Rotate 16 bits r/m16 right imm8 times.</td>
+</tr>
+<tr>
+<td class="grid"><code>D1 /1</code></td>
+<td class="grid"><code>ROR r/m32, 1</code></td>
+<td class="grid">Rotate 32 bits r/m32 right once.</td>
+</tr>
+<tr>
+<td class="grid"><code>D3 /1</code></td>
+<td class="grid"><code>ROR r/m32, CL</code></td>
+<td class="grid">Rotate 32 bits r/m32 right CL times.</td>
+</tr>
+<tr>
+<td class="grid"><code>C1 /1 ib</code></td>
+<td class="grid"><code>ROR r/m32, imm8</code></td>
+<td class="grid">Rotate 32 bits r/m32 right imm8 times.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Shifts (rotates) the bits of the first operand (destination operand) the number of bit positions specified in the second operand (count operand) and stores the result in the destination operand.</p>
+<p>The destination operand can be a register or a memory location; the count operand is an unsigned integer that can be an immediate or a value in the CL register. The processor restricts the count to a number between 0 and 31 by masking all the bits in the count operand except the 5 leastsignificant bits.</p>
+<p>The rotate left (ROL) and rotate through carry left (RCL) instructions shift all the bits toward more-significant bit positions, except for the most-significant bit, which is rotated to the leastsignificant bit location (see Figure 7-11 in the IA-32 Intel Architecture Software Developer's Manual, Volume 1). The rotate right (ROR) and rotate through carry right (RCR) instructions shift all the bits toward less significant bit positions, except for the least-significant bit, which is rotated to the most-significant bit location (see Figure 7-11 in the IA-32 Intel Architecture Software Developer's Manual, Volume 1).</p>
+<p>The RCL and RCR instructions include the CF flag in the rotation. The RCL instruction shifts the CF flag into the least-significant bit and shifts the most-significant bit into the CF flag (see Figure 7-11 in the IA-32 Intel Architecture Software Developer's Manual, Volume 1). The RCR instruction shifts the CF flag into the most-significant bit and shifts the least-significant bit into the CF flag (see Figure 7-11 in the IA-32 Intel Architecture Software Developer's Manual, Volume 1). For the ROL and ROR instructions, the original value of the CF flag is not a part of the result, but the CF flag receives a copy of the bit that was shifted from one end to the other.</p>
+<p>The OF flag is defined only for the 1-bit rotates; it is undefined in all other cases (except that a zero-bit rotate does nothing, that is affects no flags). For left rotates, the OF flag is set to the exclusive OR of the CF bit (after the rotate) and the most-significant bit of the result. For right rotates, the OF flag is set to the exclusive OR of the two most-significant bits of the result.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre><span class="keyword">switch</span><span class="operator">(</span>Instructions<span class="operator">)</span> {
+	<span class="keyword">case</span> RCL<span class="operator">:</span>
+	<span class="keyword">case</span> RCR<span class="operator">:</span>
+		<span class="comment">//RCL and RCR instructions</span>
+		<span class="keyword">switch</span><span class="operator">(</span>OperandSize<span class="operator">)</span> {
+			<span class="keyword">case</span> <span class="number">8</span><span class="operator">:</span>
+				TemporaryCount <span class="operator">=</span> <span class="operator">(</span>Count <span class="operator">&amp;</span> <span class="number">0x1F</span><span class="operator">)</span> <span class="operator">%</span> <span class="number">9</span><span class="operator">;</span>
+				<span class="keyword">break</span><span class="operator">;</span>
+			<span class="keyword">case</span> <span class="number">16</span><span class="operator">:</span>
+				TemporaryCount <span class="operator">=</span> <span class="operator">(</span>Count <span class="operator">&amp;</span> <span class="number">0x1F</span><span class="operator">)</span> <span class="operator">%</span> <span class="number">17</span><span class="operator">;</span>
+				<span class="keyword">break</span><span class="operator">;</span>
+			<span class="keyword">case</span> <span class="number">32</span><span class="operator">:</span>
+				TemporaryCount <span class="operator">=</span> Count <span class="operator">&amp;</span> <span class="number">0x1F</span><span class="operator">;</span>
+				<span class="keyword">break</span><span class="operator">;</span>
+		}
+		<span class="keyword">if</span><span class="operator">(</span>Instruction <span class="operator">==</span> RCL<span class="operator">)</span> {
+			<span class="comment">//RCL instruction operation</span>
+			<span class="keyword">while</span><span class="operator">(</span>TemporaryCount <span class="operator">!=</span> <span class="number">0</span><span class="operator">)</span> {
+				TemporaryCF <span class="operator">=</span> MSB<span class="operator">(</span>Destination<span class="operator">)</span><span class="operator">;</span>
+				Destination <span class="operator">=</span> <span class="operator">(</span>Destination <span class="operator">&lt;&lt;</span> <span class="number">1</span><span class="operator">)</span> <span class="operator">+</span> CF<span class="operator">;</span>
+				CF <span class="operator">=</span> TemporaryCF<span class="operator">;</span>
+				TemporaryCount <span class="operator">=</span> TemporaryCount <span class="operator">-</span> <span class="number">1</span><span class="operator">;</span>
+			}
+			<span class="keyword">if</span><span class="operator">(</span>Count <span class="operator">==</span> <span class="number">1</span><span class="operator">)</span> OF <span class="operator">=</span> MSB<span class="operator">(</span>Destination<span class="operator">)</span> <span class="operator">^</span> CF<span class="operator">;</span>
+			<span class="keyword">else</span> OF <span class="operator">=</span> Undefined<span class="operator">;</span>
+		}
+		<span class="keyword">else</span> {
+			<span class="comment">//RCR instruction operation</span>
+			<span class="keyword">if</span><span class="operator">(</span>Count <span class="operator">==</span> <span class="number">1</span><span class="operator">)</span> OF <span class="operator">=</span> MSB<span class="operator">(</span>Destination<span class="operator">)</span> <span class="operator">^</span> CF<span class="operator">;</span>
+			<span class="keyword">else</span> OF <span class="operator">=</span> Undefined<span class="operator">;</span>
+			<span class="keyword">while</span><span class="operator">(</span>TemporaryCount <span class="operator">!=</span> <span class="number">0</span><span class="operator">)</span> {
+				TemporaryCF <span class="operator">=</span> LSB<span class="operator">(</span>Destination<span class="operator">)</span><span class="operator">;</span>
+				Destination <span class="operator">=</span> <span class="operator">(</span>Destination <span class="operator">&gt;&gt;</span> <span class="number">1</span><span class="operator">)</span> <span class="operator">+</span> <span class="operator">(</span>CF <span class="operator">&lt;&lt;</span> Size<span class="operator">)</span><span class="operator">;</span>
+				CF <span class="operator">=</span> TemporaryCF<span class="operator">;</span>
+				TemporaryCount <span class="operator">=</span> TemporaryCount <span class="operator">-</span> <span class="number">1</span><span class="operator">;</span>
+			}
+		}
+		<span class="keyword">break</span><span class="operator">;</span>
+	<span class="keyword">case</span> ROL<span class="operator">:</span>
+	<span class="keyword">case</span> ROR<span class="operator">:</span>
+		<span class="comment">//ROL and ROR instructions</span>
+		<span class="keyword">switch</span><span class="operator">(</span>OperandSize<span class="operator">)</span> {
+			<span class="keyword">case</span> <span class="number">8</span><span class="operator">:</span>
+				TemporaryCount <span class="operator">=</span> Count <span class="operator">%</span> <span class="number">8</span><span class="operator">;</span>
+				<span class="keyword">break</span><span class="operator">;</span>
+			<span class="keyword">case</span> <span class="number">16</span><span class="operator">:</span>
+				TemporaryCount <span class="operator">=</span> Count <span class="operator">%</span> <span class="number">16</span><span class="operator">;</span>
+				<span class="keyword">break</span><span class="operator">;</span>
+			<span class="keyword">case</span> <span class="number">32</span><span class="operator">:</span>
+				TemporaryCount <span class="operator">=</span> Count <span class="operator">%</span> <span class="number">32</span><span class="operator">;</span>
+				<span class="keyword">break</span><span class="operator">;</span>
+		}
+		<span class="keyword">if</span><span class="operator">(</span>Instruction <span class="operator">==</span> ROL<span class="operator">)</span> {
+			<span class="comment">//ROL instruction operation</span>
+			<span class="keyword">while</span><span class="operator">(</span>TemporaryCount <span class="operator">!=</span> <span class="number">0</span><span class="operator">)</span> {
+				TemporaryCF <span class="operator">=</span> MSB<span class="operator">(</span>Destination<span class="operator">)</span><span class="operator">;</span>
+				Destination <span class="operator">=</span> <span class="operator">(</span>Destination <span class="operator">&lt;&lt;</span> <span class="number">1</span><span class="operator">)</span> <span class="operator">+</span> TemporaryCF<span class="operator">;</span>
+				TemporaryCount <span class="operator">=</span> TemporaryCount <span class="operator">-</span> <span class="number">1</span><span class="operator">;</span>
+			}
+			CF <span class="operator">=</span> LSB<span class="operator">(</span>Destination<span class="operator">)</span><span class="operator">;</span>
+			<span class="keyword">if</span><span class="operator">(</span>Count <span class="operator">==</span> <span class="number">1</span><span class="operator">)</span> OF <span class="operator">=</span> MSB<span class="operator">(</span>Destination<span class="operator">)</span> <span class="operator">^</span> CF<span class="operator">;</span>
+			<span class="keyword">else</span> OF <span class="operator">=</span> Undefined<span class="operator">;</span>
+		}
+		<span class="keyword">else</span> {
+			<span class="comment">//ROR instruction operation</span>
+			<span class="keyword">while</span><span class="operator">(</span>TemporaryCount <span class="operator">!=</span> <span class="number">0</span><span class="operator">)</span> {
+				TemporaryCF <span class="operator">=</span> LSB<span class="operator">(</span>Destination<span class="operator">)</span><span class="operator">;</span>
+				Destination <span class="operator">=</span> <span class="operator">(</span>Destination <span class="operator">&gt;&gt;</span> <span class="number">1</span><span class="operator">)</span> <span class="operator">+</span> <span class="operator">(</span>TemporaryCF <span class="operator">&lt;&lt;</span> Size<span class="operator">)</span><span class="operator">;</span>
+				TemporaryCount <span class="operator">=</span> TemporaryCount <span class="operator">-</span> <span class="number">1</span><span class="operator">;</span>
+			}
+			CF <span class="operator">=</span> MSB<span class="operator">(</span>Destination<span class="operator">)</span><span class="operator">;</span>
+			<span class="keyword">if</span><span class="operator">(</span>Count <span class="operator">==</span> <span class="number">1</span><span class="operator">)</span> OF <span class="operator">=</span> MSB<span class="operator">(</span>Destination<span class="operator">)</span> <span class="operator">^</span> SMSB<span class="operator">(</span>Destination<span class="operator">)</span><span class="operator">;</span> <span class="comment">//SMSB: bit next to high-order bit</span>
+			<span class="keyword">else</span> OF <span class="operator">=</span> Undefined<span class="operator">;</span>
+		}
+		<span class="keyword">break</span><span class="operator">;</span>
+}
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>The CF flag contains the value of the bit shifted into it. The OF flag is affected only for singlebit rotates (see &quot;Description&quot; above); it is undefined for multi-bit rotates. The SF, ZF, AF, and PF flags are not affected.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>IA-32 Architecture Compatibility</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>The 8086 does not mask the rotation count. However, all other IA-32 processors (starting with the Intel 286 processor) do mask the rotation count to 5 bits, resulting in a maximum count of 31. This masking is done in all operating modes (including the virtual-8086 mode) to reduce the maximum execution time of the instructions.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Instruction</th>
+<th>Latency</th>
+<th>Throughput</th>
+<th>Execution Unit</th>
+</tr>
+<tr><td class="grid"><code>CPUID</code></td><td class="grid">0F3n/0F2n</td><td class="grid">0F3n/0F2n</td><td class="grid">0F2n</td></tr>
+<tr><td class="grid"><code>RCL/RCR reg</code></td><td class="grid">6/4</td><td class="grid">1/1</td><td class="grid">-</td></tr>
+<tr><td class="grid"><code>ROL/ROR</code></td><td class="grid">1/4</td><td class="grid">0.5/1</td><td class="grid">-</td></tr>
+</table>
+</object>
+</div>
+</body>
+</html>

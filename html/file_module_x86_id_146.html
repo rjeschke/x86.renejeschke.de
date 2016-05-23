@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Control: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "Jcc: Jump if Condition Is Met (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>Jcc</h1>
+<h2>Jump if Condition Is Met</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>77 cb</code></td>
+<td class="grid"><code>JA rel8</code></td>
+<td class="grid">Jump short if above (CF=0 and ZF=0).</td>
+</tr>
+<tr>
+<td class="grid"><code>73 cb</code></td>
+<td class="grid"><code>JAE rel8</code></td>
+<td class="grid">Jump short if above or equal (CF=0).</td>
+</tr>
+<tr>
+<td class="grid"><code>72 cb</code></td>
+<td class="grid"><code>JB rel8</code></td>
+<td class="grid">Jump short if below (CF=1).</td>
+</tr>
+<tr>
+<td class="grid"><code>76 cb</code></td>
+<td class="grid"><code>JBE rel8</code></td>
+<td class="grid">Jump short if below or equal (CF=1 or ZF=1).</td>
+</tr>
+<tr>
+<td class="grid"><code>72 cb</code></td>
+<td class="grid"><code>JC rel8</code></td>
+<td class="grid">Jump short if carry (CF=1).</td>
+</tr>
+<tr>
+<td class="grid"><code>E3 cb</code></td>
+<td class="grid"><code>JCXZ rel8</code></td>
+<td class="grid">Jump short if CX register is 0.</td>
+</tr>
+<tr>
+<td class="grid"><code>E3 cb</code></td>
+<td class="grid"><code>JECXZ rel8</code></td>
+<td class="grid">Jump short if ECX register is 0.</td>
+</tr>
+<tr>
+<td class="grid"><code>74 cb</code></td>
+<td class="grid"><code>JE rel8</code></td>
+<td class="grid">Jump short if equal (ZF=1).</td>
+</tr>
+<tr>
+<td class="grid"><code>7F cb</code></td>
+<td class="grid"><code>JG rel8</code></td>
+<td class="grid">Jump short if greater (ZF=0 and SF=OF).</td>
+</tr>
+<tr>
+<td class="grid"><code>7D cb</code></td>
+<td class="grid"><code>JGE rel8</code></td>
+<td class="grid">Jump short if greater or equal (SF=OF).</td>
+</tr>
+<tr>
+<td class="grid"><code>7C cb</code></td>
+<td class="grid"><code>JL rel8</code></td>
+<td class="grid">Jump short if less (SF&lt;&gt;OF).</td>
+</tr>
+<tr>
+<td class="grid"><code>7E cb</code></td>
+<td class="grid"><code>JLE rel8</code></td>
+<td class="grid">Jump short if less or equal (ZF=1 or SF&lt;&gt;OF).</td>
+</tr>
+<tr>
+<td class="grid"><code>76 cb</code></td>
+<td class="grid"><code>JNA rel8</code></td>
+<td class="grid">Jump short if not above (CF=1 or ZF=1).</td>
+</tr>
+<tr>
+<td class="grid"><code>72 cb</code></td>
+<td class="grid"><code>JNAE rel8</code></td>
+<td class="grid">Jump short if not above or equal (CF=1).</td>
+</tr>
+<tr>
+<td class="grid"><code>73 cb</code></td>
+<td class="grid"><code>JNB rel8</code></td>
+<td class="grid">Jump short if not below (CF=0).</td>
+</tr>
+<tr>
+<td class="grid"><code>77 cb</code></td>
+<td class="grid"><code>JNBE rel8</code></td>
+<td class="grid">Jump short if not below or equal (CF=0 and ZF=0).</td>
+</tr>
+<tr>
+<td class="grid"><code>73 cb</code></td>
+<td class="grid"><code>JNC rel8</code></td>
+<td class="grid">Jump short if not carry (CF=0).</td>
+</tr>
+<tr>
+<td class="grid"><code>75 cb</code></td>
+<td class="grid"><code>JNE rel8</code></td>
+<td class="grid">Jump short if not equal (ZF=0).</td>
+</tr>
+<tr>
+<td class="grid"><code>7E cb</code></td>
+<td class="grid"><code>JNG rel8</code></td>
+<td class="grid">Jump short if not greater (ZF=1 or SF&lt;&gt;OF).</td>
+</tr>
+<tr>
+<td class="grid"><code>7C cb</code></td>
+<td class="grid"><code>JNGE rel8</code></td>
+<td class="grid">Jump short if not greater or equal (SF&lt;&gt;OF).</td>
+</tr>
+<tr>
+<td class="grid"><code>7D cb</code></td>
+<td class="grid"><code>JNL rel8</code></td>
+<td class="grid">Jump short if not less (SF=OF).</td>
+</tr>
+<tr>
+<td class="grid"><code>7F cb</code></td>
+<td class="grid"><code>JNLE rel8</code></td>
+<td class="grid">Jump short if not less or equal (ZF=0 and SF=OF).</td>
+</tr>
+<tr>
+<td class="grid"><code>71 cb</code></td>
+<td class="grid"><code>JNO rel8</code></td>
+<td class="grid">Jump short if not overflow (OF=0).</td>
+</tr>
+<tr>
+<td class="grid"><code>7B cb</code></td>
+<td class="grid"><code>JNP rel8</code></td>
+<td class="grid">Jump short if not parity (PF=0).</td>
+</tr>
+<tr>
+<td class="grid"><code>79 cb</code></td>
+<td class="grid"><code>JNS rel8</code></td>
+<td class="grid">Jump short if not sign (SF=0).</td>
+</tr>
+<tr>
+<td class="grid"><code>75 cb</code></td>
+<td class="grid"><code>JNZ rel8</code></td>
+<td class="grid">Jump short if not zero (ZF=0).</td>
+</tr>
+<tr>
+<td class="grid"><code>70 cb</code></td>
+<td class="grid"><code>JO rel8</code></td>
+<td class="grid">Jump short if overflow (OF=1).</td>
+</tr>
+<tr>
+<td class="grid"><code>7A cb</code></td>
+<td class="grid"><code>JP rel8</code></td>
+<td class="grid">Jump short if parity (PF=1).</td>
+</tr>
+<tr>
+<td class="grid"><code>7A cb</code></td>
+<td class="grid"><code>JPE rel8</code></td>
+<td class="grid">Jump short if parity even (PF=1).</td>
+</tr>
+<tr>
+<td class="grid"><code>7B cb</code></td>
+<td class="grid"><code>JPO rel8</code></td>
+<td class="grid">Jump short if parity odd (PF=0).</td>
+</tr>
+<tr>
+<td class="grid"><code>78 cb</code></td>
+<td class="grid"><code>JS rel8</code></td>
+<td class="grid">Jump short if sign (SF=1).</td>
+</tr>
+<tr>
+<td class="grid"><code>74 cb</code></td>
+<td class="grid"><code>JZ rel8</code></td>
+<td class="grid">Jump short if zero (ZF = 1).</td>
+</tr>
+<tr>
+<td class="grid"><code>0F 87 cw/cd</code></td>
+<td class="grid"><code>JA rel16/32</code></td>
+<td class="grid">Jump near if above (CF=0 and ZF=0).</td>
+</tr>
+<tr>
+<td class="grid"><code>0F 83 cw/cd</code></td>
+<td class="grid"><code>JAE rel16/32</code></td>
+<td class="grid">Jump near if above or equal (CF=0).</td>
+</tr>
+<tr>
+<td class="grid"><code>0F 82 cw/cd</code></td>
+<td class="grid"><code>JB rel16/32</code></td>
+<td class="grid">Jump near if below (CF=1).</td>
+</tr>
+<tr>
+<td class="grid"><code>0F 86 cw/cd</code></td>
+<td class="grid"><code>JBE rel16/32</code></td>
+<td class="grid">Jump near if below or equal (CF=1 or ZF=1).</td>
+</tr>
+<tr>
+<td class="grid"><code>0F 82 cw/cd</code></td>
+<td class="grid"><code>JC rel16/32</code></td>
+<td class="grid">Jump near if carry (CF=1).</td>
+</tr>
+<tr>
+<td class="grid"><code>0F 84 cw/cd</code></td>
+<td class="grid"><code>JE rel16/32</code></td>
+<td class="grid">Jump near if equal (ZF=1).</td>
+</tr>
+<tr>
+<td class="grid"><code>0F 84 cw/cd</code></td>
+<td class="grid"><code>JZ rel16/32</code></td>
+<td class="grid">Jump near if 0 (ZF=1).</td>
+</tr>
+<tr>
+<td class="grid"><code>0F 8F cw/cd</code></td>
+<td class="grid"><code>JG rel16/32</code></td>
+<td class="grid">Jump near if greater (ZF=0 and SF=OF).</td>
+</tr>
+<tr>
+<td class="grid"><code>0F 8D cw/cd</code></td>
+<td class="grid"><code>JGE rel16/32</code></td>
+<td class="grid">Jump near if greater or equal (SF=OF).</td>
+</tr>
+<tr>
+<td class="grid"><code>0F 8C cw/cd</code></td>
+<td class="grid"><code>JL rel16/32</code></td>
+<td class="grid">Jump near if less (SF&lt;&gt;OF).</td>
+</tr>
+<tr>
+<td class="grid"><code>0F 8E cw/cd</code></td>
+<td class="grid"><code>JLE rel16/32</code></td>
+<td class="grid">Jump near if less or equal (ZF=1 or SF&lt;&gt;OF).</td>
+</tr>
+<tr>
+<td class="grid"><code>0F 86 cw/cd</code></td>
+<td class="grid"><code>JNA rel16/32</code></td>
+<td class="grid">Jump near if not above (CF=1 or ZF=1).</td>
+</tr>
+<tr>
+<td class="grid"><code>0F 82 cw/cd</code></td>
+<td class="grid"><code>JNAE rel16/32</code></td>
+<td class="grid">Jump near if not above or equal (CF=1).</td>
+</tr>
+<tr>
+<td class="grid"><code>0F 83 cw/cd</code></td>
+<td class="grid"><code>JNB rel16/32</code></td>
+<td class="grid">Jump near if not below (CF=0).</td>
+</tr>
+<tr>
+<td class="grid"><code>0F 87 cw/cd</code></td>
+<td class="grid"><code>JNBE rel16/32</code></td>
+<td class="grid">Jump near if not below or equal (CF=0 and ZF=0).</td>
+</tr>
+<tr>
+<td class="grid"><code>0F 83 cw/cd</code></td>
+<td class="grid"><code>JNC rel16/32</code></td>
+<td class="grid">Jump near if not carry (CF=0).</td>
+</tr>
+<tr>
+<td class="grid"><code>0F 85 cw/cd</code></td>
+<td class="grid"><code>JNE rel16/32</code></td>
+<td class="grid">Jump near if not equal (ZF=0).</td>
+</tr>
+<tr>
+<td class="grid"><code>0F 8E cw/cd</code></td>
+<td class="grid"><code>JNG rel16/32</code></td>
+<td class="grid">Jump near if not greater (ZF=1 or SF&lt;&gt;OF).</td>
+</tr>
+<tr>
+<td class="grid"><code>0F 8C cw/cd</code></td>
+<td class="grid"><code>JNGE rel16/32</code></td>
+<td class="grid">Jump near if not greater or equal (SF&lt;&gt;OF).</td>
+</tr>
+<tr>
+<td class="grid"><code>0F 8D cw/cd</code></td>
+<td class="grid"><code>JNL rel16/32</code></td>
+<td class="grid">Jump near if not less (SF=OF).</td>
+</tr>
+<tr>
+<td class="grid"><code>0F 8F cw/cd</code></td>
+<td class="grid"><code>JNLE rel16/32</code></td>
+<td class="grid">Jump near if not less or equal (ZF=0 and SF=OF).</td>
+</tr>
+<tr>
+<td class="grid"><code>0F 81 cw/cd</code></td>
+<td class="grid"><code>JNO rel16/32</code></td>
+<td class="grid">Jump near if not overflow (OF=0).</td>
+</tr>
+<tr>
+<td class="grid"><code>0F 8B cw/cd</code></td>
+<td class="grid"><code>JNP rel16/32</code></td>
+<td class="grid">Jump near if not parity (PF=0).</td>
+</tr>
+<tr>
+<td class="grid"><code>0F 89 cw/cd</code></td>
+<td class="grid"><code>JNS rel16/32</code></td>
+<td class="grid">Jump near if not sign (SF=0).</td>
+</tr>
+<tr>
+<td class="grid"><code>0F 85 cw/cd</code></td>
+<td class="grid"><code>JNZ rel16/32</code></td>
+<td class="grid">Jump near if not zero (ZF=0).</td>
+</tr>
+<tr>
+<td class="grid"><code>0F 80 cw/cd</code></td>
+<td class="grid"><code>JO rel16/32</code></td>
+<td class="grid">Jump near if overflow (OF=1).</td>
+</tr>
+<tr>
+<td class="grid"><code>0F 8A cw/cd</code></td>
+<td class="grid"><code>JP rel16/32</code></td>
+<td class="grid">Jump near if parity (PF=1).</td>
+</tr>
+<tr>
+<td class="grid"><code>0F 8A cw/cd</code></td>
+<td class="grid"><code>JPE rel16/32</code></td>
+<td class="grid">Jump near if parity even (PF=1).</td>
+</tr>
+<tr>
+<td class="grid"><code>0F 8B cw/cd</code></td>
+<td class="grid"><code>JPO rel16/32</code></td>
+<td class="grid">Jump near if parity odd (PF=0).</td>
+</tr>
+<tr>
+<td class="grid"><code>0F 88 cw/cd</code></td>
+<td class="grid"><code>JS rel16/32</code></td>
+<td class="grid">Jump near if sign (SF=1).</td>
+</tr>
+<tr>
+<td class="grid"><code>0F 84 cw/cd</code></td>
+<td class="grid"><code>JZ rel16/32</code></td>
+<td class="grid">Jump near if 0 (ZF=1).</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Checks the state of one or more of the status flags in the EFLAGS register (CF, OF, PF, SF, and ZF) and, if the flags are in the specified state (condition), performs a jump to the target instruction specified by the destination operand. A condition code (cc) is associated with each instruction to indicate the condition being tested for. If the condition is not satisfied, the jump is not performed and execution continues with the instruction following the Jcc instruction.</p>
+<p>The target instruction is specified with a relative offset (a signed offset relative to the current value of the instruction pointer in the EIP register). A relative offset (rel8, rel16, or rel32) is generally specified as a label in assembly code, but at the machine code level, it is encoded as a signed, 8-bit or 32-bit immediate value, which is added to the instruction pointer. Instruction coding is most efficient for offsets of -128 to +127. If the operand-size attribute is 16, the upper two bytes of the EIP register are cleared, resulting in a maximum instruction pointer size of 16 bits.</p>
+<p>The conditions for each Jcc mnemonic are given in the &quot;{description}&quot; column of the table on the preceding page. The terms &quot;less&quot; and &quot;greater&quot; are used for comparisons of signed integers and the terms &quot;above&quot; and &quot;below&quot; are used for unsigned integers.</p>
+<p>Because a particular state of the status flags can sometimes be interpreted in two ways, two mnemonics are defined for some opcodes. For example, the JA (jump if above) instruction and the JNBE (jump if not below or equal) instruction are alternate mnemonics for the opcode 77H.</p>
+<p>The Jcc instruction does not support far jumps (jumps to other code segments). When the target for the conditional jump is in a different segment, use the opposite condition from the condition being tested for the Jcc instruction, and then access the target with an unconditional far jump (JMP instruction) to the other segment. For example, the following conditional far jump is illegal: JZ FARLABEL; To accomplish this far jump, use the following two instructions: JNZ BEYOND; JMP FARLABEL; BEYOND: The JECXZ and JCXZ instructions differ from the other Jcc instructions because they do not check the status flags. Instead they check the contents of the ECX and CX registers, respectively, for 0. Either the CX or ECX register is chosen according to the address-size attribute.</p>
+<p>These instructions are useful at the beginning of a conditional loop that terminates with a conditional loop instruction (such as LOOPNE). They prevent entering the loop when the ECX or CX register is equal to 0, which would cause the loop to execute 232 or 64K times, respectively, instead of zero times.</p>
+<p>All conditional jumps are converted to code fetches of one or two cache lines, regardless of jump address or cacheability.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre><span class="keyword">if</span><span class="operator">(</span>Condition <span class="operator">==</span> <span class="keyword">true</span><span class="operator">)</span> {
+	EIP <span class="operator">=</span> EIP <span class="operator">+</span> SignExtend<span class="operator">(</span>Destination<span class="operator">)</span><span class="operator">;</span>
+	<span class="keyword">if</span><span class="operator">(</span>OperandSize <span class="operator">==</span> <span class="number">16</span><span class="operator">)</span> EIP <span class="operator">=</span> EIP <span class="operator">&amp;</span> <span class="number">0xFFFF</span><span class="operator">;</span>
+	<span class="keyword">else</span> <span class="comment">/*OperandSize == 32*/</span> <span class="keyword">if</span><span class="operator">(</span>EIP <span class="operator">&lt;</span> CS<span class="operator">.</span>Base <span class="operator">||</span> EIP <span class="operator">&gt;</span> CS<span class="operator">.</span>Limit<span class="operator">)</span> Exception<span class="operator">(</span>GP<span class="operator">)</span><span class="operator">;</span>
+}
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>None.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Protected Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If the offset being jumped to is beyond the limits of the CS segment.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Real-Address Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP</code></td><td>If the offset being jumped to is beyond the limits of the CS segment or is outside of the effective address space from 0 to FFFFH. This condition can occur if a 32-bit address size override prefix is used.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Virtual-8086 Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+Same exceptions as in Real Address Mode
+</td>
+</tr>
+</table>
+</object>
+</div>
+</body>
+</html>

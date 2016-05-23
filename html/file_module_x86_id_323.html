@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Sun: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "VERR/VERW: Verify a Segment for Reading or Writing (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>VERR/VERW</h1>
+<h2>Verify a Segment for Reading or Writing</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>0F 00 /4 VERR r/m16</code></td>
+<td class="grid"><code>Set ZF=1 if segment specified with r/m16 can be read.</code></td>
+<td class="grid"></td>
+</tr>
+<tr>
+<td class="grid"><code>0F 00 /5 VERW r/m16</code></td>
+<td class="grid"><code>Set ZF=1 if segment specified with r/m16 can be written.</code></td>
+<td class="grid"></td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Verifies whether the code or data segment specified with the source operand is readable (VERR) or writable (VERW) from the current privilege level (CPL). The source operand is a 16-bit register or a memory location that contains the segment selector for the segment to be verified.</p>
+<p>If the segment is accessible and readable (VERR) or writable (VERW), the ZF flag is set; otherwise, the ZF flag is cleared. Code segments are never verified as writable. This check cannot be performed on system segments.</p>
+<p>To set the ZF flag, the following conditions must be met:</p>
+<ul>
+<li>The segment selector is not null.</li>
+<li>The selector must denote a descriptor within the bounds of the descriptor table (GDT or LDT).</li>
+<li>The selector must denote the descriptor of a code or data segment (not that of a system segment or gate).</li>
+<li>For the VERR instruction, the segment must be readable.</li>
+<li>For the VERW instruction, the segment must be a writable data segment.</li>
+<li>If the segment is not a conforming code segment, the segment's DPL must be greater than or equal to (have less or the same privilege as) both the CPL and the segment selector's RPL.</li>
+</ul>
+<p>The validation performed is the same as is performed when a segment selector is loaded into the DS, ES, FS, or GS register, and the indicated access (read or write) is performed. The segment selector's value cannot result in a protection exception, enabling the software to anticipate possible segment access problems.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre><span class="keyword">if</span><span class="operator">(</span>Source<span class="operator">.</span>Offset <span class="operator">&gt;</span> GDTR<span class="operator">.</span>Limit <span class="operator">||</span> Source<span class="operator">.</span>Offset <span class="operator">&gt;</span> LDTR<span class="operator">.</span>Limit<span class="operator">)</span> {
+	ZF <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+	SegmentDescriptor <span class="operator">=</span> ReadSegmentDescriptor<span class="operator">(</span><span class="operator">)</span><span class="operator">;</span>
+	<span class="keyword">if</span><span class="operator">(</span>SegmentDescriptor<span class="operator">.</span>Type <span class="operator">==</span> <span class="number">0</span> <span class="comment">/*system segment*/</span> <span class="operator">||</span> <span class="operator">(</span><span class="operator">!</span>IsConformingCodeSegment<span class="operator">(</span>SegmentDescriptor<span class="operator">.</span>Type<span class="operator">)</span> <span class="operator">&amp;&amp;</span> <span class="operator">(</span>CPL <span class="operator">&gt;</span> DPL <span class="operator">||</span> RPL <span class="operator">&gt;</span> DPL<span class="operator">)</span><span class="operator">)</span><span class="operator">)</span> ZF <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+	<span class="keyword">else</span> <span class="keyword">if</span><span class="operator">(</span><span class="operator">(</span>Instruction <span class="operator">==</span> VERR <span class="operator">&amp;&amp;</span> IsReadable<span class="operator">(</span>Segment<span class="operator">)</span><span class="operator">)</span> <span class="operator">||</span> <span class="operator">(</span>Instruction <span class="operator">==</span> VERW <span class="operator">&amp;&amp;</span> IsWritable<span class="operator">(</span>Segment<span class="operator">)</span><span class="operator">)</span><span class="operator">)</span> ZF <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+}
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>The ZF flag is set to 1 if the segment is accessible and readable (VERR) or writable (VERW); otherwise, it is set to 0.
+</p>
+</td>
+</tr>
+</table>
+</object>
+</div>
+</body>
+</html>

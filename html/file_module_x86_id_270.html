@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Into the Void: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "PUSHA/PUSHAD: Push All General-Purpose Registers (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>PUSHA/PUSHAD</h1>
+<h2>Push All General-Purpose Registers</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>60</code></td>
+<td class="grid"><code>PUSHA</code></td>
+<td class="grid">Push AX, CX, DX, BX, original SP, BP, SI, and DI.</td>
+</tr>
+<tr>
+<td class="grid"><code>60</code></td>
+<td class="grid"><code>PUSHAD</code></td>
+<td class="grid">Push EAX, ECX, EDX, EBX, original ESP, EBP, ESI, and EDI.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Pushes the contents of the general-purpose registers onto the stack. The registers are stored on the stack in the following order: EAX, ECX, EDX, EBX, EBP, ESP (original value), EBP, ESI, and EDI (if the current operand-size attribute is 32) and AX, CX, DX, BX, SP (original value), BP, SI, and DI (if the operand-size attribute is 16). These instructions perform the reverse operation of the POPA/POPAD instructions. The value pushed for the ESP or SP register is its value before prior to pushing the first register (see the &quot;Operation&quot; section below).</p>
+<p>The PUSHA (push all) and PUSHAD (push all double) mnemonics reference the same opcode.</p>
+<p>The PUSHA instruction is intended for use when the operand-size attribute is 16 and the PUSHAD instruction for when the operand-size attribute is 32. Some assemblers may force the operand size to 16 when PUSHA is used and to 32 when PUSHAD is used. Others may treat these mnemonics as synonyms (PUSHA/PUSHAD) and use the current setting of the operandsize attribute to determine the size of values to be pushed from the stack, regardless of the mnemonic used.</p>
+<p>In the real-address mode, if the ESP or SP register is 1, 3, or 5 when the PUSHA/PUSHAD instruction is executed, the processor shuts down due to a lack of stack space. No exception is generated to indicate this condition.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre><span class="keyword">if</span><span class="operator">(</span>OperandSize <span class="operator">=</span> <span class="number">32</span><span class="operator">)</span> { <span class="comment">//PUSHAD instruction</span>
+	Temporary <span class="operator">=</span> ESP<span class="operator">;</span>
+	Push<span class="operator">(</span>EAX<span class="operator">)</span><span class="operator">;</span>
+	Push<span class="operator">(</span>ECX<span class="operator">)</span><span class="operator">;</span>
+	Push<span class="operator">(</span>EDX<span class="operator">)</span><span class="operator">;</span>
+	Push<span class="operator">(</span>EBX<span class="operator">)</span><span class="operator">;</span>
+	Push<span class="operator">(</span>Temporary<span class="operator">)</span><span class="operator">;</span>
+	Push<span class="operator">(</span>EBP<span class="operator">)</span><span class="operator">;</span>
+	Push<span class="operator">(</span>ESI<span class="operator">)</span><span class="operator">;</span>
+	Push<span class="operator">(</span>EDI<span class="operator">)</span><span class="operator">;</span>
+}
+<span class="keyword">else</span> { <span class="comment">//OperandSize = 16, PUSHA instruction</span>
+	Temporary <span class="operator">=</span> SP<span class="operator">;</span>
+	Push<span class="operator">(</span>AX<span class="operator">)</span><span class="operator">;</span>
+	Push<span class="operator">(</span>CX<span class="operator">)</span><span class="operator">;</span>
+	Push<span class="operator">(</span>DX<span class="operator">)</span><span class="operator">;</span>
+	Push<span class="operator">(</span>BX<span class="operator">)</span><span class="operator">;</span>
+	Push<span class="operator">(</span>Temporary<span class="operator">)</span><span class="operator">;</span>
+	Push<span class="operator">(</span>BP<span class="operator">)</span><span class="operator">;</span>
+	Push<span class="operator">(</span>SI<span class="operator">)</span><span class="operator">;</span>
+	Push<span class="operator">(</span>DI<span class="operator">)</span><span class="operator">;</span>
+}
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>None.
+</p>
+</td>
+</tr>
+</table>
+</object>
+</div>
+</body>
+</html>

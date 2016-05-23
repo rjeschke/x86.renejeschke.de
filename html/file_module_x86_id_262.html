@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Winter: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "PSRLW/PSRLD/PSRLQ: Shift Packed Data Right Logical (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>PSRLW/PSRLD/PSRLQ</h1>
+<h2>Shift Packed Data Right Logical</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>0F D1 /r</code></td>
+<td class="grid"><code>PSRLW mm, mm/m64</code></td>
+<td class="grid">Shift words in mm right by amount specified in mm/m64 while shifting in 0s.</td>
+</tr>
+<tr>
+<td class="grid"><code>66 0F D1 /r</code></td>
+<td class="grid"><code>PSRLW xmm1, xmm2/m128</code></td>
+<td class="grid">Shift words in xmm1 right by amount specified in xmm2/m128 while shifting in 0s.</td>
+</tr>
+<tr>
+<td class="grid"><code>0F 71 /2 ib</code></td>
+<td class="grid"><code>PSRLW mm, imm8</code></td>
+<td class="grid">Shift words in mm right by imm8 while shifting in 0s.</td>
+</tr>
+<tr>
+<td class="grid"><code>66 0F 71 /2 ib</code></td>
+<td class="grid"><code>PSRLW xmm1, imm8</code></td>
+<td class="grid">Shift words in xmm1 right by imm8 while shifting in 0s.</td>
+</tr>
+<tr>
+<td class="grid"><code>0F D2 /r</code></td>
+<td class="grid"><code>PSRLD mm, mm/m64</code></td>
+<td class="grid">Shift doublewords in mm right by amount specified in mm/m64 while shifting in 0s.</td>
+</tr>
+<tr>
+<td class="grid"><code>66 0F D2 /r</code></td>
+<td class="grid"><code>PSRLD xmm1, xmm2/m128</code></td>
+<td class="grid">Shift doublewords in xmm1 right by amount specified in xmm2/m128 while shifting in 0s.</td>
+</tr>
+<tr>
+<td class="grid"><code>0F 72 /2 ib</code></td>
+<td class="grid"><code>PSRLD mm, imm8</code></td>
+<td class="grid">Shift doublewords in mm right by imm8 while shifting in 0s.</td>
+</tr>
+<tr>
+<td class="grid"><code>66 0F 72 /2 ib</code></td>
+<td class="grid"><code>PSRLD xmm1, imm8</code></td>
+<td class="grid">Shift doublewords in xmm1 right by imm8 while shifting in 0s.</td>
+</tr>
+<tr>
+<td class="grid"><code>0F D3 /r</code></td>
+<td class="grid"><code>PSRLQ mm, mm/m64</code></td>
+<td class="grid">Shift mm right by amount specified in mm/m64 while shifting in 0s.</td>
+</tr>
+<tr>
+<td class="grid"><code>66 0F D3 /r</code></td>
+<td class="grid"><code>PSRLQ xmm1, xmm2/m128</code></td>
+<td class="grid">Shift quadwords in xmm1 right by amount specified in xmm2/m128 while shifting in 0s.</td>
+</tr>
+<tr>
+<td class="grid"><code>0F 73 /2 ib</code></td>
+<td class="grid"><code>PSRLQ mm, imm8</code></td>
+<td class="grid">Shift mm right by imm8 while shifting in 0s.</td>
+</tr>
+<tr>
+<td class="grid"><code>66 0F 73 /2 ib</code></td>
+<td class="grid"><code>PSRLQ xmm1, imm8</code></td>
+<td class="grid">Shift quadwords in xmm1 right by imm8 while shifting in 0s.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Shifts the bits in the individual data elements (words, doublewords, or quadword) in the destination operand (first operand) to the right by the number of bits specified in the count operand (second operand). As the bits in the data elements are shifted right, the empty high-order bits are cleared (set to 0). If the value specified by the count operand is greater than 15 (for words), 31 (for doublewords), or 63 (for a quadword), then the destination operand is set to all 0s. The destination operand may be an MMX technology register or an XMM register; the count operand can be either an MMX technology register or an 64-bit memory location, an XMM register or a 128-bit memory location, or an 8-bit immediate.</p>
+<p>The PSRLW instruction shifts each of the words in the destination operand to the right by the number of bits specified in the count operand; the PSRLD instruction shifts each of the doublewords in the destination operand; and the PSRLQ instruction shifts the quadword (or quadwords) in the destination operand.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre><span class="keyword">switch</span><span class="operator">(</span>Instruction<span class="operator">)</span> {
+	<span class="keyword">case</span> PSRLW<span class="operator">:</span>
+		<span class="keyword">if</span><span class="operator">(</span>OperandSize <span class="operator">==</span> <span class="number">64</span><span class="operator">)</span> {
+			<span class="comment">//PSRLW instruction with 64-bit operand:</span>
+			<span class="keyword">if</span><span class="operator">(</span>Count <span class="operator">&gt;</span> <span class="number">15</span><span class="operator">)</span> Destination<span class="operator">[</span><span class="number">64..0</span><span class="operator">]</span> <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+			<span class="keyword">else</span> {
+				Destination<span class="operator">[</span><span class="number">0..15</span><span class="operator">]</span> <span class="operator">=</span> ZeroExtend<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">0..15</span><span class="operator">]</span> <span class="operator">&gt;&gt;</span> Count<span class="operator">)</span><span class="operator">;</span>
+				Destination<span class="operator">[</span><span class="number">16..31</span><span class="operator">]</span> <span class="operator">=</span> ZeroExtend<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">16..31</span><span class="operator">]</span> <span class="operator">&gt;&gt;</span> Count<span class="operator">)</span><span class="operator">;</span>
+				Destination<span class="operator">[</span><span class="number">32..47</span><span class="operator">]</span> <span class="operator">=</span> ZeroExtend<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">32..47</span><span class="operator">]</span> <span class="operator">&gt;&gt;</span> Count<span class="operator">)</span><span class="operator">;</span>
+				Destination<span class="operator">[</span><span class="number">48..63</span><span class="operator">]</span> <span class="operator">=</span> ZeroExtend<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">48..63</span><span class="operator">]</span> <span class="operator">&gt;&gt;</span> Count<span class="operator">)</span><span class="operator">;</span>
+			}
+		}
+		<span class="keyword">else</span> {
+			<span class="comment">//PSRLW instruction with 128-bit operand:</span>
+			<span class="keyword">if</span><span class="operator">(</span>Count <span class="operator">&gt;</span> <span class="number">15</span><span class="operator">)</span> Destination<span class="operator">[</span><span class="number">128..0</span><span class="operator">]</span> <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+			<span class="keyword">else</span> {
+				Destination<span class="operator">[</span><span class="number">0..15</span><span class="operator">]</span> <span class="operator">=</span> ZeroExtend<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">0..15</span><span class="operator">]</span> <span class="operator">&gt;&gt;</span> Count<span class="operator">)</span><span class="operator">;</span>
+				Destination<span class="operator">[</span><span class="number">16..31</span><span class="operator">]</span> <span class="operator">=</span> ZeroExtend<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">16..31</span><span class="operator">]</span> <span class="operator">&gt;&gt;</span> Count<span class="operator">)</span><span class="operator">;</span>
+				Destination<span class="operator">[</span><span class="number">32..47</span><span class="operator">]</span> <span class="operator">=</span> ZeroExtend<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">32..47</span><span class="operator">]</span> <span class="operator">&gt;&gt;</span> Count<span class="operator">)</span><span class="operator">;</span>
+				Destination<span class="operator">[</span><span class="number">48..63</span><span class="operator">]</span> <span class="operator">=</span> ZeroExtend<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">48..63</span><span class="operator">]</span> <span class="operator">&gt;&gt;</span> Count<span class="operator">)</span><span class="operator">;</span>
+				Destination<span class="operator">[</span><span class="number">64..79</span><span class="operator">]</span> <span class="operator">=</span> ZeroExtend<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">64..79</span><span class="operator">]</span> <span class="operator">&gt;&gt;</span> Count<span class="operator">)</span><span class="operator">;</span>
+				Destination<span class="operator">[</span><span class="number">80..95</span><span class="operator">]</span> <span class="operator">=</span> ZeroExtend<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">80..95</span><span class="operator">]</span> <span class="operator">&gt;&gt;</span> Count<span class="operator">)</span><span class="operator">;</span>
+				Destination<span class="operator">[</span><span class="number">96..111</span><span class="operator">]</span> <span class="operator">=</span> ZeroExtend<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">96..111</span><span class="operator">]</span> <span class="operator">&gt;&gt;</span> Count<span class="operator">)</span><span class="operator">;</span>
+				Destination<span class="operator">[</span><span class="number">112..127</span><span class="operator">]</span> <span class="operator">=</span> ZeroExtend<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">112..127</span><span class="operator">]</span> <span class="operator">&gt;&gt;</span> Count<span class="operator">)</span><span class="operator">;</span>
+			}
+		}
+		<span class="keyword">break</span><span class="operator">;</span>
+	<span class="keyword">case</span> PSRLD<span class="operator">:</span>
+		<span class="keyword">if</span><span class="operator">(</span>OperandSize <span class="operator">==</span> <span class="number">64</span><span class="operator">)</span> {
+			<span class="comment">//PSRLD instruction with 64-bit operand:</span>
+			<span class="keyword">if</span><span class="operator">(</span>Count <span class="operator">&gt;</span> <span class="number">31</span><span class="operator">)</span> Destination<span class="operator">[</span><span class="number">64..0</span><span class="operator">]</span> <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+			<span class="keyword">else</span> {
+				Destination<span class="operator">[</span><span class="number">0..31</span><span class="operator">]</span> <span class="operator">=</span> ZeroExtend<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">0..31</span><span class="operator">]</span> <span class="operator">&gt;&gt;</span> Count<span class="operator">)</span><span class="operator">;</span>
+				Destination<span class="operator">[</span><span class="number">32..63</span><span class="operator">]</span> <span class="operator">=</span> ZeroExtend<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">32..63</span><span class="operator">]</span> <span class="operator">&gt;&gt;</span> Count<span class="operator">)</span><span class="operator">;</span>
+			}
+		}
+		<span class="keyword">else</span> {
+			<span class="comment">//PSRLD instruction with 128-bit operand:</span>
+			<span class="keyword">if</span><span class="operator">(</span>Count <span class="operator">&gt;</span> <span class="number">31</span><span class="operator">)</span> Destination<span class="operator">[</span><span class="number">128..0</span><span class="operator">]</span> <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+			<span class="keyword">else</span> {
+				Destination<span class="operator">[</span><span class="number">0..31</span><span class="operator">]</span> <span class="operator">=</span> ZeroExtend<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">0..31</span><span class="operator">]</span> <span class="operator">&gt;&gt;</span> Count<span class="operator">)</span><span class="operator">;</span>
+				Destination<span class="operator">[</span><span class="number">32..63</span><span class="operator">]</span> <span class="operator">=</span> ZeroExtend<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">32..63</span><span class="operator">]</span> <span class="operator">&gt;&gt;</span> Count<span class="operator">)</span><span class="operator">;</span>
+				Destination<span class="operator">[</span><span class="number">64..95</span><span class="operator">]</span> <span class="operator">=</span> ZeroExtend<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">64..95</span><span class="operator">]</span> <span class="operator">&gt;&gt;</span> Count<span class="operator">)</span><span class="operator">;</span>
+				Destination<span class="operator">[</span><span class="number">96..127</span><span class="operator">]</span> <span class="operator">=</span> ZeroExtend<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">96..127</span><span class="operator">]</span> <span class="operator">&gt;&gt;</span> Count<span class="operator">)</span><span class="operator">;</span>
+			}
+		}
+		<span class="keyword">break</span><span class="operator">;</span>
+	<span class="keyword">case</span> PSRLQ<span class="operator">:</span>
+		<span class="keyword">if</span><span class="operator">(</span>OperandSize <span class="operator">==</span> <span class="number">64</span><span class="operator">)</span> {
+			<span class="comment">//PSRLQ instruction with 64-bit operand:</span>
+			<span class="keyword">if</span><span class="operator">(</span>Count <span class="operator">&gt;</span> <span class="number">63</span><span class="operator">)</span> Destination<span class="operator">[</span><span class="number">64..0</span><span class="operator">]</span> <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+			<span class="keyword">else</span> Destination <span class="operator">=</span> ZeroExtend<span class="operator">(</span>Destination <span class="operator">&gt;&gt;</span> Count<span class="operator">)</span><span class="operator">;</span>
+		}
+		<span class="keyword">else</span> {
+			<span class="comment">//PSRLQ instruction with 128-bit operand:</span>
+			<span class="keyword">if</span><span class="operator">(</span>Count <span class="operator">&gt;</span> <span class="number">15</span><span class="operator">)</span> Destination<span class="operator">[</span><span class="number">128..0</span><span class="operator">]</span> <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+			<span class="keyword">else</span> {
+				Destination<span class="operator">[</span><span class="number">0..63</span><span class="operator">]</span> <span class="operator">=</span> ZeroExtend<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">0..63</span><span class="operator">]</span> <span class="operator">&gt;&gt;</span> Count<span class="operator">)</span><span class="operator">;</span>
+				Destination<span class="operator">[</span><span class="number">64..127</span><span class="operator">]</span> <span class="operator">=</span> ZeroExtend<span class="operator">(</span>Destination<span class="operator">[</span><span class="number">64..127</span><span class="operator">]</span> <span class="operator">&gt;&gt;</span> Count<span class="operator">)</span><span class="operator">;</span>
+			}
+		}
+		<span class="keyword">break</span><span class="operator">;</span>
+}
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>None.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Instruction</th>
+<th>Latency</th>
+<th>Throughput</th>
+<th>Execution Unit</th>
+</tr>
+<tr><td class="grid"><code>CPUID</code></td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F3n/0F2n/069n</td><td class="grid">0F2n</td></tr>
+<tr><td class="grid"><code>PSRLQ/PSRLW/PSRLD mm, mm/imm8</code></td><td class="grid">2/2/-</td><td class="grid">1/1/-</td><td class="grid">MMX_SHFT</td></tr>
+<tr><td class="grid"><code>PSRLW/PSRLD/PSRLQ xmm, xmm/imm8</code></td><td class="grid">2/2/1+1</td><td class="grid">2/2/2</td><td class="grid">MMX_SHFT</td></tr>
+</table>
+</object>
+</div>
+</body>
+</html>

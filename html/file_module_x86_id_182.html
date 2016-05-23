@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Chasing Dragons: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "MOVDDUP: Move One Double-FP and Duplicate (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>MOVDDUP</h1>
+<h2>Move One Double-FP and Duplicate</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>F2 0F 12 /r</code></td>
+<td class="grid"><code>MOVDDUP xmm1, xmm2/m64</code></td>
+<td class="grid">Move 64 bits representing the lower DP data element from xmm2/m64 to xmm1 register and duplicate.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>The linear address corresponds to the address of the least-significant byte of the referenced memory data. When a memory address is indicated, the 8 bytes of data at memory location m64 are loaded. When the register-register form of this operation is used, the lower half of the 128- bit source register is duplicated and copied into the 128-bit destination register.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre><span class="keyword">if</span><span class="operator">(</span>Source <span class="operator">==</span> m64<span class="operator">)</span> {
+	<span class="comment">//Load instruction</span>
+	xmm1<span class="operator">[</span><span class="number">0..63</span><span class="operator">]</span> <span class="operator">=</span> m64<span class="operator">;</span>
+	xmm1<span class="operator">[</span><span class="number">64..127</span><span class="operator">]</span> <span class="operator">=</span> m64<span class="operator">;</span>
+}
+<span class="keyword">else</span> {
+	<span class="comment">//Move instruction</span>
+	xmm1<span class="operator">[</span><span class="number">0..63</span><span class="operator">]</span> <span class="operator">=</span> xmm2<span class="operator">[</span><span class="number">0..63</span><span class="operator">]</span><span class="operator">;</span>
+	xmm1<span class="operator">[</span><span class="number">64..127</span><span class="operator">]</span> <span class="operator">=</span> xmm2<span class="operator">[</span><span class="number">0..63</span><span class="operator">]</span><span class="operator">;</span>
+}
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+None.
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Numeric Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+None.
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Protected Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>For an illegal memory operand effective address in the CS, DS, ES, FS or GS segments.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>For an illegal memory operand effective address in the CS, DS, ES, FS or GS segments.</td></tr>
+<tr><td><code>#SS(0)</code></td><td>For an illegal address in the SS segment.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>For a page fault.</td></tr>
+<tr><td><code>#NM</code></td><td>If TS bit in CR0 is set.</td></tr>
+<tr><td><code>#UD</code></td><td>If CR0.EM = 1. If CR4.OSFXSR(bit 9) = 0. If CPUID.SSE3(ECX bit 0) = 0.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Real-Address Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If any part of the operand would lie outside of the effective address space from 0 to 0FFFFH.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If any part of the operand would lie outside of the effective address space from 0 to 0FFFFH.</td></tr>
+<tr><td><code>#NM</code></td><td>If TS bit in CR0 is set.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Virtual-8086 Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If any part of the operand would lie outside of the effective address space from 0 to 0FFFFH.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If any part of the operand would lie outside of the effective address space from 0 to 0FFFFH.</td></tr>
+<tr><td><code>#NM</code></td><td>If TS bit in CR0 is set.</td></tr>
+<tr><td><code>#UD</code></td><td>If CR0.EM = 1. If CR4.OSFXSR(bit 9) = 0. If CPUID.SSE3(ECX bit 0) = 0.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>For a page fault.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Instruction</th>
+<th>Latency</th>
+<th>Throughput</th>
+<th>Execution Unit</th>
+</tr>
+<tr><td class="grid"><code>CPUID</code></td><td class="grid">0F3n</td><td class="grid">0F3n</td><td class="grid">0F3n</td></tr>
+<tr><td class="grid"><code>MOVDDUP xmm1, xmm2</code></td><td class="grid">4</td><td class="grid">2</td><td class="grid">FP_MOVE</td></tr>
+</table>
+</object>
+</div>
+</body>
+</html>

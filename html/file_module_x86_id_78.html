@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Winter: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "ENTER: Make Stack Frame for Procedure Parameters (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>ENTER</h1>
+<h2>Make Stack Frame for Procedure Parameters</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>C8 iw 00</code></td>
+<td class="grid"><code>ENTER imm16,0</code></td>
+<td class="grid">Create a stack frame for a procedure.</td>
+</tr>
+<tr>
+<td class="grid"><code>C8 iw 01</code></td>
+<td class="grid"><code>ENTER imm16,1</code></td>
+<td class="grid">Create a nested stack frame for a procedure.</td>
+</tr>
+<tr>
+<td class="grid"><code>C8 iw ib</code></td>
+<td class="grid"><code>ENTER imm16,imm8</code></td>
+<td class="grid">Create a nested stack frame for a procedure.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Creates a stack frame for a procedure. The first operand (size operand) specifies the size of the stack frame (that is, the number of bytes of dynamic storage allocated on the stack for the procedure).</p>
+<p>The second operand (nesting level operand) gives the lexical nesting level (0 to 31) of the procedure. The nesting level determines the number of stack frame pointers that are copied into the &quot;display area&quot; of the new stack frame from the preceding frame. Both of these operands are immediate values.</p>
+<p>The stack-size attribute determines whether the BP (16 bits) or EBP (32 bits) register specifies the current frame pointer and whether SP (16 bits) or ESP (32 bits) specifies the stack pointer.</p>
+<p>The ENTER and companion LEAVE instructions are provided to support block structured languages. The ENTER instruction (when used) is typically the first instruction in a procedure and is used to set up a new stack frame for a procedure. The LEAVE instruction is then used at the end of the procedure (just before the RET instruction) to release the stack frame.</p>
+<p>If the nesting level is 0, the processor pushes the frame pointer from the EBP register onto the stack, copies the current stack pointer from the ESP register into the EBP register, and loads the ESP register with the current stack-pointer value minus the value in the size operand. For nesting levels of 1 or greater, the processor pushes additional frame pointers on the stack before adjusting the stack pointer. These additional frame pointers provide the called procedure with access points to other nested frames on the stack. See &quot;Procedure Calls for Block-Structured Languages&quot; in Chapter 6 of the IA-32 Intel Architecture Software Developer's Manual, Volume 1, for more information about the actions of the ENTER instruction.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre>NestingLevel <span class="operator">=</span> NestingLevel <span class="operator">%</span> <span class="number">32</span><span class="operator">;</span>
+
+<span class="keyword">if</span><span class="operator">(</span>StackSize <span class="operator">==</span> <span class="number">32</span><span class="operator">)</span> {
+	Push<span class="operator">(</span>EBP<span class="operator">)</span><span class="operator">;</span>
+	FrameTemp <span class="operator">=</span> ESP<span class="operator">;</span>
+}
+<span class="keyword">else</span> { <span class="comment">//StackSize = 16</span>
+	Push<span class="operator">(</span>BP<span class="operator">)</span><span class="operator">;</span>
+	FrameTemp <span class="operator">=</span> SP<span class="operator">;</span>
+}
+
+<span class="keyword">if</span><span class="operator">(</span>NestingLevel <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> <span class="keyword">goto</span> Continue<span class="operator">;</span>
+<span class="keyword">else</span> {
+	<span class="keyword">for</span><span class="operator">(</span>i <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span> i <span class="operator">&lt;</span> NestingLevel<span class="operator">;</span> <span class="operator">++</span>i<span class="operator">)</span> {
+		<span class="keyword">if</span><span class="operator">(</span>OperandSize <span class="operator">==</span> <span class="number">32</span><span class="operator">)</span> {
+			<span class="keyword">if</span><span class="operator">(</span>StackSize <span class="operator">==</span> <span class="number">32</span><span class="operator">)</span> {
+				EBP <span class="operator">=</span> EBP <span class="operator">-</span> <span class="number">4</span><span class="operator">;</span>
+				Push<span class="operator">(</span>EBP<span class="operator">)</span><span class="operator">;</span> <span class="comment">//doubleword push</span>
+			}
+			<span class="keyword">else</span> { <span class="comment">//StackSize == 16</span>
+				BP <span class="operator">=</span> BP <span class="operator">-</span> <span class="number">4</span><span class="operator">;</span>
+				Push<span class="operator">(</span>BP<span class="operator">)</span><span class="operator">;</span> <span class="comment">//doubleword push</span>
+			}
+		}
+		<span class="keyword">else</span> { <span class="comment">//OperandSize = 16</span>
+			<span class="keyword">if</span><span class="operator">(</span>StackSize <span class="operator">==</span> <span class="number">32</span><span class="operator">)</span> {
+				EBP <span class="operator">=</span> EBP <span class="operator">-</span> <span class="number">2</span><span class="operator">;</span>
+				Push<span class="operator">(</span>EBP<span class="operator">)</span><span class="operator">;</span> <span class="comment">//doubleword push</span>
+			}
+			<span class="keyword">else</span> { <span class="comment">//StackSize == 16</span>
+				BP <span class="operator">=</span> BP <span class="operator">-</span> <span class="number">2</span><span class="operator">;</span>
+				Push<span class="operator">(</span>BP<span class="operator">)</span><span class="operator">;</span> <span class="comment">//doubleword push</span>
+			}
+		}
+	}
+	
+	<span class="keyword">if</span><span class="operator">(</span>OperandSize <span class="operator">==</span> <span class="number">32</span><span class="operator">)</span> Push<span class="operator">(</span>FrameTemp<span class="operator">)</span><span class="operator">;</span> <span class="comment">//doubleword push</span>
+	<span class="keyword">else</span> Push<span class="operator">(</span>FrameTemp<span class="operator">)</span><span class="operator">;</span> <span class="comment">//OperandSize == 16, word push</span>
+}
+
+Continue<span class="operator">:</span>
+<span class="keyword">if</span><span class="operator">(</span>StackSize <span class="operator">==</span> <span class="number">32</span><span class="operator">)</span> {
+	EBP <span class="operator">=</span> FramTemp<span class="operator">;</span>
+	ESP <span class="operator">=</span> EBP <span class="operator">-</span> Size<span class="operator">;</span>
+}
+<span class="keyword">else</span> { <span class="comment">//StackSize == 16</span>
+	BP <span class="operator">=</span> FramTemp<span class="operator">;</span>
+	SP <span class="operator">=</span> BP <span class="operator">-</span> Size<span class="operator">;</span>
+}
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>None.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Protected Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#SS(0)</code></td><td>If the new value of the SP or ESP register is outside the stack segment limit.</td></tr>
+<tr><td><code>#SS(0)</code></td><td>If the new value of the SP or ESP register is outside the stack segment limit.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Real-Address Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#SS(0)</code></td><td>If the new value of the SP or ESP register is outside the stack segment limit.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Virtual-8086 Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#SS(0)</code></td><td>If the new value of the SP or ESP register is outside the stack segment limit.</td></tr>
+<tr><td><code>#SS(0)</code></td><td>If the new value of the SP or ESP register is outside the stack segment limit.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+</div>
+</body>
+</html>

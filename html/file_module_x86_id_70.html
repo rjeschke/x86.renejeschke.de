@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Ultraviolence: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "DAS: Decimal Adjust AL after Subtraction (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>DAS</h1>
+<h2>Decimal Adjust AL after Subtraction</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>2F</code></td>
+<td class="grid"><code>DAS</code></td>
+<td class="grid">Decimal adjust AL after subtraction.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>Adjusts the result of the subtraction of two packed BCD values to create a packed BCD result.</p>
+<p>The AL register is the implied source and destination operand. The DAS instruction is only useful when it follows a SUB instruction that subtracts (binary subtraction) one 2-digit, packed BCD value from another and stores a byte result in the AL register. The DAS instruction then adjusts the contents of the AL register to contain the correct 2-digit, packed BCD result. If a decimal borrow is detected, the CF and AF flags are set accordingly.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre>OldAL <span class="operator">=</span> AL<span class="operator">;</span>
+OldCF <span class="operator">=</span> CF<span class="operator">;</span>
+CF <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+
+<span class="keyword">if</span><span class="operator">(</span>AL <span class="operator">&amp;</span> <span class="number">0xF</span> <span class="operator">&gt;</span> <span class="number">9</span> <span class="operator">||</span> AF <span class="operator">==</span> <span class="number">1</span><span class="operator">)</span> {
+	CF <span class="operator">=</span> OldCF <span class="operator">|</span> GetBorrow<span class="operator">(</span>AL <span class="operator">=</span> AL <span class="operator">-</span> <span class="number">6</span><span class="operator">)</span><span class="operator">;</span>
+	AF <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+}
+<span class="keyword">else</span> AF <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+
+<span class="keyword">if</span><span class="operator">(</span>OldAL <span class="operator">&gt;</span> <span class="number">0x99</span> <span class="operator">||</span> OldCF <span class="operator">==</span> <span class="number">1</span><span class="operator">)</span> {
+	AL <span class="operator">=</span> AL <span class="operator">-</span> <span class="number">0x60</span><span class="operator">;</span>
+	CF <span class="operator">=</span> <span class="number">1</span><span class="operator">;</span>
+}
+<span class="keyword">else</span> CF <span class="operator">=</span> <span class="number">0</span><span class="operator">;</span>
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>The CF and AF flags are set if the adjustment of the value results in a decimal borrow in either digit of the result (see the &quot;Operations&quot; section above). The SF, ZF, and PF flags are set according to the result. The OF flag is undefined.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+None.
+</td>
+</tr>
+</table>
+</object>
+</div>
+</body>
+</html>

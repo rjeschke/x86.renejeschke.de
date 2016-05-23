@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../style/style.css" />
+<title>Into the Void: x86 Instruction Set Reference</title>
+<link rel="icon" type="image/ico" href="../icon/siyobik.ico" />
+<meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
+<meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
+<meta name="robots" content="index, follow" />
+</head>
+<body>
+<div class="main_container"><h1>x86 Instruction Set Reference</h1>
+<script type="text/javascript">
+//<![CDATA[
+document.title = "FIST/FISTP: Store Integer (x86 Instruction Set Reference)";
+//]]>
+</script>
+<h1>FIST/FISTP</h1>
+<h2>Store Integer</h2>
+<object>
+<table class="box">
+<tr>
+<th>Opcode</th>
+<th>Mnemonic</th>
+<th>Description</th>
+</tr>
+<tr>
+<td class="grid"><code>DF /2</code></td>
+<td class="grid"><code>FIST m16int</code></td>
+<td class="grid">Store ST(0) in m16int.</td>
+</tr>
+<tr>
+<td class="grid"><code>DB /2</code></td>
+<td class="grid"><code>FIST m32int</code></td>
+<td class="grid">Store ST(0) in m32int.</td>
+</tr>
+<tr>
+<td class="grid"><code>DF /3</code></td>
+<td class="grid"><code>FISTP m16int</code></td>
+<td class="grid">Store ST(0) in m16int and pop register stack.</td>
+</tr>
+<tr>
+<td class="grid"><code>DB /3</code></td>
+<td class="grid"><code>FISTP m32int</code></td>
+<td class="grid">Store ST(0) in m32int and pop register stack.</td>
+</tr>
+<tr>
+<td class="grid"><code>DF /7</code></td>
+<td class="grid"><code>FISTP m64int</code></td>
+<td class="grid">Store ST(0) in m64int and pop register stack.</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Description</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>The FIST instruction converts the value in the ST(0) register to a signed integer and stores the result in the destination operand. Values can be stored in word or doubleword integer format.</p>
+<p>The destination operand specifies the address where the first byte of the destination value is to be stored.</p>
+<p>The FISTP instruction performs the same operation as the FIST instruction and then pops the register stack. To pop the register stack, the processor marks the ST(0) register as empty and increments the stack pointer (TOP) by 1. The FISTP instruction also stores values in quadword integer format.</p>
+<p>The following table shows the results obtained when storing various classes of numbers in integer format.</p>
+<div>
+<table class="grid">
+<caption>FIST/FISTP Results</caption>
+<tr><th>ST(0)</th><th>Destination</th></tr>
+<tr><td>-inf or Value Too Large for Destination Format</td><td>*</td></tr>
+<tr><td>F = -1</td><td>-I</td></tr>
+<tr><td>-1 &lt; F &lt; -0</td><td>**</td></tr>
+<tr><td>-0</td><td>0</td></tr>
+<tr><td>+0</td><td>0</td></tr>
+<tr><td>+0 &lt; F &lt; +1</td><td>**</td></tr>
+<tr><td>F = +1</td><td>+I</td></tr>
+<tr><td>+inf or Value Too Large for Destination Format</td><td>*</td></tr>
+<tr><td>NaN</td><td>*</td></tr>
+<tfoot>
+<tr><td colspan="2">F Means finite floating-point value.</td></tr>
+<tr><td colspan="2">I Means integer.</td></tr>
+<tr><td colspan="2">* Indicates floating-point invalid-operation (#IA) exception.</td></tr>
+<tr><td colspan="2">** 0 or +-1, depending on the rounding mode.</td></tr>
+</tfoot>
+</table>
+</div>
+<p>If the source value is a non-integral value, it is rounded to an integer value, according to the rounding mode specified by the RC field of the FPU control word.</p>
+<p>If the converted value is too large for the destination format, or if the source operand is an infinite, SNaN, QNAN, or is in an unsupported format, an invalid-arithmetic-operand condition is signaled. If the invalid-operation exception is not masked, an invalid-arithmetic-operand exception (#IA) is generated and no value is stored in the destination operand. If the invalid-operation exception is masked, the integer indefinite value is stored in memory.</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Operation</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<pre>Destination <span class="operator">=</span> Integer<span class="operator">(</span>ST<span class="operator">(</span><span class="number">0</span><span class="operator">)</span><span class="operator">)</span><span class="operator">;</span>
+<span class="keyword">if</span><span class="operator">(</span>Instruction <span class="operator">==</span> FISTP<span class="operator">)</span> PopRegisterStack<span class="operator">(</span><span class="operator">)</span><span class="operator">;</span>
+</pre>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>FPU flags affected</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<p>C1 Set to 0 if stack underflow occurred.
+Indicates rounding direction of if the inexact exception (#P) is generated:
+0 = not roundup; 1 = roundup.
+Set to 0 otherwise.
+C0, C2, C3 Undefined.
+</p>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Floating-Point Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#IS</code></td><td>Stack underflow occurred.</td></tr>
+<tr><td><code>#IS</code></td><td>Stack underflow occurred.</td></tr>
+<tr><td><code>#IA</code></td><td>Converted value is too large for the destination format. Source operand is an SNaN, QNaN, +-infinite, or unsupported format.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Protected Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If the destination is located in a non-writable segment. If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit. If the DS, ES, FS, or GS register is used to access memory and it contains a null segment selector.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If the destination is located in a non-writable segment. If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit. If the DS, ES, FS, or GS register is used to access memory and it contains a null segment selector.</td></tr>
+<tr><td><code>#SS(0)</code></td><td>If a memory operand effective address is outside the SS segment limit.</td></tr>
+<tr><td><code>#NM</code></td><td>EM or TS in CR0 is set.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>If a page fault occurs.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Real-Address Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#GP</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#SS</code></td><td>If a memory operand effective address is outside the SS segment limit.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+<object>
+<table class="box">
+<tr>
+<th>Virtual-8086 Mode Exceptions</th>
+</tr>
+<tr>
+<td class="instruction_set_reference_box">
+<div>
+<table class="operations_table">
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#GP(0)</code></td><td>If a memory operand effective address is outside the CS, DS, ES, FS, or GS segment limit.</td></tr>
+<tr><td><code>#SS(0)</code></td><td>If a memory operand effective address is outside the SS segment limit.</td></tr>
+<tr><td><code>#NM</code></td><td>EM or TS in CR0 is set.</td></tr>
+<tr><td><code>#PF(fault-code)</code></td><td>If a page fault occurs.</td></tr>
+</table>
+</div>
+</td>
+</tr>
+</table>
+</object>
+</div>
+</body>
+</html>
