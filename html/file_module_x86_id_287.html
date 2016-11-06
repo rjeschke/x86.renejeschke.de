@@ -84,11 +84,9 @@ document.title = "SCAS/SCASB/SCASW/SCASD: Scan String (x86 Instruction Set Refer
 	Temporary <span class="operator">=</span> AL <span class="operator">-</span> Source<span class="operator">;</span>
 	SetStatusFlags<span class="operator">(</span>Temporary<span class="operator">)</span><span class="operator">;</span>
 	<span class="keyword">if</span><span class="operator">(</span>DF <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> {
-		<span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">+</span> <span class="number">1</span><span class="operator">;</span>
 		<span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">+</span> <span class="number">1</span><span class="operator">;</span>
 	}
 	<span class="keyword">else</span> {
-		<span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">-</span> <span class="number">1</span><span class="operator">;</span>
 		<span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">-</span> <span class="number">1</span><span class="operator">;</span>
 	}
 }
@@ -96,11 +94,9 @@ document.title = "SCAS/SCASB/SCASW/SCASD: Scan String (x86 Instruction Set Refer
 	Temporary <span class="operator">=</span> Ax <span class="operator">-</span> Source<span class="operator">;</span>
 	SetStatusFlags<span class="operator">(</span>Temporary<span class="operator">)</span><span class="operator">;</span>
 	<span class="keyword">if</span><span class="operator">(</span>DF <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> {
-		<span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">+</span> <span class="number">2</span><span class="operator">;</span>
 		<span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">+</span> <span class="number">2</span><span class="operator">;</span>
 	}
 	<span class="keyword">else</span> {
-		<span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">-</span> <span class="number">2</span><span class="operator">;</span>
 		<span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">-</span> <span class="number">2</span><span class="operator">;</span>
 	}
 }
@@ -108,11 +104,9 @@ document.title = "SCAS/SCASB/SCASW/SCASD: Scan String (x86 Instruction Set Refer
 	Temporary <span class="operator">=</span> EAX <span class="operator">-</span> Source<span class="operator">;</span>
 	SetStatusFlags<span class="operator">(</span>Temporary<span class="operator">)</span><span class="operator">;</span>
 	<span class="keyword">if</span><span class="operator">(</span>DF <span class="operator">==</span> <span class="number">0</span><span class="operator">)</span> {
-		<span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">+</span> <span class="number">4</span><span class="operator">;</span>
 		<span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">+</span> <span class="number">4</span><span class="operator">;</span>
 	}
 	<span class="keyword">else</span> {
-		<span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>SI <span class="operator">-</span> <span class="number">4</span><span class="operator">;</span>
 		<span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">=</span> <span class="operator">(</span>E<span class="operator">)</span>DI <span class="operator">-</span> <span class="number">4</span><span class="operator">;</span>
 	}
 }
