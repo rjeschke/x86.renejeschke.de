@@ -545,3 +545,10 @@ p.math
 {
 	margin: 1em 0 1em 4em;
 }
+
+.search-box
+{
+    display: inline-block;
+    float: right;
+    margin: 3em 1em 2em 4em;
+}
