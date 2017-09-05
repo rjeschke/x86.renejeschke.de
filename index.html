@@ -18,7 +18,7 @@
 function search() {
     var pattern = $('#search-box').val();
     var cmds = $('td').children('a');
-    var rg = new RegExp("^"+pattern+"$",'gi');
+    var rg = new RegExp(pattern,'gi');
 
     for ( var i=0; i<cmds.length;i++ ) {
         if ( (rg.exec($(cmds[i]).html())) !== null ) {
