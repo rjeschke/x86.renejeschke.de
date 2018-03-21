@@ -151,7 +151,7 @@ div.indent
 
 div.main_container
 {
-	padding: 2em;
+	/*padding: 2em;*/
 }
 
 input
@@ -548,7 +548,7 @@ p.math
 
 .goto-box
 {
-    display: inline-block;
-    float: right;
-    margin: 3em 1em 2em 4em;
+    /* display: inline-block; */
+    float: left;
+    margin: 2em 0em 1em 4em;
 }
