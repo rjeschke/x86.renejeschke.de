@@ -151,7 +151,7 @@ div.indent
 
 div.main_container
 {
-	padding: 2em;
+	padding-left: 2em;
 }
 
 input
@@ -550,5 +550,5 @@ p.math
 {
     /* display: inline-block;
     float: left; */
-    margin: 2em 0em 1em 4em;
+    margin: 2em 0em 1em 6em;
 }
