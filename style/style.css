@@ -548,7 +548,7 @@ p.math
 
 .goto-box
 {
-    /* display: inline-block; */
-    float: left;
+    /* display: inline-block;
+    float: left; */
     margin: 2em 0em 1em 4em;
 }
