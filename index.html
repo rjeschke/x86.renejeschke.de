@@ -8,11 +8,32 @@
 <meta name="keywords" content="assembly,asm,programming,optimization,optimisation,c,c++,x86,pastebin,opcode,opcodes,dictionary,intel,amd,download,downloads,tutorial" />
 <meta name="description" content="x86 assembly tutorials, x86 opcode reference, programming, pastebin with syntax highlighting" />
 <meta name="robots" content="index, follow" />
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
+    crossorigin="anonymous">
+</script>
 </head>
 <body>
-<div class="main_container"><h1>x86 Instruction Set Reference</h1>
-<p><b>Disclaimer:</b> This page has been preserved from <i>siyobik.com</i>. If you want
-to contribute to this site, have a look at <a href="https://github.com/rjeschke/x86.renejeschke.de">GitHub</a></p>
+<script type="text/javascript">
+function search() {
+    var pattern = $('#goto-box').val();
+    var cmds = $('td').children('a');
+    var rg = new RegExp(pattern,'gi');
+
+    for ( var i=0; i<cmds.length;i++ ) {
+        if ( (rg.exec($(cmds[i]).html())) !== null ) {
+            window.location.href = $(cmds[i]).attr('href');
+            return true;
+        }
+    }
+
+    alert("Opcode \""+pattern+"\" not found!");
+}
+</script>
+<div class="goto-box">
+<form onsubmit="search();return false;"><label for="goto-box">Goto: </label>
+<input type="text" id="goto-box"></form></div>
+<div class="main_container">
 <object>
 <table class="box" id="instruction_set_reference_main_entries">
 <tr>

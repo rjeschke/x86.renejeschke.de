@@ -151,7 +151,7 @@ div.indent
 
 div.main_container
 {
-	padding: 2em;
+	padding-left: 2em;
 }
 
 input
@@ -544,4 +544,11 @@ a:hover
 p.math
 {
 	margin: 1em 0 1em 4em;
+}
+
+.goto-box
+{
+    /* display: inline-block;
+    float: left; */
+    margin: 2em 0em 1em 6em;
 }
